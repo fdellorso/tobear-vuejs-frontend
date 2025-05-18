@@ -14,7 +14,7 @@ function submit() {
   formData.append('image', data.value.image)
   formData.append('label', data.value.label)
 
-  axiosClient.post('/api/image', formData).then(async (response) => {
+  axiosClient.post('/image', formData).then(async (response) => {
     await response.data
     console.log(response)
 

@@ -24,7 +24,7 @@ const navigation = [
 ]
 
 function logout() {
-  axiosClient.post('/api/logout').then(() => {
+  axiosClient.post('/logout').then(() => {
     router.push({ name: 'Login' })
   })
 }

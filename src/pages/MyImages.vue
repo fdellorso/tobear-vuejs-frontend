@@ -13,13 +13,13 @@ function deleteImage(id) {
     return
   }
 
-  axiosClient.delete(`/api/image/${id}`).then(() => {
+  axiosClient.delete(`/image/${id}`).then(() => {
     images.value = images.value.filter((image) => image.id !== id)
   })
 }
 
 onMounted(() => {
-  axiosClient.get('/api/image').then((response) => {
+  axiosClient.get('/image').then((response) => {
     images.value = response.data
   })
 })

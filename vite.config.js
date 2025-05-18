@@ -9,7 +9,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/app/',
+  base: import.meta.env.VITE_API_BASE_URL,
   plugins: [vue(), vueDevTools(), tailwindcss()],
   resolve: {
     alias: {
