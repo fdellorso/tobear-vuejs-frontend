@@ -1,5 +1,5 @@
 <script setup>
-import axiosClient from '@/axios'
+import { axiosClient } from '@/axios'
 import router from '@/router'
 import GuestLayout from '@/views/GuestLayout.vue'
 import { ref } from 'vue'

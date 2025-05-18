@@ -1,5 +1,5 @@
 <script setup>
-import axiosClient from '@/axios'
+import { axiosClient } from '@/axios'
 import { onMounted, ref } from 'vue'
 
 const images = ref([])

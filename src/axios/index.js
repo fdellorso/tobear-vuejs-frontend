@@ -7,6 +7,12 @@ const axiosClient = axios.create({
   withXSRFToken: true, // Include XSRF-TOKEN header in the request headers
 })
 
+const axiosCSRF = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL.replace('/api', ''), // es. https://tobearapi.rf.gd
+  withCredentials: true, // Include credentials in the request headers
+  withXSRFToken: true, // Include XSRF-TOKEN header in the request headers
+})
+
 // axiosClient.interceptors.request.use((config) => {
 //   config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
 
@@ -25,4 +31,4 @@ axiosClient.interceptors.response.use(
   },
 )
 
-export default axiosClient
+export { axiosClient, axiosCSRF }

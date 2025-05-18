@@ -1,4 +1,4 @@
-import axiosClient from '@/axios'
+import { axiosClient } from '@/axios'
 import { defineStore } from 'pinia'
 
 const useUserStore = defineStore('user', {

@@ -1,5 +1,5 @@
 <script setup>
-import axiosClient from '@/axios'
+import { axiosClient } from '@/axios'
 import router from '@/router'
 import useUserStore from '@/stores/user.js'
 import { computed } from 'vue'

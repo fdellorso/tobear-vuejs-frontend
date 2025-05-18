@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { PhotoIcon } from '@heroicons/vue/24/solid'
-import axiosClient from '@/axios'
+import { axiosClient } from '@/axios'
 import router from '@/router'
 
 const data = ref({
