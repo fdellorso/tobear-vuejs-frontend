@@ -2,8 +2,51 @@
 <html lang="" class="h-full bg-gray-200">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- Link al manifest esterno -->
+    <link rel="manifest" href="/manifest.json" />
+
     <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="mask-icon" href="/favicon.svg" color="#FFFFFF" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+
+    <!-- Icona per la barra degli indirizzi e tab browser -->
+    <link rel="icon" href="/img/icons/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" href="/img/icons/favicon-16x16.png" sizes="16x16" />
+
+    <!-- Icona Apple Touch (per iOS "aggiungi a schermata home") -->
+    <link rel="apple-touch-icon" href="/img/icons/apple-touch-icon.png" />
+
+    <!-- Tema colore per il browser (barra indirizzi colore su Android Chrome) -->
+    <meta name="theme-color" content="#4DBA87" />
+
+    <!-- Abilita la modalità standalone su iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <!-- Colore barra status su iOS -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Nome visualizzato quando l'app è aggiunta a schermata home su iOS -->
+    <meta name="apple-mobile-web-app-title" content="NomeDellaTuaApp" />
+
+    <!-- Disabilita lo zoom su iOS per un comportamento più app-like -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+
+    <!-- Per Windows tile (pulsante start di Windows) -->
+    <meta name="msapplication-TileColor" content="#4DBA87" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+
+    <meta name="description" content="" />
+
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <meta property="og:image:alt" content="" />
+
     <title>Vite App</title>
   </head>
   <body class="h-full">
