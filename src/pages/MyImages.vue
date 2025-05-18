@@ -13,7 +13,7 @@ function deleteImage(id) {
     return
   }
 
-  axiosClient.delete(`/myimages/${id}`).then(() => {
+  axiosClient.post(`/myimages/${id}`, { _method: 'DELETE' }).then(() => {
     images.value = images.value.filter((image) => image.id !== id)
   })
 }
