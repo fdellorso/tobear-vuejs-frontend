@@ -8,7 +8,7 @@ const axiosClient = axios.create({
 })
 
 const axiosCSRF = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL.replace('/api', ''), // es. https://tobearapi.rf.gd
+  baseURL: '', // es. https://tobearapi.rf.gd
   withCredentials: true, // Include credentials in the request headers
   withXSRFToken: true, // Include XSRF-TOKEN header in the request headers
 })
