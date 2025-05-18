@@ -14,7 +14,7 @@ const routes = [
     component: DefaultLayout,
     children: [
       { path: '/', name: 'Home', component: HomePage },
-      { path: '/images', name: 'MyImages', component: MyImages },
+      { path: '/myimages', name: 'MyImages', component: MyImages },
     ],
     beforeEnter: async (to, from, next) => {
       try {
