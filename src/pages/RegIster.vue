@@ -1,5 +1,5 @@
 <script setup>
-import { axiosClient } from '@/axios'
+import { axiosClient, axiosCSRF } from '@/axios'
 import router from '@/router'
 import GuestLayout from '@/views/GuestLayout.vue'
 import { ref } from 'vue'
@@ -18,7 +18,7 @@ const errorMessage = ref({
 })
 
 function submit() {
-  axiosClient.get('/sanctum/csrf-cookie').then(() => {
+  axiosCSRF.get('/sanctum/csrf-cookie').then(() => {
     axiosClient
       .post('/register', data.value)
       .then(() => {
