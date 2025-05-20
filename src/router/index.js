@@ -7,14 +7,15 @@ import LogIn from '@/pages/LogIn.vue'
 import MyImages from '@/pages/MyImages.vue'
 import RegIster from '@/pages/RegIster.vue'
 import NotFound from '@/pages/NotFound.vue'
+import UpLoad from '@/pages/UpLoad.vue'
 
 const routes = [
   {
-    path: '/',
+    path: '/dashboard',
     component: DefaultLayout,
     children: [
-      { path: '/', name: 'Home', component: HomePage },
       { path: '/myimages', name: 'MyImages', component: MyImages },
+      { path: '/upload', name: 'Upload', component: UpLoad },
     ],
     beforeEnter: async (to, from, next) => {
       try {
@@ -27,6 +28,7 @@ const routes = [
       }
     },
   },
+  { path: '/', name: 'Home', component: HomePage },
   {
     path: '/login',
     name: 'Login',
