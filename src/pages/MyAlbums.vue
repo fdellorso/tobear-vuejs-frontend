@@ -18,20 +18,20 @@ function deleteImage(id) {
   //   images.value = images.value.filter((image) => image.id !== id)
   // })
 
-  axiosClient.post(`/v1/myimages/${id}/delete`).then(() => {
+  axiosClient.post(`/v1/image/${id}/delete`).then(() => {
     images.value = images.value.filter((image) => image.id !== id)
   })
 }
 
 onMounted(() => {
-  axiosClient.get('/v1/myimages').then((response) => {
+  axiosClient.get('/v1/image').then((response) => {
     images.value = response.data.data
   })
 })
 </script>
 
 <template>
-  <ImageGallery :images="images" @copy="copyImageUrl" @delete="deleteImage">My Images</ImageGallery>
+  <ImageGallery :images="images" @copy="copyImageUrl" @delete="deleteImage">My Albums</ImageGallery>
 </template>
 
 <style scoped></style>

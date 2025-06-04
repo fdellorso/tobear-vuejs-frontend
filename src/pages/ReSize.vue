@@ -12,11 +12,12 @@ const data = ref({
 function submit() {
   const formData = new FormData()
   formData.append('image', data.value.image)
-  formData.append('label', data.value.label)
+  formData.append('w', data.value.width)
+  formData.append('h', data.value.height)
 
-  axiosClient.post('/v1/myimages', formData).then(async (response) => {
+  axiosClient.post('/v1/image/resize', formData).then(async (response) => {
     await response.data
-    router.push({ name: 'MyImages' })
+    router.push({ name: 'MyAlbums' })
   })
 }
 </script>
@@ -24,7 +25,7 @@ function submit() {
 <template>
   <header class="bg-white shadow-sm">
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <h1 class="text-3xl font-bold tracking-tight text-gray-900">Upload</h1>
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900">Resize</h1>
     </div>
   </header>
   <main>
@@ -58,13 +59,25 @@ function submit() {
           </div>
         </div>
         <div class="mb-4">
-          <label for="label" class="block text-sm/6 font-medium text-gray-900">Label</label>
+          <label for="width" class="block text-sm/6 font-medium text-gray-900">Width</label>
           <div class="mt-2">
             <input
               type="text"
               name="label"
               id="label"
-              v-model="data.label"
+              v-model="data.width"
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+            />
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="height" class="block text-sm/6 font-medium text-gray-900">Height</label>
+          <div class="mt-2">
+            <input
+              type="text"
+              name="label"
+              id="label"
+              v-model="data.height"
               class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
             />
           </div>

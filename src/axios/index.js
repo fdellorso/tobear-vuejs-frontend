@@ -25,7 +25,7 @@ axiosClient.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      router.push({ name: 'Login' })
+      router.push({ name: 'Home' })
     }
     throw error
   },

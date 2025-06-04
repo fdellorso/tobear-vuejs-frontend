@@ -5,7 +5,8 @@
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img class="mx-auto h-30 w-auto" src="../assets/tobear.png" alt="toBear" />
     </div>
-    <slot></slot>
+
+    <RouterView />
   </div>
 </template>
 
