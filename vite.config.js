@@ -26,9 +26,9 @@ export default ({ mode }) => {
       port: 3000,
       allowedHosts: ['laravel.fritz.box'],
     },
-    // build: {
-    //   minify: false,
-    //   sourcemap: true,
-    // },
+    build: {
+      // minify: false,
+      sourcemap: true,
+    },
   })
 }
