@@ -78,7 +78,7 @@ onMounted(fetchTasks)
 </script>
 
 <template>
-  <div class="mx-auto max-w-7xl px-4 py-40 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-2xl px-4 py-40">
     <div v-if="loading">
       <SkeletonTask v-for="n in 5" :key="n" class="mb-2" />
     </div>
@@ -128,7 +128,7 @@ onMounted(fetchTasks)
       >
         <template #item="{ element }">
           <li
-            class="list-group-item bg-gray-100 shadow rounded-lg shadow-md p-3 hover:bg-yellow-600/30"
+            class="list-group-item bg-gray-100 rounded-lg shadow-md p-3 hover:bg-yellow-600/30"
           >
             <i class="font-bold" aria-hidden="true">{{ element.title }}</i>
           </li>

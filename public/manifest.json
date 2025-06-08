@@ -1,8 +1,51 @@
 {
   "name": "tobear",
   "short_name": "tobear",
+  "description": "An app to bear in mind",
+  "categories": ["productivity", "utilities", "social"],
+  "id": "https://tobear.gd.rf",
+  "orientation":"portrait",
+  "screenshots": [
+    {
+      "src": "/img/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Todo List",
+      "short_name": "Todo",
+      "description": "View your todo list",
+      "url": "/todo",
+      "icons": [
+        {
+          "src": "/img/icons/icon-192x192.png",
+          "sizes": "192x192"
+          }
+      ]
+    }
+  ],
   "start_url": ".",
+  "display_override": [
+    "fullscreen", 
+    "minimal-ui",
+    "window-controls-overlay",
+    "standalone",
+    "browser"
+  ],
   "display": "standalone",
+  "launch_handler": {
+    "client_mode": ["focus-existing", "auto"]
+  },
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.example.app1",
+      "id": "com.example.app1"
+    }
+  ],
+  "iarc_rating_id": "e58c174a-81d2-5c3c-32cc-34b8de4a52e9",
   "background_color": "#fdf6ec",
   "theme_color": "#8b5e3c",
   "icons": [

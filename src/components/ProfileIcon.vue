@@ -28,8 +28,8 @@ const user = computed(() => userStore.user)
         </RouterLink>
       </div>
       <div v-else>
-        <RouterLink :key="'Login'" :to="{ name: 'Login' }">
-          <UserIcon class="size-10 text-gray-100 hover:text-green-700" />
+        <RouterLink :key="'Login'" :to="{ name: 'Login' }" aria-label="Login">
+          <UserIcon class="size-10 text-gray-100 hover:text-gray-200" />
         </RouterLink>
       </div>
     </div>

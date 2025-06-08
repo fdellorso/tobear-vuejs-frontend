@@ -41,7 +41,7 @@ function logout() {
         <div class="flex h-16 items-center justify-between">
           <div class="flex items-center">
             <div class="shrink-0">
-              <img class="size-22" src="../assets/tobear.png" alt="Your Company" />
+              <img class="size-22" src="../assets/tobear.png" alt="Logo" />
             </div>
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
@@ -74,7 +74,7 @@ function logout() {
                     <img
                       class="size-8 rounded-full"
                       src="https://randomuser.me/api/portraits/men/81.jpg"
-                      alt=""
+                      alt="ProfileIcon"
                     />
                     <span class="text-white ml-3">{{ user.name }}</span>
                   </MenuButton>
@@ -136,7 +136,7 @@ function logout() {
               <img
                 class="size-10 rounded-full"
                 src="https://randomuser.me/api/portraits/men/81.jpg"
-                alt=""
+                alt="ProfileIcon"
               />
             </div>
             <div class="ml-3">
