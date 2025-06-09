@@ -4,7 +4,7 @@ import { defineConfig, loadEnv } from 'vite'
 import process from 'process'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
-// import { VitePWA } from 'vite-plugin-pwa'
+import { VitePWA } from 'vite-plugin-pwa'
 
 import tailwindcss from '@tailwindcss/vite'
 
@@ -15,7 +15,19 @@ export default ({ mode }) => {
   return defineConfig({
     mode,
     base: env.VITE_BASE_URL,
-    plugins: [vue(), vueDevTools(), tailwindcss()],
+    plugins: [
+      vue(),
+      vueDevTools(),
+      tailwindcss(),
+      VitePWA({
+        registerType: 'autoUpdate',
+        injectRegister: 'auto',
+        manifest: false,
+        devOptions: {
+          enabled: false
+        }
+      })
+    ],
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),

@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "name": "tobear",
   "short_name": "tobear",
   "id": "https://tobear.gd.rf",
