@@ -47,12 +47,12 @@ const technologies = [
   {
     title: 'PWA',
     description: 'future',
-    icon: '',
+    icon: 'LockClosed',
   },
   {
     title: 'Next',
     description: '.Future',
-    icon: '',
+    icon: 'LockClosed',
   },
 ]
 
@@ -61,25 +61,25 @@ const features = [
     name: 'Push to deploy',
     description:
       'Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.',
-    icon: '',
+    icon: 'LockClosed',
   },
   {
     name: 'SSL certificates',
     description:
       'Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.',
-    icon: '',
+    icon: 'LockClosed',
   },
   {
     name: 'Simple queues',
     description:
       'Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.',
-    icon: '',
+    icon: 'LockClosed',
   },
   {
     name: 'Advanced security',
     description:
       'Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.',
-    icon: '',
+    icon: 'LockClosed',
   },
 ]
 </script>
@@ -150,7 +150,11 @@ const features = [
                 <div
                   class="absolute top-0 left-0 flex size-10 items-center justify-center rounded-lg bg-indigo-600"
                 >
-                  <component :is="feature.icon" class="size-6 text-white" aria-hidden="true" />
+                  <!-- <component :is="feature.icon" class="size-6 text-white" aria-hidden="true" /> -->
+                  <HeroIcon
+                    :name="feature.icon"
+                    class="size-6 text-gray-100" aria-hidden="true"
+                  />
                 </div>
                 {{ feature.name }}
               </dt>

@@ -2,13 +2,13 @@
   "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "name": "tobear",
   "short_name": "tobear",
-  "id": "https://tobear.gd.rf",
+  "id": "/",
   "description": "An app to bear in mind",
   "background_color": "#fdf6ec",
   "theme_color": "#8b5e3c",
-  "start_url": ".",
+  "start_url": "http://laravel.fritz.box:3000",
   "dir": "ltr",
-  "scope": "/todo",
+  "scope": "http://laravel.fritz.box:3000",
   "lang": "en",
   "orientation":"portrait",
   "display": "standalone",
@@ -140,6 +140,6 @@
   },
   "handle_links": "preferred",
   "scope_extensions": [
-    { "type": "origin", "origin": "https://tobear.gd.rf" }
+    { "type": "origin", "origin": "http://laravel.fritz.box:3000" }
   ]
 }

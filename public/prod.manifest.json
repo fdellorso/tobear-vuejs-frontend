@@ -1,14 +1,13 @@
 {
-  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "name": "tobear",
   "short_name": "tobear",
   "id": "/",
   "description": "An app to bear in mind",
   "background_color": "#fdf6ec",
   "theme_color": "#8b5e3c",
-  "start_url": "http://laravel.fritz.box:3000",
+  "start_url": "https://tobear.gd.rf",
   "dir": "ltr",
-  "scope": "http://laravel.fritz.box:3000",
+  "scope": "https://tobear.gd.rf",
   "lang": "en",
   "orientation":"portrait",
   "display": "standalone",
@@ -112,11 +111,19 @@
     }
   ],
   "share_target": {
-    "action": "/handle-shared-content/",
-    "method": "GET",
+    "action": "/collect-files",
+    "method": "POST",
+    "enctype": "multipart/form-data",
     "params": {
       "title": "title",
-      "url": "url"
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "lists",
+          "accept": ["text/csv", ".csv"]
+        }
+      ]
     }
   },
   "file_handlers": [
@@ -140,6 +147,6 @@
   },
   "handle_links": "preferred",
   "scope_extensions": [
-    { "type": "origin", "origin": "http://laravel.fritz.box:3000" }
+    { "type": "origin", "origin": "https://tobear.gd.rf" }
   ]
 }
