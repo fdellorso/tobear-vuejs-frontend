@@ -1,6 +1,7 @@
 <script setup>
 import { axiosClient, axiosCSRF } from '@/axios'
 import router from '@/router'
+import useUserStore from '@/stores/user.js'
 import { ref } from 'vue'
 
 const data = ref({
@@ -16,15 +17,19 @@ const errorMessage = ref({
   password: [],
 })
 
+const userStore = useUserStore()
+
 function submit() {
   axiosCSRF.get('/sanctum/csrf-cookie').then(() => {
     axiosClient
       .post('/register', data.value)
       .then(() => {
-        router.push({ name: 'MyImages' })
+        userStore.resetUser()
+        router.push({ name: 'Todo' })
       })
       .catch((error) => {
-        errorMessage.value = error.response.data.errors
+        console.log(error);
+        errorMessage.value = error.response.data.errors || 'An error occurred'
       })
   })
 }
