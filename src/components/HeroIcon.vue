@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, computed } from 'vue'
+import { computed } from 'vue'
 import * as Icons from '@heroicons/vue/24/outline'
 
 const props = defineProps({

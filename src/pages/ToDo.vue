@@ -4,6 +4,7 @@ import { ref, onMounted, computed } from 'vue'
 import draggable from 'vuedraggable'
 
 import SkeletonTask from '@/components/SkeletonTask.vue'
+import TaskItem from '@/components/TaskItem.vue'
 
 const tasks = ref([])
 
@@ -161,6 +162,9 @@ onMounted(fetchTasks)
           </button> -->
         </div>
       </form>
+    </div>
+    <div>
+      <TaskItem>Task item</TaskItem>
     </div>
   </div>
 </template>

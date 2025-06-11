@@ -86,8 +86,8 @@ const features = [
 
 <template>
   <div class="h-screen overflow-auto snap-y snap-mandatory">
-    <div class="relative isolate px-6 pt-14 lg:px-8 h-screen snap-start snap-always">
-      <div class="mx-auto max-w-2xl">
+    <div class="pt-3 sm:pt-2 h-screen snap-start snap-always">
+      <div class="mx-auto max-w-2xl px-6 sm:px-8">
         <!-- <div class="hidden sm:mb-8 sm:flex sm:justify-center">
         <div
           class="relative rounded-full px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20"
@@ -99,9 +99,9 @@ const features = [
           >
         </div>
       </div> -->
-        <div class="text-center">
+        <div class="mx-auto max-w-2xl sm:text-center">
           <h1
-            class="text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-7xl px-40"
+            class="text-4xl font-semibold tracking-tight text-balance text-gray-900 sm:text-7xl px-30 sm:px-40"
           >
             Welcome to <strong>toBear</strong>
           </h1>
@@ -127,12 +127,12 @@ const features = [
       </div>
     </div>
 
-    <div class="bg-white py-24 sm:py-32 h-screen snap-start snap-always">
-      <div class="mx-auto max-w-7xl px-6 lg:px-8">
-        <div class="mx-auto max-w-2xl lg:text-center px-40">
-          <h2 class="text-base/7 font-semibold text-indigo-600">Deploy faster</h2>
+    <div class="pt-3 sm:pt-2 h-screen snap-start snap-always">
+      <div class="mx-auto max-w-2xl px-6 sm:px-8">
+        <div class="mx-auto max-w-2xl sm:text-center">
+          <!-- <h2 class="text-base/7 font-semibold text-indigo-600">Deploy faster</h2> -->
           <p
-            class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl lg:text-balance"
+            class="mt-2 text-3xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl sm:text-balance px-30 sm:px-40"
           >
             Everything you need to deploy your app
           </p>
@@ -141,9 +141,9 @@ const features = [
             egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.
           </p>
         </div>
-        <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+        <div class="mx-auto mt-8 max-w-2xl sm:mt-16 sm:max-w-4xl">
           <dl
-            class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16"
+            class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 sm:max-w-none sm:grid-cols-2 sm:gap-y-16"
           >
             <div v-for="feature in features" :key="feature.name" class="relative pl-16">
               <dt class="text-base/7 font-semibold text-gray-900">
@@ -165,11 +165,11 @@ const features = [
       </div>
     </div>
 
-    <div class="p-3 h-screen snap-start snap-always">
-      <div class="mx-auto max-w-2xl lg:text-center px-40">
-        <h2 class="text-base/7 font-semibold text-indigo-600">Deploy faster</h2>
+    <div class="pt-3 sm:pt-2 h-screen snap-start snap-always">
+      <div class="mx-auto max-w-2xl px-6 sm:px-8">
+        <!-- <h2 class="text-base/7 font-semibold text-indigo-600">Deploy faster</h2> -->
         <p
-          class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl lg:text-balance"
+          class="mt-2 text-3xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl sm:text-balance px-30 sm:px-40"
         >
           Technologies Used in ToBear
         </p>
@@ -179,38 +179,37 @@ const features = [
           while keeping the codebase clean and scalable. Here's a quick overview of the key
           technologies behind the app:
         </p>
+        <ul role="list" class="divide-y divide-gray-100">
+          <li
+            v-for="tool in technologies"
+            :key="tool.email"
+            class="flex justify-between gap-x-6 py-5"
+          >
+            <div class="flex min-w-0 gap-x-4">
+              <HeroIcon
+                :name="tool.icon"
+                class="size-8 shadow-md/50 flex-none border-2 border-blue-800 rounded-full bg-blue-800 text-gray-100"
+              />
+              <div class="min-w-0 flex-auto">
+                <p class="text-sm/6 font-semibold text-gray-900">{{ tool.title }}</p>
+                <p class="mt-1 truncate text-xs/5 text-gray-500">{{ tool.description }}</p>
+              </div>
+            </div>
+            <!-- <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+            <p class="text-sm/6 text-gray-900">{{ tool.role }}</p>
+            <p v-if="tool.lastSeen" class="mt-1 text-xs/5 text-gray-500">
+              Last seen <time :datetime="tool.lastSeenDateTime">{{ tool.lastSeen }}</time>
+            </p>
+            <div v-else class="mt-1 flex items-center gap-x-1.5">
+              <div class="flex-none rounded-full bg-emerald-500/20 p-1">
+                <div class="size-1.5 rounded-full bg-emerald-500" />
+              </div>
+              <p class="text-xs/5 text-gray-500">Online</p>
+            </div>
+          </div> -->
+          </li>
+        </ul>
       </div>
-
-      <ul role="list" class="divide-y divide-gray-100">
-        <li
-          v-for="tool in technologies"
-          :key="tool.email"
-          class="flex justify-between gap-x-6 py-5"
-        >
-          <div class="flex min-w-0 gap-x-4">
-            <HeroIcon
-              :name="tool.icon"
-              class="size-12 shadow-md/50 flex-none border-2 border-blue-800 rounded-full bg-blue-800 text-gray-100"
-            />
-            <div class="min-w-0 flex-auto">
-              <p class="text-sm/6 font-semibold text-gray-900">{{ tool.title }}</p>
-              <p class="mt-1 truncate text-xs/5 text-gray-500">{{ tool.description }}</p>
-            </div>
-          </div>
-          <!-- <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-          <p class="text-sm/6 text-gray-900">{{ tool.role }}</p>
-          <p v-if="tool.lastSeen" class="mt-1 text-xs/5 text-gray-500">
-            Last seen <time :datetime="tool.lastSeenDateTime">{{ tool.lastSeen }}</time>
-          </p>
-          <div v-else class="mt-1 flex items-center gap-x-1.5">
-            <div class="flex-none rounded-full bg-emerald-500/20 p-1">
-              <div class="size-1.5 rounded-full bg-emerald-500" />
-            </div>
-            <p class="text-xs/5 text-gray-500">Online</p>
-          </div>
-        </div> -->
-        </li>
-      </ul>
     </div>
   </div>
 </template>

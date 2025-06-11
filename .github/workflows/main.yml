@@ -31,11 +31,13 @@ jobs:
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ftpupload.net
-          username: ${{ secrets.ftp_username }}
-          password: ${{ secrets.ftp_password }}
+          # server: ftpupload.net
+          server: ${{ secrets.ftp_server_x10 }}
+          username: ${{ secrets.ftp_username_x10 }}
+          password: ${{ secrets.ftp_password_x10 }}
           local-dir: dist/
-          server-dir: htdocs/public/app/
+          # server-dir: htdocs/public/app/
+          server-dir: ${{ secrets.ftp_folder_x10 }}
           exclude: |
             **/.git*
             **/.git*/**
