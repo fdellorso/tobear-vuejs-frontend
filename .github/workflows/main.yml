@@ -25,6 +25,9 @@ jobs:
       - name: Copy .env.production to .env
         run: cp .env.production .env
 
+      - name: Copy prod_x10.manifest.json to manifest.json
+        run: cp public/prod_x10.manifest.json public/manifest.json
+
       - name: Build
         run: npm run build
 
