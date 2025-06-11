@@ -25,7 +25,7 @@ function submit() {
       .post('/register', data.value)
       .then(() => {
         userStore.resetUser()
-        router.push({ name: 'Todo' })
+        router.push({ name: 'EmailVerification' })
       })
       .catch((error) => {
         console.log(error);
