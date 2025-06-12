@@ -11,6 +11,7 @@ import NotFound from '@/pages/NotFound.vue'
 // import UpLoad from '@/pages/UpLoad.vue'
 import ToDo from '@/pages/ToDo.vue'
 import EmailVerification from '@/pages/EmailVerification.vue'
+import UserSettings from '@/pages/UserSettings.vue'
 // import MyAlbums from '@/pages/MyAlbums.vue'
 // import ReSize from '@/pages/ReSize.vue'
 
@@ -43,6 +44,7 @@ const routes = [
       // { path: '/myalbums', name: 'MyAlbums', component: MyAlbums },
       // { path: '/resize', name: 'Resize', component: ReSize },
       { path: '/todo', name: 'Todo', component: ToDo },
+      { path: '/user', name: 'User', component: UserSettings },
     ],
     beforeEnter: async (to, from, next) => {
       try {

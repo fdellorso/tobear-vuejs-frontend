@@ -13,6 +13,15 @@ const axiosCSRF = axios.create({
   withXSRFToken: true, // Include XSRF-TOKEN header in the request headers
 })
 
+/**
+ * Helper per eseguire una richiesta protetta da CSRF
+ * @param {Function} callback - Una funzione che ritorna una Promise (es. una richiesta axiosClient)
+ * @returns {Promise}
+ */
+const withCSRF = (callback) => {
+  return axiosCSRF.get('/sanctum/csrf-cookie').then(callback)
+}
+
 // axiosClient.interceptors.request.use((config) => {
 //   config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
 
@@ -31,4 +40,4 @@ axiosClient.interceptors.response.use(
   },
 )
 
-export { axiosClient, axiosCSRF }
+export { axiosClient, axiosCSRF, withCSRF }

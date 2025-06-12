@@ -1,5 +1,5 @@
 <script setup>
-import { axiosClient, axiosCSRF } from '@/axios'
+import { axiosClient, withCSRF } from '@/axios'
 import router from '@/router'
 import { useRoute } from 'vue-router'
 import useUserStore from '@/stores/user.js'
@@ -16,25 +16,53 @@ const verifiedMessage = ref('')
 const userStore = useUserStore()
 const route = useRoute()
 
-function submit() {
-  axiosCSRF.get('/sanctum/csrf-cookie').then(() => {
-    axiosClient
-      .post('/login', data.value)
+// stato forgot password
+const forgotMode = ref(false)
+const forgotEmail = ref('')
+const forgotMessage = ref('')
+const forgotError = ref('')
+const isSendingForgot = ref(false)
+
+// login
+function submitLogin() {
+    errorMessage.value = ''
+
+  // axiosCSRF.get('/sanctum/csrf-cookie').then(() => {
+  withCSRF(() =>
+    axiosClient.post('/login', data.value)
       .then(() => {
         // localStorage.setItem('token', response.data.token)
         userStore.resetUser()
         router.push({ name: 'Todo' })
       })
       .catch((error) => {
-        errorMessage.value = error.response.data.message || 'An error occurred'
+        errorMessage.value = error.response?.data?.message || 'An error occurred'
       })
-  })
+    )
+  // })
+}
+
+// richiesta reset password
+function submitForgot() {
+  forgotError.value = ''
+  forgotMessage.value = ''
+  isSendingForgot.value = true
+  withCSRF(() =>
+    axiosClient.post('/forgot-password', { email: forgotEmail.value })
+      .then(() => {
+        forgotMessage.value = 'If this email exists, you will receive a reset link shortly.'
+      })
+      .catch(err => {
+        forgotError.value = err.response?.data?.message || 'Failed to send reset email.'
+      })
+      .finally(() => { isSendingForgot.value = false })
+  )
 }
 
 // Mostra il messaggio se la query ha ?verified=1
 onMounted(() => {
   if (route.query.verified === '1') {
-    verifiedMessage.value = 'La tua email è stata verificata con successo.'
+    verifiedMessage.value = 'Your email has been verified successfully.'
 
     // Rimuovi ?verified=1 dalla URL senza ricaricare
     router.replace({ path: '/login' })
@@ -48,16 +76,46 @@ onMounted(() => {
   </h2>
 
   <!-- ✅ Mostra messaggio email verificata -->
-  <div v-if="verifiedMessage" class="py-2 px-3 rounded text-white bg-green-500 mt-4">
+  <div v-if="verifiedMessage" class="mt-4 p-3 rounded text-white bg-green-500">
     {{ verifiedMessage }}
   </div>
 
-  <div v-if="errorMessage" class="py-2 px-3 rounded text-white bg-red-400">
+  <div v-if="errorMessage" class="mt-4 p-3 rounded text-white bg-red-400">
     {{ errorMessage }}
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form @submit.prevent="submit" class="space-y-6">
+    <div v-if="forgotMode" class="mt-4 bg-white p-6 rounded shadow">
+      <h3 class="text-lg font-medium mb-2">Reset your password</h3>
+
+      <div v-if="forgotMessage" class="mb-3 p-2 bg-green-100 text-green-800 rounded">
+        {{ forgotMessage }}
+      </div>
+      <div v-if="forgotError" class="mb-3 p-2 bg-red-100 text-red-800 rounded">
+        {{ forgotError }}
+      </div>
+
+      <input
+        v-model="forgotEmail"
+        type="email"
+        placeholder="Enter your email"
+        class="w-full mb-3 px-3 py-2 border rounded"
+      />
+      <button
+        @click="submitForgot"
+        :disabled="isSendingForgot || !forgotEmail"
+        class="w-full py-2 bg-blue-800 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+      >
+        {{ isSendingForgot ? 'Sending…' : 'Send Reset Link' }}
+      </button>
+      <button
+        @click="forgotMode = false"
+        class="mt-3 text-sm text-gray-600 hover:underline"
+      >
+        ← Back to Login
+      </button>
+    </div>
+    <form v-else @submit.prevent="submitLogin" class="space-y-6">
       <div>
         <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
         <div class="mt-2">

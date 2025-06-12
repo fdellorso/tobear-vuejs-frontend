@@ -1,5 +1,5 @@
 <script setup>
-import { axiosClient, axiosCSRF } from '@/axios'
+import { axiosClient, withCSRF } from '@/axios'
 import router from '@/router'
 import useUserStore from '@/stores/user.js'
 import { ref } from 'vue'
@@ -20,7 +20,8 @@ const errorMessage = ref({
 const userStore = useUserStore()
 
 function submit() {
-  axiosCSRF.get('/sanctum/csrf-cookie').then(() => {
+  // axiosCSRF.get('/sanctum/csrf-cookie').then(() => {
+  withCSRF(() =>
     axiosClient
       .post('/register', data.value)
       .then(() => {
@@ -31,7 +32,8 @@ function submit() {
         console.log(error);
         errorMessage.value = error.response.data.errors || 'An error occurred'
       })
-  })
+    )
+  // })
 }
 </script>
 
