@@ -1,8 +1,9 @@
 <script setup>
 import { axiosClient, axiosCSRF } from '@/axios'
 import router from '@/router'
+import { useRoute } from 'vue-router'
 import useUserStore from '@/stores/user.js'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const data = ref({
   email: '',
@@ -10,8 +11,10 @@ const data = ref({
 })
 
 const errorMessage = ref('')
+const verifiedMessage = ref('')
 
 const userStore = useUserStore()
+const route = useRoute()
 
 function submit() {
   axiosCSRF.get('/sanctum/csrf-cookie').then(() => {
@@ -27,12 +30,27 @@ function submit() {
       })
   })
 }
+
+// Mostra il messaggio se la query ha ?verified=1
+onMounted(() => {
+  if (route.query.verified === '1') {
+    verifiedMessage.value = 'La tua email è stata verificata con successo.'
+
+    // Rimuovi ?verified=1 dalla URL senza ricaricare
+    router.replace({ path: '/login' })
+  }
+})
 </script>
 
 <template>
   <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
     Sign in to your account
   </h2>
+
+  <!-- ✅ Mostra messaggio email verificata -->
+  <div v-if="verifiedMessage" class="py-2 px-3 rounded text-white bg-green-500 mt-4">
+    {{ verifiedMessage }}
+  </div>
 
   <div v-if="errorMessage" class="py-2 px-3 rounded text-white bg-red-400">
     {{ errorMessage }}
