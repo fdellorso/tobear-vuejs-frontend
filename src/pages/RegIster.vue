@@ -30,7 +30,7 @@ function submit() {
       })
       .catch((error) => {
         console.log(error);
-        errorMessage.value = error.response.data.errors || 'An error occurred'
+        errorMessage.value = error.response?.data?.errors || 'An error occurred'
       })
     )
   // })

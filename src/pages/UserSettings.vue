@@ -32,8 +32,7 @@ const resetPassword = () => {
         form.value.password_confirmation = ''
       })
       .catch((error) => {
-        errorMessage.value =
-          error.response?.data?.message || 'Failed to reset password.'
+        errorMessage.value = error.response?.data?.message || 'Failed to reset password.'
       })
   )
 }

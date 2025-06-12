@@ -52,8 +52,8 @@ function submitForgot() {
       .then(() => {
         forgotMessage.value = 'If this email exists, you will receive a reset link shortly.'
       })
-      .catch(err => {
-        forgotError.value = err.response?.data?.message || 'Failed to send reset email.'
+      .catch((error) => {
+        forgotError.value = error.response?.data?.message || 'Failed to send reset email.'
       })
       .finally(() => { isSendingForgot.value = false })
   )
@@ -133,10 +133,14 @@ onMounted(() => {
 
       <div>
         <div class="flex items-center justify-between">
-          <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
+          <!-- <label for="password" class="block text-sm/6 font-medium text-gray-900">Password</label>
           <div class="text-sm">
             <a href="#" class="font-semibold text-blue-800 hover:text-blue-700">Forgot password?</a>
-          </div>
+          </div> -->
+          <span>Password</span>
+          <button type="button" @click="forgotMode = true" class="text-sm text-blue-600 hover:underline">
+            Forgot password?
+          </button>
         </div>
         <div class="mt-2">
           <input

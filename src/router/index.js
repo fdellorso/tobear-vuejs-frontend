@@ -30,7 +30,7 @@ const routes = [
         const userStore = useUserStore()
         await userStore.fetchUser()
       } catch (error) {
-        console.error(error)
+        console.error(error.response?.data?.message || error.response?.status)
       }
       next()
     },
@@ -52,7 +52,7 @@ const routes = [
         await userStore.fetchUser()
         next()
       } catch (error) {
-        console.error(error)
+        console.error(error.response?.data?.message || error.response?.status)
         next(false)
       }
     },
