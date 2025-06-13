@@ -61,6 +61,7 @@ const resetPassword = () => {
         <label for="password" class="block text-sm font-medium text-gray-700">New Password</label>
         <input
           id="password"
+          autocomplete="new-password"
           v-model="form.password"
           type="password"
           required
@@ -71,6 +72,7 @@ const resetPassword = () => {
         <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
         <input
           id="password_confirmation"
+          autocomplete="new-password"
           v-model="form.password_confirmation"
           type="password"
           required

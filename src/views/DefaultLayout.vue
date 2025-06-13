@@ -1,20 +1,9 @@
 <script setup>
-import LoGo from '@/components/LoGo.vue'
-import ProfileIcon from '@/components/ProfileIcon.vue'
+import NavBar from '@/components/NavBar.vue';
 </script>
 
 <template>
-  <LoGo />
-  <div
-    v-if="
-      $route.name !== 'Login' &&
-      $route.name !== 'Register' &&
-      $route.name !== 'ResetPassword' &&
-      $route.name !== 'VerifyEmail'
-    "
-  >
-    <ProfileIcon />
-  </div>
+  <NavBar />
   <RouterView />
 </template>
 

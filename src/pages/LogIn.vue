@@ -25,7 +25,7 @@ const isSendingForgot = ref(false)
 
 // login
 function submitLogin() {
-    errorMessage.value = ''
+  errorMessage.value = ''
 
   // axiosCSRF.get('/sanctum/csrf-cookie').then(() => {
   withCSRF(() =>
@@ -37,8 +37,9 @@ function submitLogin() {
       })
       .catch((error) => {
         errorMessage.value = error.response?.data?.message || 'An error occurred'
-      })
+      }
     )
+  )
   // })
 }
 
@@ -47,6 +48,7 @@ function submitForgot() {
   forgotError.value = ''
   forgotMessage.value = ''
   isSendingForgot.value = true
+
   withCSRF(() =>
     axiosClient.post('/forgot-password', { email: forgotEmail.value })
       .then(() => {
@@ -55,7 +57,8 @@ function submitForgot() {
       .catch((error) => {
         forgotError.value = error.response?.data?.message || 'Failed to send reset email.'
       })
-      .finally(() => { isSendingForgot.value = false })
+      .finally(() => { isSendingForgot.value = false }
+    )
   )
 }
 
@@ -75,7 +78,7 @@ onMounted(() => {
     Sign in to your account
   </h2>
 
-  <!-- ✅ Mostra messaggio email verificata -->
+  <!-- Mostra messaggio email verificata -->
   <div v-if="verifiedMessage" class="mt-4 p-3 rounded text-white bg-green-500">
     {{ verifiedMessage }}
   </div>
