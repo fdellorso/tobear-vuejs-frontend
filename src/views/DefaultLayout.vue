@@ -1,10 +1,15 @@
 <script setup>
-import NavBar from '@/components/NavBar.vue';
+import NavBarElement from '@/components/tailwindplus/NavBarElement.vue'
 </script>
 
 <template>
-  <NavBar />
-  <RouterView />
+  <header>
+    <NavBarElement></NavBarElement>
+  </header>
+  <main>
+    <RouterView />
+  </main>
+  <footer></footer>
 </template>
 
 <style scoped></style>

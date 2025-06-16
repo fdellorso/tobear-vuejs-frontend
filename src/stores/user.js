@@ -6,6 +6,9 @@ const useUserStore = defineStore('user', {
     user: null,
     isUserLoaded: false,
   }),
+  getters: {
+    isAuthenticated: (state) => !!state.user,
+  },
   actions: {
     fetchUser() {
       if (this.isUserLoaded) {

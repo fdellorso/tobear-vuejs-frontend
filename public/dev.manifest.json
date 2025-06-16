@@ -10,10 +10,10 @@
   "dir": "ltr",
   "scope": "http://laravel.fritz.box:3000",
   "lang": "en",
-  "orientation":"portrait",
+  "orientation": "portrait",
   "display": "standalone",
   "display_override": [
-    "fullscreen", 
+    "fullscreen",
     "minimal-ui",
     "window-controls-overlay",
     "standalone",
@@ -38,7 +38,7 @@
         {
           "src": "/img/icons/icon-192x192.png",
           "sizes": "192x192"
-          }
+        }
       ]
     }
   ],
@@ -106,8 +106,8 @@
   ],
   "screenshots": [
     {
-      "src": "/img/icons/icon-512x512.png",
-      "sizes": "512x512",
+      "src": "/img/tobear.png",
+      "sizes": "1024x1024",
       "type": "image/png"
     }
   ],
@@ -139,7 +139,5 @@
     "client_mode": ["focus-existing", "auto"]
   },
   "handle_links": "preferred",
-  "scope_extensions": [
-    { "type": "origin", "origin": "http://laravel.fritz.box:3000" }
-  ]
+  "scope_extensions": [{ "type": "origin", "origin": "http://laravel.fritz.box:3000" }]
 }
