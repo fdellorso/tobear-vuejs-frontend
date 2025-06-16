@@ -128,9 +128,7 @@ onMounted(fetchTasks)
         item-key="id"
       >
         <template #item="{ element }">
-          <li
-            class="list-group-item bg-gray-100 rounded-lg shadow-md p-3 hover:bg-yellow-600/30"
-          >
+          <li class="list-group-item bg-gray-100 rounded-lg shadow-md p-3 hover:bg-yellow-600/30">
             <i class="font-bold" aria-hidden="true">{{ element.title }}</i>
           </li>
         </template>
@@ -144,6 +142,8 @@ onMounted(fetchTasks)
           <input
             v-model="form.title"
             type="text"
+            name="newtask"
+            id="newtask"
             placeholder="Titolo del task"
             @blur="createTask"
             class="border border-gray-300 rounded-lg shadow-md p-3"
