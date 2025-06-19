@@ -13,6 +13,7 @@ import AboutPage from '@/pages/AboutPage.vue'
 import ContactPage from '@/pages/ContactPage.vue'
 
 import TodoPage from '@/pages/TodoPage.vue'
+import UserProfile from '@/pages/UserProfile.vue'
 import UserSettings from '@/pages/UserSettings.vue'
 // import MyImages from '@/pages/MyImages.vue'
 // import UpLoad from '@/pages/UpLoad.vue'
@@ -25,43 +26,48 @@ const routes = [
   {
     path: '/',
     component: GuestLayout,
-    meta: { showInNav: true, requiresAuth: false },
+    meta: { requiresAuth: false },
     children: [
-      { path: '/', name: 'Home', meta: { showInNav: false, hideNav: true }, component: HomePage },
+      {
+        path: '/',
+        name: 'Home',
+        meta: { requiresAuth: false, showInNav: false },
+        component: HomePage,
+      },
       {
         path: '/login',
         name: 'Login',
-        meta: { showInNav: true, guest: true },
+        meta: { requiresAuth: false, showInNav: false, guest: true },
         component: LoginPage,
       },
       {
         path: '/register',
         name: 'Register',
-        meta: { showInNav: true, guest: true },
+        meta: { requiresAuth: false, showInNav: false, guest: true },
         component: RegisterPage,
       },
       {
         path: '/VerifyEmail',
         name: 'VerifyEmail',
-        meta: { showInNav: false },
+        meta: { requiresAuth: false, showInNav: false },
         component: VerifyEmail,
       },
       {
         path: '/premium',
         name: 'Premium',
-        meta: { showInNav: true },
+        meta: { requiresAuth: false, showInNav: true },
         component: PremiumPage,
       },
       {
         path: '/about',
         name: 'About',
-        meta: { showInNav: true },
+        meta: { requiresAuth: false, showInNav: true },
         component: AboutPage,
       },
       {
         path: '/contact',
         name: 'Contact',
-        meta: { showInNav: true },
+        meta: { requiresAuth: false, showInNav: true },
         component: ContactPage,
       },
     ],
@@ -69,10 +75,26 @@ const routes = [
   {
     path: '/dashboard',
     component: DefaultLayout,
-    meta: { showInNav: false, requiresAuth: true },
+    meta: { requiresAuth: true },
     children: [
-      { path: '/todo', name: 'Todo', meta: { showInNav: false }, component: TodoPage },
-      { path: '/user', name: 'User', meta: { showInNav: false }, component: UserSettings },
+      {
+        path: '/todo',
+        name: 'Todo',
+        meta: { requiresAuth: true, showInNav: true },
+        component: TodoPage,
+      },
+      {
+        path: '/user',
+        name: 'User',
+        meta: { requiresAuth: true, showInNav: false },
+        component: UserProfile,
+      },
+      {
+        path: '/setting',
+        name: 'Setting',
+        meta: { requiresAuth: true, showInNav: false },
+        component: UserSettings,
+      },
       // { path: '/myimages', name: 'MyImages', component: MyImages },
       // { path: '/upload', name: 'Upload', component: UpLoad },
       // { path: '/myalbums', name: 'MyAlbums', component: MyAlbums },

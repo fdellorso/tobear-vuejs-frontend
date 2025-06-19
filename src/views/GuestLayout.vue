@@ -5,7 +5,7 @@
     :navigationRoutes="navigationRoutes"
   >
     <template v-slot:logo>
-      <LoGo customClass="h-8" />
+      <LogoIcon customClass="size-8" />
     </template>
   </HeaderElement>
   <main><RouterView /></main>
@@ -13,12 +13,12 @@
 </template>
 
 <script setup>
-import LoGo from '@/components/LoGo.vue'
+import LogoIcon from '@/components/LogoIcon.vue'
 import HeaderElement from '@/components/tailwindplus/HeaderElement.vue'
 import { flatRoutes } from '@/router'
 
 const navigation = flatRoutes
-  .filter((route) => route.meta?.showInNav)
+  .filter((route) => !route.meta?.requiresAuth && route.meta?.showInNav)
   .map((route) => ({ name: route.name, href: route.path }))
 
 const navigationRoutes = {

@@ -1,4 +1,6 @@
 <template>
+  <BentoGrids></BentoGrids>
+  <PricingSection></PricingSection>
   <FeatureSection :features="features">
     <template v-slot:title>Everything you need to deploy your app</template>
     <template v-slot:content>
@@ -9,7 +11,9 @@
 </template>
 
 <script setup>
+import BentoGrids from '@/components/tailwindplus/BentoGrids.vue'
 import FeatureSection from '@/components/tailwindplus/FeatureSection.vue'
+import PricingSection from '@/components/tailwindplus/PricingSection.vue'
 
 const features = [
   {

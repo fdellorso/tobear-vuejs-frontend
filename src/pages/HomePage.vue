@@ -1,7 +1,8 @@
 <template>
-  <HeroSection :showNav="showNav" :navigation="navigation" :navigationRoutes="navigationRoutes">
+  <!-- <HeroSection :showNav="showNav" :navigation="navigation" :navigationRoutes="navigationRoutes"> -->
+  <HeroSection :navigation="navigation" :navigationRoutes="navigationRoutes">
     <template v-slot:logo>
-      <LoGo customClass="h-8" />
+      <LogoIcon customClass="size-8" />
     </template>
     <template v-slot:announce> </template>
     <template v-slot:title>Welcome to <strong>toBear</strong></template>
@@ -13,14 +14,16 @@
       future, ToBear is here to help you carry those thoughts with clarity and purpose.
     </template>
   </HeroSection>
+  <ContentSection></ContentSection>
 </template>
 
 <script setup>
 import HeroSection from '@/components/tailwindplus/HeroSection.vue'
-import LoGo from '@/components/LoGo.vue'
+import ContentSection from '@/components/tailwindplus/ContentSection.vue'
+import LogoIcon from '@/components/LogoIcon.vue'
 import { flatRoutes } from '@/router'
-import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+// import { useRoute } from 'vue-router'
+// import { computed } from 'vue'
 
 const navigation = flatRoutes
   .filter((route) => route.meta?.showInNav)
@@ -33,9 +36,9 @@ const navigationRoutes = {
   premium: flatRoutes.find((route) => route.name === 'Premium')?.path,
 }
 
-const route = useRoute()
+// const route = useRoute()
 
-const showNav = computed(() => !route.meta?.hideNav)
+// const showNav = computed(() => !route.meta?.hideNav)
 </script>
 
 <style scoped></style>

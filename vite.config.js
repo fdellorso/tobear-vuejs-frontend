@@ -23,9 +23,40 @@ export default ({ mode }) => {
       VitePWA({
         registerType: 'autoUpdate',
         injectRegister: 'auto',
-        manifest: false,
+        manifest: 'public/manifest.json',
         devOptions: {
-          enabled: false
+          enabled: false,
+        },
+        workbox: {
+          navigateFallback: '/offline.html',
+          runtimeCaching: [
+            {
+              urlPattern: /^https:\/\/tobear\.x10\.mx\/api\/.*$/, // adatta alla tua API
+              handler: 'NetworkFirst',
+              options: {
+                cacheName: 'api-cache',
+                networkTimeoutSeconds: 10,
+                expiration: {
+                  maxEntries: 100,
+                  maxAgeSeconds: 86400,
+                },
+                cacheableResponse: {
+                  statuses: [0, 200],
+                },
+              },
+            },
+            {
+              urlPattern: /\.(?:js|css|html|json|png|jpg|jpeg|svg|woff2?)$/,
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'static-resources',
+                expiration: {
+                  maxEntries: 100,
+                  maxAgeSeconds: 2592000, // 30 giorni
+                },
+              },
+            },
+          ],
         },
       }),
       // MkCert()

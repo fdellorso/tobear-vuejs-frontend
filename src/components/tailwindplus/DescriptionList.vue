@@ -8,23 +8,29 @@
       <dl class="divide-y divide-gray-100">
         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt class="text-sm/6 font-medium text-gray-900">Full name</dt>
-          <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">Margot Foster</dd>
+          <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+            <slot name="fullname">Foster</slot>
+          </dd>
         </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <div v-if="false" class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt class="text-sm/6 font-medium text-gray-900">Application for</dt>
           <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">Backend Developer</dd>
         </div>
         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt class="text-sm/6 font-medium text-gray-900">Email address</dt>
           <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-            margotfoster@example.com
+            <slot name="email">margotfoster@example.com</slot>
           </dd>
         </div>
         <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt class="text-sm/6 font-medium text-gray-900">Salary expectation</dt>
-          <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">$120,000</dd>
+          <dt class="text-sm/6 font-medium text-gray-900">
+            <slot name="createddesc">Salary expectation</slot>
+          </dt>
+          <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
+            <slot name="created">$120,000</slot>
+          </dd>
         </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <div v-if="false" class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt class="text-sm/6 font-medium text-gray-900">About</dt>
           <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
             Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa
@@ -33,7 +39,7 @@
             reprehenderit deserunt qui eu.
           </dd>
         </div>
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <div v-if="false" class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt class="text-sm/6 font-medium text-gray-900">Attachments</dt>
           <dd class="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
             <ul role="list" class="divide-y divide-gray-100 rounded-md border border-gray-200">

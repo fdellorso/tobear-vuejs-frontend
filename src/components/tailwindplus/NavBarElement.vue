@@ -15,18 +15,19 @@
         </div>
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex shrink-0 items-center">
-            <img
-              class="h-8 w-auto"
-              src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-              alt="Your Company"
-            />
+            <slot name="logo">
+              <img
+                class="h-8 w-auto"
+                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+                alt="Your Company"
+            /></slot>
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
-              <a
+              <RouterLink
                 v-for="item in navigation"
                 :key="item.name"
-                :href="item.href"
+                :to="item.href"
                 :class="[
                   item.current
                     ? 'bg-gray-900 text-white'
@@ -34,7 +35,7 @@
                   'rounded-md px-3 py-2 text-sm font-medium',
                 ]"
                 :aria-current="item.current ? 'page' : undefined"
-                >{{ item.name }}</a
+                >{{ item.name }}</RouterLink
               >
             </div>
           </div>
@@ -59,11 +60,12 @@
               >
                 <span class="absolute -inset-1.5" />
                 <span class="sr-only">Open user menu</span>
-                <img
-                  class="size-8 rounded-full"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt=""
-                />
+                <slot name="profile">
+                  <img
+                    class="size-8 rounded-full"
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    alt=""
+                /></slot>
               </MenuButton>
             </div>
             <transition
@@ -77,29 +79,31 @@
               <MenuItems
                 class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-hidden"
               >
-                <MenuItem v-slot="{ active }">
-                  <a
-                    href="#"
+                <MenuItem v-slot="{ active, close }" as="div">
+                  <RouterLink
+                    :to="navigationRoutes.profile"
+                    @click="close"
                     :class="[
                       active ? 'bg-gray-100 outline-hidden' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
-                    >Your Profile</a
+                    >Your Profile</RouterLink
                   >
                 </MenuItem>
-                <MenuItem v-slot="{ active }">
-                  <a
-                    href="#"
+                <MenuItem v-slot="{ active, close }" as="div">
+                  <RouterLink
+                    :to="navigationRoutes.setting"
+                    @click="close"
                     :class="[
                       active ? 'bg-gray-100 outline-hidden' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
-                    >Settings</a
+                    >Settings</RouterLink
                   >
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <a
-                    href="#"
+                    @click="submitLogout"
                     :class="[
                       active ? 'bg-gray-100 outline-hidden' : '',
                       'block px-4 py-2 text-sm text-gray-700',
@@ -120,7 +124,7 @@
           v-for="item in navigation"
           :key="item.name"
           as="a"
-          :href="item.href"
+          :to="item.href"
           :class="[
             item.current
               ? 'bg-gray-900 text-white'
@@ -147,12 +151,34 @@ import {
 } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 
-const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
-]
+// const navigation = [
+//   { name: 'Dashboard', href: '#', current: true },
+//   { name: 'Team', href: '#', current: false },
+//   { name: 'Projects', href: '#', current: false },
+//   { name: 'Calendar', href: '#', current: false },
+// ]
+
+defineProps({
+  navigation: {
+    type: Array,
+    default: () => [
+      { name: 'Dashboard', href: '#', current: true },
+      { name: 'Team', href: '#', current: false },
+      { name: 'Projects', href: '#', current: false },
+      { name: 'Calendar', href: '#', current: false },
+    ],
+  },
+  navigationRoutes: {
+    type: Object,
+    required: true,
+  },
+})
+
+const emit = defineEmits(['submitLogout'])
+
+function submitLogout() {
+  emit('submitLogout')
+}
 </script>
 
 <style scoped></style>

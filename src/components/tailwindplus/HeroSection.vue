@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white">
-    <header v-if="showNav" class="absolute inset-x-0 top-0 z-50">
+    <header v-if="false" class="absolute inset-x-0 top-0 z-50">
       <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div class="flex lg:flex-1">
           <RouterLink :to="navigationRoutes.home" class="-m-1.5 p-1.5">
@@ -207,7 +207,6 @@ defineProps({
     type: Object,
     required: true,
   },
-  showNav: Boolean,
 })
 
 const mobileMenuOpenHero = ref(false)

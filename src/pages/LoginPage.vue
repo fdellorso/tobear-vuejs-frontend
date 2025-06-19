@@ -4,9 +4,7 @@
     @submitLogin="submitLogin"
     @submitForgot="submitForgot"
   >
-    <template v-slot:logo>
-      <LoGo customClass="h-10" />
-    </template>
+    <template v-slot:logo>&nbsp;</template>
     <template v-slot:message>
       <div v-if="verifiedMessage" class="mt-4 mx-4 p-3 rounded text-white bg-green-400">
         {{ verifiedMessage }}
@@ -25,7 +23,7 @@ import { useRoute } from 'vue-router'
 import useUserStore from '@/stores/user.js'
 import { ref, onMounted } from 'vue'
 import SignInPage from '@/components/tailwindplus/SignInPage.vue'
-import LoGo from '@/components/LoGo.vue'
+// import LoGo from '@/components/LoGo.vue'
 
 const navigationRoutes = {
   register: flatRoutes.find((route) => route.name === 'Register')?.path,
