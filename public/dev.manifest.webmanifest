@@ -1,5 +1,4 @@
 {
-  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "name": "tobear",
   "short_name": "tobear",
   "id": "/",
@@ -106,17 +105,34 @@
   ],
   "screenshots": [
     {
+      "src": "/img/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "toBear Todo list App"
+    },
+    {
       "src": "/img/tobear.png",
       "sizes": "1024x1024",
-      "type": "image/png"
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "toBear Todo list App"
     }
   ],
   "share_target": {
-    "action": "/handle-shared-content/",
-    "method": "GET",
+    "action": "/collect-files",
+    "method": "POST",
+    "enctype": "multipart/form-data",
     "params": {
       "title": "title",
-      "url": "url"
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "lists",
+          "accept": ["text/csv", ".csv"]
+        }
+      ]
     }
   },
   "file_handlers": [
