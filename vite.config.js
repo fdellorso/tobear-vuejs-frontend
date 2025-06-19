@@ -23,7 +23,7 @@ export default ({ mode }) => {
       VitePWA({
         registerType: 'autoUpdate',
         injectRegister: 'auto',
-        manifest: 'public/manifest.webmanifest',
+        manifest: false,
         devOptions: {
           enabled: false,
         },
