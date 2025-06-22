@@ -21,11 +21,19 @@
         item-key="id"
       >
         <template #item="{ element }">
-          <li class="list-group-item bg-gray-100 rounded-lg shadow-md p-3 hover:bg-yellow-600/30">
+          <li class="list-group-item bg-gray-100 rounded-lg shadow-md p-3 hover:bg-yellow-600">
             <i class="font-bold" aria-hidden="true">{{ element.title }}</i>
           </li>
         </template>
       </draggable>
+      <!-- <li class="list-group-item">
+        <TaskItem
+          :title="element.title"
+          @complete="handleComplete"
+          @delete="handleDelete"
+          @horizontal-dragging="(v) => (isHorizontalDragging = v)"
+        />
+      </li> -->
     </div>
 
     <div class="py-2">
@@ -56,9 +64,9 @@
         </div>
       </form>
     </div>
-    <div>
-      <TaskItem>Task item</TaskItem>
-    </div>
+    <!-- <div>
+      <TaskItem @complete="handleComplete" @delete="handleDelete">Task item</TaskItem>
+    </div> -->
   </div>
 </template>
 
@@ -68,7 +76,7 @@ import { ref, onMounted, computed } from 'vue'
 import draggable from 'vuedraggable'
 
 import SkeletonTask from '@/components/SkeletonTask.vue'
-import TaskItem from '@/components/TaskItem.vue'
+// import TaskItem from '@/components/TaskItem.vue'
 import { useTaskDB } from '@/idb/useTaskDB'
 
 const tasks = ref([])
@@ -77,6 +85,7 @@ const form = ref({
   description: '',
 })
 const drag = ref(false)
+const isHorizontalDragging = ref(false)
 const loading = ref(true)
 const { getAllTasks, saveTask, saveTasks, clearTasks } = useTaskDB()
 
@@ -108,6 +117,7 @@ const fetchTasks = async () => {
       tasks.value = response.data.data
       await clearTasks()
       await saveTasks(response.data.data)
+      tasks.value = await getAllTasks()
     } else {
       console.warn('Formato inatteso:', response.data)
     }
@@ -183,21 +193,38 @@ const createTask = async () => {
 // }
 
 const reorderTasks = async () => {
-  const ids = tasks.value.map((task) => task.id)
   try {
+    // Aggiorna il campo order di ogni task in base alla nuova posizione nell'array
+    tasks.value.forEach((task, index) => {
+      task.order = index
+    })
+
+    // Prepara array di id per backend (in ordine corretto)
+    const ids = tasks.value.map((task) => task.id)
+
+    // Aggiorna backend con nuovo ordine
     await axiosClient.patch('/v1/tasks/reorder', { tasks: ids })
-    await saveTasks(tasks.value)
+
+    // Clona i task con ordine aggiornato e salva su IndexedDB
+    const plainTasks = tasks.value.map((task) => ({ ...task }))
+    await saveTasks(plainTasks)
+    tasks.value = await getAllTasks()
+
     console.log('Ordine aggiornato con successo.')
   } catch (error) {
     console.error('Errore durante il riordinamento:', error.response?.data || error)
   }
 }
 
+// const handleComplete = () => console.log('COMPLETED!')
+// const handleDelete = () => console.log('DELETED!')
+
 const dragOptions = computed(() => ({
   animation: 200,
   group: 'description',
   disabled: false,
   ghostClass: 'ghost',
+  move: () => !isHorizontalDragging.value, // 👈 impedisce il drag verticale
 }))
 
 const syncLocalTasks = async () => {

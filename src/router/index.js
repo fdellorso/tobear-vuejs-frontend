@@ -47,7 +47,7 @@ const routes = [
         component: RegisterPage,
       },
       {
-        path: '/VerifyEmail',
+        path: '/verifyemail',
         name: 'VerifyEmail',
         meta: { requiresAuth: false, showInNav: false },
         component: VerifyEmail,

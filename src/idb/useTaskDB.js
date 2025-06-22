@@ -23,7 +23,8 @@ function getDB() {
 export function useTaskDB() {
   async function getAllTasks() {
     const db = await getDB()
-    return db.getAll(STORE_NAME)
+    const tasks = await db.getAll(STORE_NAME)
+    return tasks.sort((a, b) => a.order - b.order)
   }
 
   async function saveTask(task) {

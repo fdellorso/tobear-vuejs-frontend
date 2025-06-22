@@ -5,7 +5,7 @@
       <LogoIcon customClass="size-8" />
     </template>
     <template v-slot:announce> </template>
-    <template v-slot:title>Welcome to <strong>toBear</strong></template>
+    <template v-slot:title>Welcome to <strong class="text-stroke">toBear</strong></template>
     <template v-slot:content>
       a mindful way to manage your tasks. The name ToBear is inspired by the expression “to bear in
       mind”, which means to remember or consider something important. Just like the phrase suggests,
@@ -41,4 +41,9 @@ const navigationRoutes = {
 // const showNav = computed(() => !route.meta?.hideNav)
 </script>
 
-<style scoped></style>
+<style scoped>
+.text-stroke {
+  -webkit-text-stroke: 3px black;
+  -webkit-text-fill-color: white;
+}
+</style>

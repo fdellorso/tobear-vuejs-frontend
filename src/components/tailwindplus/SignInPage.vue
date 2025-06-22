@@ -49,7 +49,11 @@
             </button>
           </div>
           <div>
-            <button @click="forgotMode = false" class="mt-3 text-sm text-gray-600 hover:underline">
+            <button
+              type="button"
+              @click="forgotMode = false"
+              class="mt-3 text-sm text-gray-600 hover:underline"
+            >
               ← Back to Login
             </button>
           </div>

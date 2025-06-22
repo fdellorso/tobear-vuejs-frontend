@@ -5,9 +5,9 @@
   "description": "An app to bear in mind",
   "background_color": "#fdf6ec",
   "theme_color": "#8b5e3c",
-  "start_url": "http://laravel.fritz.box:3000",
+  "start_url": "https://laravel.fritz.box:3000",
   "dir": "ltr",
-  "scope": "http://laravel.fritz.box:3000",
+  "scope": "https://laravel.fritz.box:3000",
   "lang": "en",
   "orientation": "portrait",
   "display": "standalone",
@@ -155,5 +155,5 @@
     "client_mode": ["focus-existing", "auto"]
   },
   "handle_links": "preferred",
-  "scope_extensions": [{ "type": "origin", "origin": "http://laravel.fritz.box:3000" }]
+  "scope_extensions": [{ "type": "origin", "origin": "https://laravel.fritz.box:3000" }]
 }

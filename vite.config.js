@@ -5,7 +5,8 @@ import process from 'process'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import { VitePWA } from 'vite-plugin-pwa'
-// import MkCert from 'vite-plugin-mkcert'
+import viteCompression from 'vite-plugin-compression'
+import MkCert from 'vite-plugin-mkcert'
 
 import tailwindcss from '@tailwindcss/vite'
 
@@ -59,7 +60,14 @@ export default ({ mode }) => {
           ],
         },
       }),
-      // MkCert()
+      viteCompression({
+        verbose: true, // logga i file compressi
+        disable: false, // abilita la compressione (disabilita in dev se vuoi)
+        threshold: 1025, // comprime solo file > 10 KB
+        algorithm: 'brotliCompress', // gzip o 'brotliCompress' o 'deflate'
+        ext: '.gz', // estensione del file generato
+      }),
+      MkCert(),
     ],
     resolve: {
       alias: {
@@ -69,12 +77,12 @@ export default ({ mode }) => {
     server: {
       host: '0.0.0.0',
       port: 3000,
-      // https: true,
+      https: true,
       allowedHosts: ['laravel.fritz.box'],
     },
     build: {
-      // minify: false,
-      sourcemap: true,
+      minify: true,
+      sourcemap: false,
     },
   })
 }
