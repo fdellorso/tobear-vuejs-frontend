@@ -30,3 +30,6 @@ coverage
 
 *.tsbuildinfo
 .env
+
+# Playwright test output
+test-results/

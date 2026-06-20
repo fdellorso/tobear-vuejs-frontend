@@ -73,14 +73,14 @@ const onDrag = (e) => {
 
   // Trigger event only once per drag
   if (atLeft && !leftAction.value.dataset.triggered) {
-    emit('complete')
+    emit('delete')
     leftAction.value.dataset.triggered = 'true'
   } else if (!atLeft) {
     leftAction.value.dataset.triggered = ''
   }
 
   if (atRight && !rightAction.value.dataset.triggered) {
-    emit('delete')
+    emit('complete')
     rightAction.value.dataset.triggered = 'true'
   } else if (!atRight) {
     rightAction.value.dataset.triggered = ''
@@ -127,14 +127,14 @@ const onDragTouch = (e) => {
   rightAction.value.style.opacity = atRight ? '1' : '0.5'
 
   if (atLeft && !leftAction.value.dataset.triggered) {
-    emit('complete')
+    emit('delete')
     leftAction.value.dataset.triggered = 'true'
   } else if (!atLeft) {
     leftAction.value.dataset.triggered = ''
   }
 
   if (atRight && !rightAction.value.dataset.triggered) {
-    emit('delete')
+    emit('complete')
     rightAction.value.dataset.triggered = 'true'
   } else if (!atRight) {
     rightAction.value.dataset.triggered = ''

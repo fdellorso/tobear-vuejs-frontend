@@ -21,19 +21,16 @@
         item-key="id"
       >
         <template #item="{ element }">
-          <li class="list-group-item bg-gray-100 rounded-lg shadow-md p-3 hover:bg-yellow-600">
-            <i class="font-bold" aria-hidden="true">{{ element.title }}</i>
+          <li class="list-group-item">
+            <TaskItem
+              :title="element.title"
+              @complete="handleComplete(element)"
+              @delete="handleDelete(element)"
+              @horizontal-dragging="(v) => (isHorizontalDragging = v)"
+            />
           </li>
         </template>
       </draggable>
-      <!-- <li class="list-group-item">
-        <TaskItem
-          :title="element.title"
-          @complete="handleComplete"
-          @delete="handleDelete"
-          @horizontal-dragging="(v) => (isHorizontalDragging = v)"
-        />
-      </li> -->
     </div>
 
     <div class="py-2">
@@ -76,7 +73,7 @@ import { ref, onMounted, computed } from 'vue'
 import draggable from 'vuedraggable'
 
 import SkeletonTask from '@/components/SkeletonTask.vue'
-// import TaskItem from '@/components/TaskItem.vue'
+import TaskItem from '@/components/TaskItem.vue'
 import { useTaskDB } from '@/idb/useTaskDB'
 
 const tasks = ref([])
@@ -87,7 +84,16 @@ const form = ref({
 const drag = ref(false)
 const isHorizontalDragging = ref(false)
 const loading = ref(true)
-const { getAllTasks, saveTask, saveTasks, clearTasks } = useTaskDB()
+const {
+  getAllTasks,
+  saveTask,
+  saveTasks,
+  clearTasks,
+  deleteTask,
+  savePendingReorder,
+  getPendingReorder,
+  clearPendingReorder,
+} = useTaskDB()
 
 // const fetchTasks = async () => {
 //   axiosClient
@@ -123,7 +129,8 @@ const fetchTasks = async () => {
     }
   } catch (error) {
     console.warn('Errore fetching da rete, carico da IndexedDB', error.message)
-    tasks.value = await getAllTasks()
+    const allTasks = await getAllTasks()
+    tasks.value = allTasks.filter((t) => !t.pendingDelete)
   } finally {
     loading.value = false
   }
@@ -210,14 +217,48 @@ const reorderTasks = async () => {
     await saveTasks(plainTasks)
     tasks.value = await getAllTasks()
 
+    await clearPendingReorder()
     console.log('Ordine aggiornato con successo.')
   } catch (error) {
-    console.error('Errore durante il riordinamento:', error.response?.data || error)
+    console.error(
+      'Errore durante il riordinamento, salvo per sync offline:',
+      error.response?.data || error.message,
+    )
+
+    // Salva ordine in IndexedDB anche se la rete fallisce
+    const plainTasks = tasks.value.map((task) => ({ ...task }))
+    await saveTasks(plainTasks)
+
+    // Segnala riordino pendente per retry quando si torna online
+    await savePendingReorder(tasks.value.map((t) => t.id))
   }
 }
 
-// const handleComplete = () => console.log('COMPLETED!')
-// const handleDelete = () => console.log('DELETED!')
+const handleComplete = async (task) => {
+  task.completed = !task.completed
+  task.pendingComplete = true
+  await saveTask({ ...task })
+  try {
+    await axiosClient.patch(`/v1/tasks/${task.id}`, { completed: task.completed })
+    task.pendingComplete = false
+    await saveTask({ ...task })
+  } catch (error) {
+    console.warn('Offline: completamento salvato localmente', error.message)
+  }
+}
+
+const handleDelete = async (task) => {
+  const idx = tasks.value.findIndex((t) => t.id === task.id)
+  if (idx > -1) tasks.value.splice(idx, 1)
+  task.pendingDelete = true
+  await saveTask({ ...task })
+  try {
+    await axiosClient.delete(`/v1/tasks/${task.id}`)
+    await deleteTask(task.id)
+  } catch (error) {
+    console.warn('Offline: eliminazione salvata per sync', error.message)
+  }
+}
 
 const dragOptions = computed(() => ({
   animation: 200,
@@ -229,8 +270,32 @@ const dragOptions = computed(() => ({
 
 const syncLocalTasks = async () => {
   const allTasks = await getAllTasks()
-  const localTasks = allTasks.filter((t) => t.localOnly)
 
+  // Sincronizza eliminazioni in sospeso
+  for (const task of allTasks.filter((t) => t.pendingDelete)) {
+    try {
+      await axiosClient.delete(`/v1/tasks/${task.id}`)
+      await deleteTask(task.id)
+      console.log('Eliminazione offline sincronizzata:', task.id)
+    } catch (error) {
+      console.error('Errore sync eliminazione:', error)
+    }
+  }
+
+  // Sincronizza completamenti in sospeso
+  for (const task of allTasks.filter((t) => t.pendingComplete)) {
+    try {
+      await axiosClient.patch(`/v1/tasks/${task.id}`, { completed: task.completed })
+      task.pendingComplete = false
+      await saveTask(task)
+      console.log('Completamento offline sincronizzato:', task.id)
+    } catch (error) {
+      console.error('Errore sync completamento:', error)
+    }
+  }
+
+  // Sincronizza creazioni in sospeso (pattern esistente)
+  const localTasks = allTasks.filter((t) => t.localOnly)
   for (const task of localTasks) {
     try {
       const formData = new FormData()
@@ -248,12 +313,40 @@ const syncLocalTasks = async () => {
   }
 }
 
-// onMounted(fetchTasks)
-onMounted(() => {
-  fetchTasks()
+onMounted(async () => {
+  await syncLocalTasks()
+
+  // Sincronizza riordino pendente prima di fetchTasks (evita che clearTasks lo cancelli)
+  const pendingIds = await getPendingReorder()
+  if (pendingIds) {
+    try {
+      await axiosClient.patch('/v1/tasks/reorder', { tasks: pendingIds })
+      await clearPendingReorder()
+      console.log('Riordino pendente sincronizzato')
+    } catch (e) {
+      console.warn('Riordino pendente non sincronizzato (offline):', e.message)
+    }
+  }
+
+  await fetchTasks()
+
   window.addEventListener('online', () => {
-    console.log('Torni online, sincronizzo task locali...')
+    console.log('Torni online, sincronizzo...')
     syncLocalTasks()
+
+    getPendingReorder().then((pendingIds) => {
+      if (pendingIds) {
+        axiosClient
+          .patch('/v1/tasks/reorder', { tasks: pendingIds })
+          .then(async () => {
+            await clearPendingReorder()
+            console.log('Riordino offline sincronizzato con successo')
+          })
+          .catch((e) => {
+            console.error('Errore sync riordino:', e.message)
+          })
+      }
+    })
   })
 })
 </script>
