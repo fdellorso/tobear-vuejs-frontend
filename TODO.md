@@ -2,9 +2,9 @@
 
 - [ ] Homepage frontend completing
 - [x] verify with email
-- [ ] TaskItem frontend component (swipe left and right)
-  - [ ] completed api operation
-  - [ ] delete api operation
+- [x] TaskItem frontend component (swipe left and right)
+  - [x] completed api operation
+  - [x] delete api operation
 - [ ] PWA service worker cache for offline and sync when online
   - [ ] Modify Backend Authentication to serve Mobile App for offline authentication
 - [ ] end-to-end encryption of data [premium]

@@ -30,18 +30,24 @@ export default defineConfig([
     },
   },
 
-  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
+  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '.opencode/**']),
 
   {
+    files: ['**/*.{js,mjs,jsx,vue}'],
     languageOptions: {
       globals: {
         ...globals.browser,
       },
     },
   },
-
-  js.configs.recommended,
-  ...pluginVue.configs['flat/essential'],
+  {
+    files: ['**/*.{js,mjs,jsx,vue}'],
+    ...js.configs.recommended,
+  },
+  ...pluginVue.configs['flat/essential'].map(cfg => ({
+    ...cfg,
+    files: cfg.files || ['**/*.{js,mjs,jsx,vue}'],
+  })),
   ...pluginYml.configs['flat/prettier'],
   skipFormatting,
 ])

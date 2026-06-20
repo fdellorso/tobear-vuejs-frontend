@@ -52,8 +52,8 @@ const features = [
     icon: 'CircleStack',
   },
   {
-    name: 'JWT Authentication',
-    description: 'For secure, stateless user authentication across the frontend and backend.',
+    name: 'Cookie-based Authentication (Laravel Sanctum)',
+    description: 'For secure SPA authentication using session cookies and XSRF protection.',
     icon: 'LockClosed',
   },
   {

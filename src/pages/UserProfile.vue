@@ -7,7 +7,23 @@
       <template v-slot:created>{{ user.created_at }}</template>
     </DescriptionList>
   </div>
-  <StatsSection :stats="stats"></StatsSection>
+
+  <div v-if="tasksLoading" class="bg-white py-24 sm:py-32">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto flex max-w-xs flex-col gap-y-4 text-center">
+        <div class="h-4 w-32 bg-gray-200 rounded animate-pulse mx-auto"></div>
+        <div class="h-10 w-16 bg-gray-200 rounded animate-pulse mx-auto sm:h-14"></div>
+      </div>
+    </div>
+  </div>
+
+  <div v-else-if="tasksError" class="bg-white py-24 sm:py-32">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center">
+      <p class="text-sm text-red-500">{{ tasksError }}</p>
+    </div>
+  </div>
+
+  <StatsSection v-else :stats="stats" />
 </template>
 
 <script setup>
@@ -21,8 +37,12 @@ const userStore = useUserStore()
 const user = userStore.user
 
 const taskCount = ref(0)
+const tasksLoading = ref(false)
+const tasksError = ref(null)
 
 const fetchTasks = async () => {
+  tasksLoading.value = true
+  tasksError.value = null
   axiosClient
     .get('/v1/tasks')
     .then((response) => {
@@ -36,14 +56,14 @@ const fetchTasks = async () => {
     .catch((error) => {
       console.error('Errore nel caricamento dei task:', error)
       taskCount.value = 0
+      tasksError.value = 'Impossibile caricare il conteggio dei task'
+    })
+    .finally(() => {
+      tasksLoading.value = false
     })
 }
 
-const stats = [
-  { id: 1, name: 'Count of task created', value: taskCount },
-  // { id: 2, name: 'Assets under holding', value: '$119 trillion' },
-  // { id: 3, name: 'New users annually', value: '46,000' },
-]
+const stats = [{ id: 1, name: 'Count of task created', value: taskCount }]
 
 onMounted(fetchTasks)
 </script>
