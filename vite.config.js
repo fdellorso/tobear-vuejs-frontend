@@ -16,7 +16,8 @@ export default ({ mode }) => {
 
   return defineConfig({
     mode,
-    base: env.VITE_BASE_URL,
+    // base: env.VITE_BASE_URL,
+    base: '/',
     plugins: [
       vue(),
       vueDevTools(),
@@ -32,7 +33,13 @@ export default ({ mode }) => {
           navigateFallback: '/offline.html',
           runtimeCaching: [
             {
-              urlPattern: /^https:\/\/tobear\.x10\.mx\/api\/.*$/, // adatta alla tua API
+              urlPattern: ({ url }) => {
+                const apiBase = env.VITE_API_BASE_URL
+                if (apiBase.startsWith('http')) {
+                  return url.href.startsWith(apiBase)
+                }
+                return url.pathname.startsWith(apiBase)
+              },
               handler: 'NetworkFirst',
               options: {
                 cacheName: 'api-cache',
@@ -77,7 +84,7 @@ export default ({ mode }) => {
     server: {
       host: '0.0.0.0',
       port: 3000,
-      https: true,
+      https: false,
       allowedHosts: ['laravel.fritz.box'],
     },
     build: {

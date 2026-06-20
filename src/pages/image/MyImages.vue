@@ -1,7 +1,7 @@
 <script setup>
 import { axiosClient } from '@/axios'
 import { onMounted, ref } from 'vue'
-import ImageGallery from '@/components/ImageGallery.vue'
+import ImageGallery from '@/components/image/ImageGallery.vue'
 
 const images = ref([])
 
@@ -18,13 +18,13 @@ function deleteImage(id) {
   //   images.value = images.value.filter((image) => image.id !== id)
   // })
 
-  axiosClient.post(`/v1/myimages/${id}/delete`).then(() => {
+  axiosClient.delete(`/v1/images/${id}`).then(() => {
     images.value = images.value.filter((image) => image.id !== id)
   })
 }
 
 onMounted(() => {
-  axiosClient.get('/v1/myimages').then((response) => {
+  axiosClient.get('/v1/images').then((response) => {
     images.value = response.data.data
   })
 })

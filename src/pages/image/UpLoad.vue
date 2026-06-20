@@ -14,7 +14,7 @@ function submit() {
   formData.append('image', data.value.image)
   formData.append('label', data.value.label)
 
-  axiosClient.post('/v1/myimages', formData).then(async (response) => {
+  axiosClient.post('/v1/images', formData).then(async (response) => {
     await response.data
     router.push({ name: 'MyImages' })
   })

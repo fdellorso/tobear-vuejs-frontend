@@ -14,7 +14,6 @@
         >
           <img :src="image.path" alt="Image" class="w-full h-48 object-contain" />
           <div class="px-4 py-1">
-            <h3 class="text-lg font-semibold text-gray-900">{{ image.name }}</h3>
             <p class="text-sm text-gray-500 mb-4">{{ image.label }}</p>
           </div>
           <div class="flex justify-between px-4 py-6 items-center mt-4">
