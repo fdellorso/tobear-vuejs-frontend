@@ -22,51 +22,51 @@ export default ({ mode }) => {
       vue(),
       vueDevTools(),
       tailwindcss(),
-      // VitePWA({
-      //   registerType: 'autoUpdate',
-      //   injectRegister: 'auto',
-      //   manifest: false,
-      //   devOptions: {
-      //     enabled: false,
-      //   },
-      //   workbox: {
-      //     navigateFallback: '/offline.html',
-      //     runtimeCaching: [
-      //       {
-      //         urlPattern: ({ url }) => {
-      //           const apiBase = env.VITE_API_BASE_URL
-      //           if (apiBase.startsWith('http')) {
-      //             return url.href.startsWith(apiBase)
-      //           }
-      //           return url.pathname.startsWith(apiBase)
-      //         },
-      //         handler: 'NetworkFirst',
-      //         options: {
-      //           cacheName: 'api-cache',
-      //           networkTimeoutSeconds: 10,
-      //           expiration: {
-      //             maxEntries: 100,
-      //             maxAgeSeconds: 86400,
-      //           },
-      //           cacheableResponse: {
-      //             statuses: [0, 200],
-      //           },
-      //         },
-      //       },
-      //       {
-      //         urlPattern: /\.(?:js|css|html|json|png|jpg|jpeg|svg|woff2?)$/,
-      //         handler: 'CacheFirst',
-      //         options: {
-      //           cacheName: 'static-resources',
-      //           expiration: {
-      //             maxEntries: 100,
-      //             maxAgeSeconds: 2592000, // 30 giorni
-      //           },
-      //         },
-      //       },
-      //     ],
-      //   },
-      // }),
+      VitePWA({
+        registerType: 'autoUpdate',
+        injectRegister: 'auto',
+        manifest: false,
+        devOptions: {
+          enabled: false,
+        },
+        workbox: {
+          navigateFallback: '/offline.html',
+          runtimeCaching: [
+            {
+              urlPattern: ({ url }) => {
+                const apiBase = env.VITE_API_BASE_URL
+                if (apiBase.startsWith('http')) {
+                  return url.href.startsWith(apiBase)
+                }
+                return url.pathname.startsWith(apiBase)
+              },
+              handler: 'NetworkFirst',
+              options: {
+                cacheName: 'api-cache',
+                networkTimeoutSeconds: 10,
+                expiration: {
+                  maxEntries: 100,
+                  maxAgeSeconds: 86400,
+                },
+                cacheableResponse: {
+                  statuses: [0, 200],
+                },
+              },
+            },
+            {
+              urlPattern: /\.(?:js|css|html|json|png|jpg|jpeg|svg|woff2?)$/,
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'static-resources',
+                expiration: {
+                  maxEntries: 100,
+                  maxAgeSeconds: 2592000, // 30 giorni
+                },
+              },
+            },
+          ],
+        },
+      }),
       viteCompression({
         verbose: true, // logga i file compressi
         disable: false, // abilita la compressione (disabilita in dev se vuoi)
@@ -84,7 +84,7 @@ export default ({ mode }) => {
     server: {
       host: '0.0.0.0',
       port: 3000,
-      https: false,
+      https: true,
       allowedHosts: ['laravel.fritz.box'],
     },
     build: {

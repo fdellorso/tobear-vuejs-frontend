@@ -11,4 +11,4 @@
 - [ ] shared list [premium]
 - [ ] grocery list [premium]
 - [ ] sync with HAss, caldav and more [premium]
-- [ ] Riabilitare PWA + HTTPS (mkcert) in vite.config.js — attualmente disabilitati per facilitare il debug del flusso auth in http puro
+- [x] Riabilitare PWA + HTTPS (mkcert) in vite.config.js — attualmente disabilitati per facilitare il debug del flusso auth in http puro
