@@ -5,25 +5,22 @@
     </div>
     <div v-else>
       <div v-if="tasks.length === 0" class="text-gray-500">Nessun task trovato.</div>
+
       <draggable
         class="space-y-2 list-group list-none"
         :component="'transition-group'"
         :component-data="{ name: 'flip-list', tag: 'ul' }"
-        v-model="tasks"
+        v-model="activeTasks"
         v-bind="dragOptions"
         @start="drag = true"
-        @end="
-          () => {
-            drag = false
-            reorderTasks()
-          }
-        "
+        @end="onDragEnd"
         item-key="id"
       >
         <template #item="{ element }">
           <li class="list-group-item">
             <TaskItem
               :title="element.title"
+              :drag-active="drag"
               @complete="handleComplete(element)"
               @delete="handleDelete(element)"
               @horizontal-dragging="(v) => (isHorizontalDragging = v)"
@@ -31,39 +28,40 @@
           </li>
         </template>
       </draggable>
-    </div>
 
-    <div class="py-2">
-      <!-- <form @submit.prevent="createTask" class="mb-6"> -->
-      <form>
-        <div class="flex flex-col">
-          <input
-            v-model="form.title"
-            type="text"
-            name="newtask"
-            id="newtask"
-            placeholder="Titolo del task"
-            @blur="createTask"
-            class="border border-gray-300 rounded-lg shadow-md p-3"
-            required
-          />
-          <!-- <textarea
-            v-model="form.description"
-            placeholder="Descrizione (opzionale)"
-            class="border border-gray-300 rounded-lg shadow-md px-4 py-2"
-          ></textarea>
-          <button
-            type="submit"
-            class="bg-yellow-800 text-white px-4 py-2 rounded-lg hover:bg-yellow-700"
-          >
-            Aggiungi Task
-          </button> -->
+      <template v-if="completedTasks.length > 0">
+        <div class="mt-6 mb-2 text-xs font-medium uppercase tracking-wider text-gray-400/60">
+          Completati
         </div>
-      </form>
+        <TransitionGroup name="completed" tag="ul" class="space-y-2">
+          <li v-for="task in completedTasks" :key="task.id" class="opacity-60">
+            <TaskItem
+              :title="task.title"
+              @complete="handleComplete(task)"
+              @delete="handleDelete(task)"
+              @horizontal-dragging="(v) => (isHorizontalDragging = v)"
+            />
+          </li>
+        </TransitionGroup>
+      </template>
+
+      <div class="py-2">
+        <form>
+          <div class="flex flex-col">
+            <input
+              v-model="form.title"
+              type="text"
+              name="newtask"
+              id="newtask"
+              placeholder="Titolo del task"
+              @blur="createTask"
+              class="border border-gray-300 rounded-lg shadow-md p-3"
+              required
+            />
+          </div>
+        </form>
+      </div>
     </div>
-    <!-- <div>
-      <TaskItem @complete="handleComplete" @delete="handleDelete">Task item</TaskItem>
-    </div> -->
   </div>
 </template>
 
@@ -84,6 +82,14 @@ const form = ref({
 const drag = ref(false)
 const isHorizontalDragging = ref(false)
 const loading = ref(true)
+const activeTasks = ref([])
+const completedTasks = computed(() =>
+  tasks.value.filter((t) => t.completed).sort((a, b) => a.order - b.order),
+)
+
+const rebuildActiveTasks = () => {
+  activeTasks.value = tasks.value.filter((t) => !t.completed).sort((a, b) => a.order - b.order)
+}
 const {
   getAllTasks,
   saveTask,
@@ -124,6 +130,7 @@ const fetchTasks = async () => {
       await clearTasks()
       await saveTasks(response.data.data)
       tasks.value = await getAllTasks()
+      rebuildActiveTasks()
     } else {
       console.warn('Formato inatteso:', response.data)
     }
@@ -131,6 +138,7 @@ const fetchTasks = async () => {
     console.warn('Errore fetching da rete, carico da IndexedDB', error.message)
     const allTasks = await getAllTasks()
     tasks.value = allTasks.filter((t) => !t.pendingDelete)
+    rebuildActiveTasks()
   } finally {
     loading.value = false
   }
@@ -184,6 +192,7 @@ const createTask = async () => {
     form.value.title = ''
     form.value.description = ''
     tasks.value.push(localTask)
+    rebuildActiveTasks()
   }
 }
 
@@ -201,21 +210,21 @@ const createTask = async () => {
 
 const reorderTasks = async () => {
   try {
-    // Aggiorna il campo order di ogni task in base alla nuova posizione nell'array
-    tasks.value.forEach((task, index) => {
+    activeTasks.value.forEach((task, index) => {
       task.order = index
     })
 
-    // Prepara array di id per backend (in ordine corretto)
+    const completed = tasks.value.filter((t) => t.completed)
+    tasks.value = [...activeTasks.value, ...completed]
+
     const ids = tasks.value.map((task) => task.id)
 
-    // Aggiorna backend con nuovo ordine
     await axiosClient.patch('/v1/tasks/reorder', { tasks: ids })
 
-    // Clona i task con ordine aggiornato e salva su IndexedDB
     const plainTasks = tasks.value.map((task) => ({ ...task }))
     await saveTasks(plainTasks)
     tasks.value = await getAllTasks()
+    rebuildActiveTasks()
 
     await clearPendingReorder()
     console.log('Ordine aggiornato con successo.')
@@ -225,19 +234,24 @@ const reorderTasks = async () => {
       error.response?.data || error.message,
     )
 
-    // Salva ordine in IndexedDB anche se la rete fallisce
     const plainTasks = tasks.value.map((task) => ({ ...task }))
     await saveTasks(plainTasks)
 
-    // Segnala riordino pendente per retry quando si torna online
     await savePendingReorder(tasks.value.map((t) => t.id))
   }
 }
 
+const onDragEnd = () => {
+  drag.value = false
+  reorderTasks()
+}
+
 const handleComplete = async (task) => {
+  navigator.vibrate?.(50)
   task.completed = !task.completed
   task.pendingComplete = true
   await saveTask({ ...task })
+  rebuildActiveTasks()
   try {
     await axiosClient.patch(`/v1/tasks/${task.id}`, { completed: task.completed })
     task.pendingComplete = false
@@ -250,6 +264,7 @@ const handleComplete = async (task) => {
 const handleDelete = async (task) => {
   const idx = tasks.value.findIndex((t) => t.id === task.id)
   if (idx > -1) tasks.value.splice(idx, 1)
+  rebuildActiveTasks()
   task.pendingDelete = true
   await saveTask({ ...task })
   try {
@@ -265,7 +280,10 @@ const dragOptions = computed(() => ({
   group: 'description',
   disabled: false,
   ghostClass: 'ghost',
-  move: () => !isHorizontalDragging.value, // 👈 impedisce il drag verticale
+  delay: 1200,
+  delayOnTouchOnly: true,
+  touchStartThreshold: 10,
+  move: () => !isHorizontalDragging.value, // 👈 impedisce il drag durante swipe orizzontale
 }))
 
 const syncLocalTasks = async () => {
@@ -354,6 +372,33 @@ onMounted(async () => {
 <style scoped>
 .flip-list-move {
   transition: transform 0.5s;
+}
+.flip-list-leave-active {
+  position: absolute;
+  transition: all 0.3s ease;
+}
+.flip-list-leave-to {
+  opacity: 0;
+  transform: translateX(80px);
+}
+
+.completed-move {
+  transition: transform 0.4s ease;
+}
+.completed-enter-active {
+  transition: all 0.4s ease 0.2s;
+}
+.completed-leave-active {
+  transition: all 0.3s ease;
+  position: absolute;
+}
+.completed-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.completed-leave-to {
+  opacity: 0;
+  transform: translateX(80px);
 }
 
 .ghost {

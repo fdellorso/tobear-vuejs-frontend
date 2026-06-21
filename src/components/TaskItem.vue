@@ -6,7 +6,7 @@
       :style="{ left: `${left}px` }"
       aria-hidden="true"
       @mousedown="startDrag"
-      @touchstart.prevent="startDragTouch"
+      @touchstart="startDragTouch"
       >{{ title }}</i
     >
     <span
@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, onBeforeUnmount } from 'vue'
+import { ref, watch, onBeforeUnmount } from 'vue'
 
 const draggable = ref(null)
 const container = ref(null)
@@ -34,14 +34,30 @@ const rightAction = ref(null)
 const left = ref(0)
 
 let startX = 0
+let startY = 0
 let startLeft = 0
 let isDragging = false
 
-defineProps({
+const props = defineProps({
   title: String,
+  dragActive: Boolean,
 })
 
 const emit = defineEmits(['complete', 'delete', 'horizontal-dragging'])
+
+watch(
+  () => props.dragActive,
+  (active) => {
+    if (active) {
+      navigator.vibrate?.(50)
+      container.value?.classList.add('is-lifted')
+      document.removeEventListener('touchmove', onDragTouch)
+      document.removeEventListener('touchend', stopDragTouch)
+    } else {
+      container.value?.classList.remove('is-lifted')
+    }
+  },
+)
 
 const startDrag = (e) => {
   isDragging = true
@@ -55,103 +71,111 @@ const startDrag = (e) => {
 
 const onDrag = (e) => {
   if (!isDragging) return
-
-  const dx = e.clientX - startX
-  const containerWidth = container.value.offsetWidth
-  const maxOffset = containerWidth * 0.3
-  const newLeft = startLeft + dx
-
-  // Clamping
-  left.value = Math.min(Math.max(newLeft, -maxOffset), maxOffset)
-
-  // Highlight logic
-  const atRight = left.value >= maxOffset
-  const atLeft = left.value <= -maxOffset
-
-  leftAction.value.style.opacity = atLeft ? '1' : '0.5'
-  rightAction.value.style.opacity = atRight ? '1' : '0.5'
-
-  // Trigger event only once per drag
-  if (atLeft && !leftAction.value.dataset.triggered) {
-    emit('delete')
-    leftAction.value.dataset.triggered = 'true'
-  } else if (!atLeft) {
-    leftAction.value.dataset.triggered = ''
-  }
-
-  if (atRight && !rightAction.value.dataset.triggered) {
-    emit('complete')
-    rightAction.value.dataset.triggered = 'true'
-  } else if (!atRight) {
-    rightAction.value.dataset.triggered = ''
-  }
+  handleSwipe(e.clientX - startX)
 }
 
 const stopDrag = () => {
-  if (isDragging) {
-    isDragging = false
-    emit('horizontal-dragging', false)
-    left.value = 0 // Torna alla posizione originale
-    leftAction.value.style.opacity = '0.5'
-    rightAction.value.style.opacity = '0.5'
-    document.removeEventListener('mousemove', onDrag)
-    document.removeEventListener('mouseup', stopDrag)
-  }
+  releaseSwipe()
 }
 
 const startDragTouch = (e) => {
-  e.preventDefault()
-  isDragging = true
-  startX = e.touches[0].clientX
+  const touch = e.touches[0]
+  startX = touch.clientX
+  startY = touch.clientY
   startLeft = left.value
 
   document.addEventListener('touchmove', onDragTouch, { passive: false })
   document.addEventListener('touchend', stopDragTouch)
 }
 
-const onDragTouch = (e) => {
-  if (!isDragging) return
-  e.preventDefault()
+const getMaxOffset = () => container.value.offsetWidth * 0.35
 
-  const dx = e.touches[0].clientX - startX
-  const containerWidth = container.value.offsetWidth
-  const maxOffset = containerWidth * 0.3
+const handleSwipe = (dx) => {
+  const maxOffset = getMaxOffset()
   const newLeft = startLeft + dx
 
   left.value = Math.min(Math.max(newLeft, -maxOffset), maxOffset)
 
-  const atRight = left.value >= maxOffset
-  const atLeft = left.value <= -maxOffset
+  const ratio = Math.abs(left.value) / maxOffset
+  const opacity = String(0.5 + ratio * 0.5)
 
-  leftAction.value.style.opacity = atLeft ? '1' : '0.5'
-  rightAction.value.style.opacity = atRight ? '1' : '0.5'
+  leftAction.value.style.opacity = left.value <= 0 ? opacity : '0.5'
+  rightAction.value.style.opacity = left.value >= 0 ? opacity : '0.5'
+}
 
-  if (atLeft && !leftAction.value.dataset.triggered) {
-    emit('delete')
-    leftAction.value.dataset.triggered = 'true'
-  } else if (!atLeft) {
-    leftAction.value.dataset.triggered = ''
+const releaseSwipe = () => {
+  if (!isDragging) {
+    document.removeEventListener('mousemove', onDrag)
+    document.removeEventListener('mouseup', stopDrag)
+    document.removeEventListener('touchmove', onDragTouch)
+    document.removeEventListener('touchend', stopDragTouch)
+    return
   }
 
-  if (atRight && !rightAction.value.dataset.triggered) {
-    emit('complete')
-    rightAction.value.dataset.triggered = 'true'
-  } else if (!atRight) {
-    rightAction.value.dataset.triggered = ''
+  isDragging = false
+  emit('horizontal-dragging', false)
+
+  const maxOffset = getMaxOffset()
+  const containerWidth = container.value.offsetWidth
+  let action = null
+
+  if (left.value >= maxOffset) {
+    action = 'complete'
+  } else if (left.value <= -maxOffset) {
+    action = 'delete'
+  }
+
+  if (action) {
+    const direction = action === 'complete' ? 1 : -1
+    left.value = direction * containerWidth
+
+    setTimeout(() => {
+      if (container.value) {
+        left.value = 0
+        if (leftAction.value) leftAction.value.style.opacity = '0.5'
+        if (rightAction.value) rightAction.value.style.opacity = '0.5'
+      }
+      emit(action)
+    }, 350)
+  } else {
+    left.value = 0
+    leftAction.value.style.opacity = '0.5'
+    rightAction.value.style.opacity = '0.5'
+  }
+
+  document.removeEventListener('mousemove', onDrag)
+  document.removeEventListener('mouseup', stopDrag)
+  document.removeEventListener('touchmove', onDragTouch)
+  document.removeEventListener('touchend', stopDragTouch)
+}
+
+const onDragTouch = (e) => {
+  if (isDragging) {
+    e.preventDefault()
+    handleSwipe(e.touches[0].clientX - startX)
+    return
+  }
+
+  const touch = e.touches[0]
+  const dx = touch.clientX - startX
+  const dy = touch.clientY - startY
+  const absDx = Math.abs(dx)
+  const absDy = Math.abs(dy)
+
+  if (absDx > 10 && absDx > absDy) {
+    e.preventDefault()
+    isDragging = true
+    emit('horizontal-dragging', true)
+    startLeft = left.value
+    handleSwipe(dx)
+  } else if (absDy > 10 && absDy >= absDx) {
+    document.removeEventListener('touchmove', onDragTouch)
+    document.removeEventListener('touchend', stopDragTouch)
   }
 }
 
 const stopDragTouch = () => {
-  if (!isDragging) return
-  isDragging = false
-
-  // Torna sempre a zero (posizione di partenza)
-  left.value = 0
-  leftAction.value.style.opacity = '0.5'
-  rightAction.value.style.opacity = '0.5'
-
-  document.removeEventListener('touchmove', onDragTouch)
-  document.removeEventListener('touchend', stopDragTouch)
+  releaseSwipe()
 }
 
 onBeforeUnmount(() => {
@@ -165,5 +189,12 @@ onBeforeUnmount(() => {
 <style scoped>
 .min-h-12 {
   min-height: 3rem; /* 48px */
+}
+
+.is-lifted {
+  transform: scale(1.03);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: all 0.15s ease;
+  z-index: 100;
 }
 </style>
