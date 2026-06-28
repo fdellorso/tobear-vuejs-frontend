@@ -37,6 +37,7 @@
               :drag-active="drag"
               @complete="handleComplete(element)"
               @delete="handleDelete(element)"
+              @edit="handleEdit(element, $event)"
               @horizontal-dragging="(v) => (isHorizontalDragging = v)"
             />
           </li>
@@ -53,6 +54,7 @@
               :title="task.title"
               @complete="handleComplete(task)"
               @delete="handleDelete(task)"
+              @edit="handleEdit(task, $event)"
               @horizontal-dragging="(v) => (isHorizontalDragging = v)"
             />
           </li>
@@ -325,15 +327,35 @@ const handleDelete = async (task) => {
   }
 }
 
+const isDesktop =
+  typeof window !== 'undefined' &&
+  window.matchMedia('(hover: hover) and (pointer: fine)').matches
+
+const handleEdit = async (task, newTitle) => {
+  const original = tasks.value.find((t) => t.id === task.id)
+  if (!original) return
+  original.title = newTitle
+  await saveTask({ ...original })
+
+  if (userStore.mode === 'guest') return
+
+  try {
+    await axiosClient.patch(`/v1/tasks/${task.id}`, { title: newTitle })
+  } catch (error) {
+    console.warn('Offline: modifica titolo salvata localmente', error.message)
+  }
+}
+
 const dragOptions = computed(() => ({
   animation: 200,
   group: 'description',
   disabled: false,
   ghostClass: 'ghost',
-  delay: 1200,
+  delay: 500,
   delayOnTouchOnly: true,
   touchStartThreshold: 10,
-  move: () => !isHorizontalDragging.value, // 👈 impedisce il drag durante swipe orizzontale
+  handle: isDesktop ? '.drag-handle' : undefined,
+  move: () => !isHorizontalDragging.value,
 }))
 
 const syncLocalTasks = async () => {

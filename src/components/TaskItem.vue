@@ -1,48 +1,139 @@
 <template>
-  <div ref="container" class="relative overflow-hidden min-h-12 rounded-lg shadow-md">
-    <i
-      ref="draggable"
-      class="absolute z-10 w-2/2 min-h-12 left-0 px-3 bg-gray-100 hover:bg-yellow-700 font-bold content-center cursor-grab select-none transition-all duration-300"
-      :style="{ left: `${left}px` }"
-      aria-hidden="true"
-      @touchstart="startDragTouch"
-      >{{ title }}</i
-    >
+  <div
+    ref="container"
+    class="relative overflow-hidden min-h-12 rounded-lg shadow-md group"
+  >
     <span
       ref="rightAction"
-      class="absolute w-1/2 min-h-12 left-0 px-3 bg-green-500 content-center text-start transition-all"
+      class="md:hidden absolute w-1/2 min-h-12 left-0 px-3 bg-green-500 content-center text-start transition-all"
       style="opacity: 0.5"
       >Completed</span
     >
     <span
       ref="leftAction"
-      class="absolute w-1/2 min-h-12 right-0 px-3 bg-red-500 content-center text-end transition-all"
+      class="md:hidden absolute w-1/2 min-h-12 right-0 px-3 bg-red-500 content-center text-end transition-all"
       style="opacity: 0.5"
       >Delete</span
     >
+
+    <div
+      ref="draggable"
+      class="flex items-center min-h-12 bg-gray-100 font-bold transition-all duration-300"
+      :class="
+        isDesktop
+          ? 'relative rounded-lg'
+          : 'absolute w-full left-0 z-10 cursor-grab select-none'
+      "
+      :style="isDesktop ? {} : { left: `${left}px` }"
+      @touchstart="startDragTouch"
+    >
+      <span
+        class="hidden md:flex drag-handle cursor-grab px-3 text-gray-400 hover:text-gray-600 select-none touch-none"
+        @mousedown.stop
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <circle cx="5" cy="4" r="1.5" />
+          <circle cx="11" cy="4" r="1.5" />
+          <circle cx="5" cy="8" r="1.5" />
+          <circle cx="11" cy="8" r="1.5" />
+          <circle cx="5" cy="12" r="1.5" />
+          <circle cx="11" cy="12" r="1.5" />
+        </svg>
+      </span>
+
+      <div class="flex-1 min-w-0" @click="handleTap">
+        <span v-if="!editing" class="block px-3 py-3 truncate">{{
+          title
+        }}</span>
+        <input
+          v-else
+          ref="editInput"
+          v-model="editTitle"
+          type="text"
+          class="block w-full px-3 py-3 bg-transparent border-0 outline-none ring-2 ring-indigo-300 rounded"
+          @blur="saveEdit"
+          @keydown.enter="$event.target.blur()"
+          @keydown.escape="cancelEdit"
+          @click.stop
+        />
+      </div>
+
+      <div
+        class="hidden md:flex items-center gap-1 pr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-150 ease-in-out"
+      >
+        <button
+          @click.stop="emit('complete')"
+          class="p-1.5 rounded-full text-green-600 hover:bg-green-100 transition-colors"
+          title="Completa"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </button>
+        <button
+          @click.stop="emit('delete')"
+          class="p-1.5 rounded-full text-red-500 hover:bg-red-100 transition-colors"
+          title="Elimina"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch, onBeforeUnmount } from 'vue'
+import { ref, watch, onBeforeUnmount, nextTick } from 'vue'
 
 const draggable = ref(null)
 const container = ref(null)
 const leftAction = ref(null)
 const rightAction = ref(null)
 const left = ref(0)
+const editing = ref(false)
+const editTitle = ref('')
+const editInput = ref(null)
 
 let startX = 0
 let startY = 0
 let startLeft = 0
+let startTime = 0
 let isDragging = false
+let wasSwiped = false
+let lastTouchTime = 0
 
 const props = defineProps({
   title: String,
   dragActive: Boolean,
 })
 
-const emit = defineEmits(['complete', 'delete', 'horizontal-dragging'])
+const emit = defineEmits(['complete', 'delete', 'horizontal-dragging', 'edit'])
+
+const isDesktop =
+  typeof window !== 'undefined' &&
+  window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
 watch(
   () => props.dragActive,
@@ -63,6 +154,9 @@ const startDragTouch = (e) => {
   startX = touch.clientX
   startY = touch.clientY
   startLeft = left.value
+  startTime = Date.now()
+  lastTouchTime = Date.now()
+  wasSwiped = false
 
   document.addEventListener('touchmove', onDragTouch, { passive: false })
   document.addEventListener('touchend', stopDragTouch)
@@ -83,10 +177,21 @@ const handleSwipe = (dx) => {
   rightAction.value.style.opacity = left.value >= 0 ? opacity : '0.5'
 }
 
-const releaseSwipe = () => {
+const releaseSwipe = (e) => {
   if (!isDragging) {
     document.removeEventListener('touchmove', onDragTouch)
     document.removeEventListener('touchend', stopDragTouch)
+
+    const touch = e?.changedTouches?.[0]
+    if (touch) {
+      const dx = touch.clientX - startX
+      const dy = touch.clientY - startY
+      const elapsed = Date.now() - startTime
+      if (elapsed < 300 && Math.abs(dx) < 10 && Math.abs(dy) < 10) {
+        beginEdit()
+        return
+      }
+    }
     return
   }
 
@@ -141,6 +246,7 @@ const onDragTouch = (e) => {
   if (absDx > 10 && absDx > absDy) {
     e.preventDefault()
     isDragging = true
+    wasSwiped = true
     emit('horizontal-dragging', true)
     startLeft = left.value
     handleSwipe(dx)
@@ -150,8 +256,34 @@ const onDragTouch = (e) => {
   }
 }
 
-const stopDragTouch = () => {
-  releaseSwipe()
+const stopDragTouch = (e) => {
+  releaseSwipe(e)
+}
+
+const beginEdit = () => {
+  editing.value = true
+  editTitle.value = props.title
+  nextTick(() => editInput.value?.focus())
+}
+
+const handleTap = () => {
+  if (wasSwiped || editing.value || props.dragActive) return
+  if (Date.now() - lastTouchTime < 1000) return
+  beginEdit()
+}
+
+const saveEdit = () => {
+  if (!editing.value) return
+  editing.value = false
+  const trimmed = editTitle.value.trim()
+  if (trimmed && trimmed !== props.title) {
+    emit('edit', trimmed)
+  }
+}
+
+const cancelEdit = () => {
+  if (!editing.value) return
+  editing.value = false
 }
 
 onBeforeUnmount(() => {

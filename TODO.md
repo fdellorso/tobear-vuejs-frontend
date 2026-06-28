@@ -1,14 +1,53 @@
 # TODO List
 
-- [ ] Homepage frontend completing
+## Core / MVP
 - [x] verify with email
 - [x] TaskItem frontend component (swipe left and right)
   - [x] completed api operation
   - [x] delete api operation
-- [ ] PWA service worker cache for offline and sync when online
-  - [ ] Modify Backend Authentication to serve Mobile App for offline authentication
+- [x] Riabilitare PWA + HTTPS (mkcert) in vite.config.js — ora gestito da Caddy + step-ca, mkcert non più usato
+- [x] Long-press per attivare drag su mobile (risolve conflitto swipe/drag verticale)
+- [x] Swipe a soglia percentuale (commit-on-release, non a metà gesto)
+- [x] Animazione completamento task → sezione "Completati" separata, con feedback haptic
+- [x] Modalità locale-only (guest) senza account — todo list usabile offline al 100%
+- [x] Migrazione task guest → account al login (creati / completati / cancellati)
+- [x] Homepage rimossa dal flusso principale — `/` ora redirige direttamente a `/todo`
+- [ ] **UX Desktop — azioni complete/delete via hover-reveal** (swipe mouse rimosso per conflitto strutturale con SortableJS, vedi handoff 2026-06-28)
+- [ ] Verificare/rifinire UX desktop generale (drag&drop ora funziona col mouse, ma manca ancora un modo di completare/eliminare senza touch)
+- [ ] PWA service worker cache per offline e sync quando online (verificare se già coperto dal pattern offline-first esistente o serve lavoro aggiuntivo sul SW stesso)
+- [ ] HomePage.vue — decidere se recuperarla come landing pubblica/marketing in futuro o lasciarla in pausa (codice esistente ma non referenziato da nessuna route)
+
+## Bug noti / debito tecnico
+- [ ] I 9 test pre-esistenti del frontend (markdown lint, PaginationElement variabile inutilizzata) — non bloccanti, da pulire quando si ha tempo
+- [ ] `ProfileIcon.vue` — non distingue "guest" da "non ancora deciso" nel testo del link (rimandato, vedi piano modalità guest)
+- [ ] Valutare se servono test E2E Playwright stabili in CI (oggi usati solo per debug manuale ad-hoc) — ricordare: vanno sempre puntati su `https://laravel.fritz.box:3000`, mai `localhost` (cert/CORS/cookie domain mismatch)
+- [ ] File temporanei di test `resize()` in `public/assets/` (backend) non vengono puliti tra run — monitorare crescita, eventualmente migrare a `Storage::fake()`
+
+## Decisioni architetturali in sospeso
+- [ ] Backend: valutare se/quando migrare da ownership check manuale (trait `OwnsModel`) a Laravel Policies — per ora deciso di NON migrare (vedi handoff), da rivalutare solo se arrivano ruoli/permessi complessi
+- [ ] Endpoint backend `POST /v1/tasks/batch-import` — non esiste, oggi la migrazione guest→sync usa N POST singole (sufficiente alla scala attuale, da rivedere se serve performance/atomicità)
+- [ ] Modify Backend Authentication to serve Mobile App for offline authentication
+
+## Pubblicazione MVP
+- [ ] Dominio pubblico reale + certificato Let's Encrypt (oggi solo `laravel.fritz.box` locale via step-ca, non accessibile da internet)
+- [ ] Verifica icona/manifest PWA per buona prima impressione all'installazione
+- [ ] Promozione su r/PWA (Reddit) per validare interesse prima di investire in tier paganti
+
+## toBear Sync [tier pagante]
+- [ ] Modello tier/subscription status sull'utente (free / sync / reel)
+- [ ] Integrazione Stripe (checkout, webhook stato abbonamento, rinnovi)
+- [ ] Infrastruttura: Hetzner Cloud (VPS Laravel + DB) — solo per utenti Sync/Reel, free resta locale-only
+
+## toBear Reel [tier pagante premium]
+- [ ] Definire modello dati: foto-task come entità nuova o estensione di Image/Task esistenti
+- [ ] UI: card fullscreen verticali, swipe su/giù cambia foto, swipe laterale completa/elimina, overlay note al tap
+- [ ] Decidere se le foto completate/non eliminate diventano "memorie" archiviate (collezione separata?)
+- [ ] Storage/CDN: Cloudflare R2
+- [ ] Naming interno sezioni (es. "collezione ricordi" vs "lista attiva")
+- [ ] Distinzione visiva foto-task attiva vs ricordo archiviato
+
+## Idee / premium futuro
 - [ ] end-to-end encryption of data [premium]
 - [ ] shared list [premium]
 - [ ] grocery list [premium]
 - [ ] sync with HAss, caldav and more [premium]
-- [x] Riabilitare PWA + HTTPS (mkcert) in vite.config.js — attualmente disabilitati per facilitare il debug del flusso auth in http puro
