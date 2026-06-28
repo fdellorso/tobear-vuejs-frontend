@@ -19,10 +19,7 @@ import { flatRoutes } from '@/router'
 
 const navigation = flatRoutes
   .filter(
-    (route) =>
-      !route.meta?.requiresAuth &&
-      !route.meta?.requiresAccount &&
-      route.meta?.showInNav,
+    (route) => !route.meta?.requiresAuth && !route.meta?.requiresAccount && route.meta?.showInNav,
   )
   .map((route) => ({ name: route.name, href: route.path }))
 

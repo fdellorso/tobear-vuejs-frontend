@@ -22,6 +22,7 @@ import { router, flatRoutes } from '@/router'
 import { useRoute } from 'vue-router'
 import useUserStore from '@/stores/user.js'
 import { ref, onMounted } from 'vue'
+import { migrateGuestTasks } from '@/composables/useGuestMigration'
 import SignInPage from '@/components/tailwindplus/SignInPage.vue'
 // import LoGo from '@/components/LoGo.vue'
 
@@ -35,21 +36,18 @@ const verifiedMessage = ref('')
 const userStore = useUserStore()
 const route = useRoute()
 
-function submitLogin(formData) {
+async function submitLogin(formData) {
   errorMessage.value = ''
 
-  withCSRF(() =>
-    axiosClient
-      .post('/login', formData)
-      .then(() => {
-        // localStorage.setItem('token', response.data.token)
-        userStore.clearSession()
-        router.push({ name: 'Todo' })
-      })
-      .catch((error) => {
-        errorMessage.value = error.response?.data?.message || 'An error occurred'
-      }),
-  )
+  try {
+    await withCSRF(() => axiosClient.post('/login', formData))
+    userStore.clearSession()
+    await userStore.fetchUser()
+    await migrateGuestTasks()
+    router.push({ name: 'Todo' })
+  } catch (error) {
+    errorMessage.value = error.response?.data?.message || 'An error occurred'
+  }
 }
 
 function submitForgot(forgotEmail) {

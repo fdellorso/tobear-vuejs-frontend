@@ -88,6 +88,7 @@ import useUserStore from '@/stores/user.js'
 import SkeletonTask from '@/components/SkeletonTask.vue'
 import TaskItem from '@/components/TaskItem.vue'
 import { useTaskDB } from '@/idb/useTaskDB'
+import { migrateGuestTasks } from '@/composables/useGuestMigration'
 
 const userStore = useUserStore()
 const mode = computed(() => userStore.mode)
@@ -384,6 +385,7 @@ const syncLocalTasks = async () => {
 onMounted(async () => {
   if (userStore.mode !== 'guest') {
     await syncLocalTasks()
+    await migrateGuestTasks()
 
     const pendingIds = await getPendingReorder()
     if (pendingIds) {
@@ -403,6 +405,7 @@ onMounted(async () => {
     window.addEventListener('online', () => {
       console.log('Torni online, sincronizzo...')
       syncLocalTasks()
+      migrateGuestTasks()
 
       getPendingReorder().then((pendingIds) => {
         if (pendingIds) {
