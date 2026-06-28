@@ -4,6 +4,20 @@
       <SkeletonTask v-for="n in 5" :key="n" class="mb-2" />
     </div>
     <div v-else>
+      <div
+        v-if="mode === 'guest'"
+        class="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm text-gray-600"
+      >
+        Usi toBear in modalità locale.
+        <RouterLink to="/login" class="font-medium text-indigo-600 hover:text-indigo-500"
+          >Accedi</RouterLink
+        >
+        o
+        <RouterLink to="/register" class="font-medium text-indigo-600 hover:text-indigo-500"
+          >Registrati</RouterLink
+        >
+        per sincronizzare i tuoi task tra dispositivi.
+      </div>
       <div v-if="tasks.length === 0" class="text-gray-500">Nessun task trovato.</div>
 
       <draggable
@@ -69,10 +83,14 @@
 import { axiosClient } from '@/axios'
 import { ref, onMounted, computed } from 'vue'
 import draggable from 'vuedraggable'
+import useUserStore from '@/stores/user.js'
 
 import SkeletonTask from '@/components/SkeletonTask.vue'
 import TaskItem from '@/components/TaskItem.vue'
 import { useTaskDB } from '@/idb/useTaskDB'
+
+const userStore = useUserStore()
+const mode = computed(() => userStore.mode)
 
 const tasks = ref([])
 const form = ref({
@@ -123,6 +141,13 @@ const {
 
 const fetchTasks = async () => {
   loading.value = true
+  if (userStore.mode === 'guest') {
+    const allTasks = await getAllTasks()
+    tasks.value = allTasks.filter((t) => !t.pendingDelete)
+    rebuildActiveTasks()
+    loading.value = false
+    return
+  }
   try {
     const response = await axiosClient.get('/v1/tasks')
     if (Array.isArray(response.data.data)) {
@@ -166,6 +191,21 @@ const fetchTasks = async () => {
 const createTask = async () => {
   if (!form.value.title.trim()) return
 
+  if (userStore.mode === 'guest') {
+    const localTask = {
+      id: `local-${Date.now()}`,
+      title: form.value.title,
+      description: form.value.description || '',
+      localOnly: true,
+    }
+    await saveTask(localTask)
+    form.value.title = ''
+    form.value.description = ''
+    tasks.value.push(localTask)
+    rebuildActiveTasks()
+    return
+  }
+
   const formData = new FormData()
   formData.append('title', form.value.title)
   formData.append('description', form.value.description || '')
@@ -181,7 +221,6 @@ const createTask = async () => {
     }
   } catch (error) {
     console.warn('Errore fetching da rete, creo task in IndexedDB', error.message)
-    // Offline: creo task locale con id unico timestamp e flag localOnly
     const localTask = {
       id: `local-${Date.now()}`,
       title: form.value.title,
@@ -209,14 +248,22 @@ const createTask = async () => {
 // }
 
 const reorderTasks = async () => {
+  activeTasks.value.forEach((task, index) => {
+    task.order = index
+  })
+
+  const completed = tasks.value.filter((t) => t.completed)
+  tasks.value = [...activeTasks.value, ...completed]
+
+  if (userStore.mode === 'guest') {
+    const plainTasks = tasks.value.map((task) => ({ ...task }))
+    await saveTasks(plainTasks)
+    tasks.value = await getAllTasks()
+    rebuildActiveTasks()
+    return
+  }
+
   try {
-    activeTasks.value.forEach((task, index) => {
-      task.order = index
-    })
-
-    const completed = tasks.value.filter((t) => t.completed)
-    tasks.value = [...activeTasks.value, ...completed]
-
     const ids = tasks.value.map((task) => task.id)
 
     await axiosClient.patch('/v1/tasks/reorder', { tasks: ids })
@@ -252,6 +299,7 @@ const handleComplete = async (task) => {
   task.pendingComplete = true
   await saveTask({ ...task })
   rebuildActiveTasks()
+  if (userStore.mode === 'guest') return
   try {
     await axiosClient.patch(`/v1/tasks/${task.id}`, { completed: task.completed })
     task.pendingComplete = false
@@ -267,6 +315,7 @@ const handleDelete = async (task) => {
   rebuildActiveTasks()
   task.pendingDelete = true
   await saveTask({ ...task })
+  if (userStore.mode === 'guest') return
   try {
     await axiosClient.delete(`/v1/tasks/${task.id}`)
     await deleteTask(task.id)
@@ -287,6 +336,7 @@ const dragOptions = computed(() => ({
 }))
 
 const syncLocalTasks = async () => {
+  if (userStore.mode === 'guest') return
   const allTasks = await getAllTasks()
 
   // Sincronizza eliminazioni in sospeso
@@ -332,40 +382,43 @@ const syncLocalTasks = async () => {
 }
 
 onMounted(async () => {
-  await syncLocalTasks()
+  if (userStore.mode !== 'guest') {
+    await syncLocalTasks()
 
-  // Sincronizza riordino pendente prima di fetchTasks (evita che clearTasks lo cancelli)
-  const pendingIds = await getPendingReorder()
-  if (pendingIds) {
-    try {
-      await axiosClient.patch('/v1/tasks/reorder', { tasks: pendingIds })
-      await clearPendingReorder()
-      console.log('Riordino pendente sincronizzato')
-    } catch (e) {
-      console.warn('Riordino pendente non sincronizzato (offline):', e.message)
+    const pendingIds = await getPendingReorder()
+    if (pendingIds) {
+      try {
+        await axiosClient.patch('/v1/tasks/reorder', { tasks: pendingIds })
+        await clearPendingReorder()
+        console.log('Riordino pendente sincronizzato')
+      } catch (e) {
+        console.warn('Riordino pendente non sincronizzato (offline):', e.message)
+      }
     }
   }
 
   await fetchTasks()
 
-  window.addEventListener('online', () => {
-    console.log('Torni online, sincronizzo...')
-    syncLocalTasks()
+  if (userStore.mode !== 'guest') {
+    window.addEventListener('online', () => {
+      console.log('Torni online, sincronizzo...')
+      syncLocalTasks()
 
-    getPendingReorder().then((pendingIds) => {
-      if (pendingIds) {
-        axiosClient
-          .patch('/v1/tasks/reorder', { tasks: pendingIds })
-          .then(async () => {
-            await clearPendingReorder()
-            console.log('Riordino offline sincronizzato con successo')
-          })
-          .catch((e) => {
-            console.error('Errore sync riordino:', e.message)
-          })
-      }
+      getPendingReorder().then((pendingIds) => {
+        if (pendingIds) {
+          axiosClient
+            .patch('/v1/tasks/reorder', { tasks: pendingIds })
+            .then(async () => {
+              await clearPendingReorder()
+              console.log('Riordino offline sincronizzato con successo')
+            })
+            .catch((e) => {
+              console.error('Errore sync riordino:', e.message)
+            })
+        }
+      })
     })
-  })
+  }
 })
 </script>
 

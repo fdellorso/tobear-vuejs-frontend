@@ -43,7 +43,7 @@ function submitLogin(formData) {
       .post('/login', formData)
       .then(() => {
         // localStorage.setItem('token', response.data.token)
-        userStore.resetUser()
+        userStore.clearSession()
         router.push({ name: 'Todo' })
       })
       .catch((error) => {

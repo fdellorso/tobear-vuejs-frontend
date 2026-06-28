@@ -45,6 +45,7 @@ const tasksLoading = ref(false)
 const tasksError = ref(null)
 
 const fetchTasks = async () => {
+  if (userStore.mode !== 'authenticated') return
   tasksLoading.value = true
   tasksError.value = null
   axiosClient

@@ -33,10 +33,18 @@ const userStore = useUserStore()
 const user = computed(() => userStore.user)
 
 const navigation = flatRoutes
-  .filter((route) => route.meta?.requiresAuth && route.meta?.showInNav)
+  .filter(
+    (route) =>
+      (route.meta?.requiresAuth || route.meta?.requiresAccount) &&
+      route.meta?.showInNav,
+  )
   .map((route) => ({ name: route.name, href: route.path }))
 
 const userNavigation = [
+  {
+    name: 'Todo',
+    href: '/todo',
+  },
   {
     name: 'Your Profile',
     href: flatRoutes.find((route) => route.name === 'User')?.path,

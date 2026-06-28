@@ -3,6 +3,7 @@ import useUserStore from '@/stores/user.js'
 
 import DefaultLayout from '@/views/DefaultLayout.vue'
 import GuestLayout from '@/views/GuestLayout.vue'
+import AppLayout from '@/views/AppLayout.vue'
 
 import HomePage from '@/pages/HomePage.vue'
 import LoginPage from '@/pages/LoginPage.vue'
@@ -15,10 +16,6 @@ import ContactPage from '@/pages/ContactPage.vue'
 import TodoPage from '@/pages/TodoPage.vue'
 import UserProfile from '@/pages/UserProfile.vue'
 import UserSettings from '@/pages/UserSettings.vue'
-// import MyImages from '@/pages/MyImages.vue'
-// import UpLoad from '@/pages/UpLoad.vue'
-// import MyAlbums from '@/pages/MyAlbums.vue'
-// import ReSize from '@/pages/ReSize.vue'
 
 import NotFound from '@/pages/NotFound.vue'
 
@@ -75,30 +72,31 @@ const routes = [
   {
     path: '/dashboard',
     component: DefaultLayout,
-    meta: { requiresAuth: true },
     children: [
-      {
-        path: '/todo',
-        name: 'Todo',
-        meta: { requiresAuth: true, showInNav: true },
-        component: TodoPage,
-      },
       {
         path: '/user',
         name: 'User',
-        meta: { requiresAuth: true, showInNav: false },
+        meta: { requiresAccount: true, showInNav: false },
         component: UserProfile,
       },
       {
         path: '/setting',
         name: 'Setting',
-        meta: { requiresAuth: true, showInNav: false },
+        meta: { requiresAccount: true, showInNav: false },
         component: UserSettings,
       },
-      // { path: '/myimages', name: 'MyImages', component: MyImages },
-      // { path: '/upload', name: 'Upload', component: UpLoad },
-      // { path: '/myalbums', name: 'MyAlbums', component: MyAlbums },
-      // { path: '/resize', name: 'Resize', component: ReSize },
+    ],
+  },
+  {
+    path: '/todo',
+    component: AppLayout,
+    children: [
+      {
+        path: '',
+        name: 'Todo',
+        meta: { showInNav: true },
+        component: TodoPage,
+      },
     ],
   },
   {
@@ -118,27 +116,30 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
 
-  // Se l'utente non è ancora caricato, proviamo a caricarlo
-  if (!userStore.isUserLoaded) {
+  // Ripristina modalità salvata da localStorage
+  if (userStore.mode === null) {
+    userStore.loadMode()
+  }
+
+  // Tenta fetchUser solo se non siamo già in modalità guest esplicita
+  if (userStore.mode !== 'guest' && !userStore.isUserLoaded) {
     try {
       await userStore.fetchUser()
     } catch {
-      // Ignora errori, utente rimane null
+      // Se è il primo avvio (mode ancora null), assume guest
+      if (userStore.mode === null) {
+        userStore.setMode('guest')
+      }
     }
   }
 
-  const isLoggedIn = !!userStore.user
-
-  if (to.meta.requiresAuth && !isLoggedIn) {
-    // Se non autenticato e prova ad accedere a pagina protetta
-    return next({ name: 'Login' })
+  // Redirect utenti autenticati lontano da login/register
+  if (to.meta.guest && userStore.mode === 'authenticated') {
+    return next({ name: 'Todo' })
   }
 
-  if (to.meta.guest && isLoggedIn) {
-    // Se utente loggato e tenta di accedere a login o register
-    return next({ name: 'Todo' }) // o dashboard a tua scelta
-  }
-
+  // requiresAuth / requiresAccount non sono più bloccanti —
+  // le pagine mostrano un fallback interno se l'utente non è autenticato
   next()
 })
 
