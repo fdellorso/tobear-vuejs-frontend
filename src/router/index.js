@@ -5,7 +5,6 @@ import DefaultLayout from '@/views/DefaultLayout.vue'
 import GuestLayout from '@/views/GuestLayout.vue'
 import AppLayout from '@/views/AppLayout.vue'
 
-import HomePage from '@/pages/HomePage.vue'
 import LoginPage from '@/pages/LoginPage.vue'
 import RegisterPage from '@/pages/RegisterPage.vue'
 import VerifyEmail from '@/pages/VerifyEmail.vue'
@@ -22,15 +21,13 @@ import NotFound from '@/pages/NotFound.vue'
 const routes = [
   {
     path: '/',
+    redirect: '/todo',
+  },
+  {
+    path: '/',
     component: GuestLayout,
     meta: { requiresAuth: false },
     children: [
-      {
-        path: '/',
-        name: 'Home',
-        meta: { requiresAuth: false, showInNav: false },
-        component: HomePage,
-      },
       {
         path: '/login',
         name: 'Login',

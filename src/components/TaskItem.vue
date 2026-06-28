@@ -5,7 +5,6 @@
       class="absolute z-10 w-2/2 min-h-12 left-0 px-3 bg-gray-100 hover:bg-yellow-700 font-bold content-center cursor-grab select-none transition-all duration-300"
       :style="{ left: `${left}px` }"
       aria-hidden="true"
-      @mousedown="startDrag"
       @touchstart="startDragTouch"
       >{{ title }}</i
     >
@@ -59,25 +58,6 @@ watch(
   },
 )
 
-const startDrag = (e) => {
-  isDragging = true
-  emit('horizontal-dragging', true)
-  startX = e.clientX
-  startLeft = left.value
-
-  document.addEventListener('mousemove', onDrag)
-  document.addEventListener('mouseup', stopDrag)
-}
-
-const onDrag = (e) => {
-  if (!isDragging) return
-  handleSwipe(e.clientX - startX)
-}
-
-const stopDrag = () => {
-  releaseSwipe()
-}
-
 const startDragTouch = (e) => {
   const touch = e.touches[0]
   startX = touch.clientX
@@ -105,8 +85,6 @@ const handleSwipe = (dx) => {
 
 const releaseSwipe = () => {
   if (!isDragging) {
-    document.removeEventListener('mousemove', onDrag)
-    document.removeEventListener('mouseup', stopDrag)
     document.removeEventListener('touchmove', onDragTouch)
     document.removeEventListener('touchend', stopDragTouch)
     return
@@ -143,8 +121,6 @@ const releaseSwipe = () => {
     rightAction.value.style.opacity = '0.5'
   }
 
-  document.removeEventListener('mousemove', onDrag)
-  document.removeEventListener('mouseup', stopDrag)
   document.removeEventListener('touchmove', onDragTouch)
   document.removeEventListener('touchend', stopDragTouch)
 }
@@ -179,8 +155,6 @@ const stopDragTouch = () => {
 }
 
 onBeforeUnmount(() => {
-  document.removeEventListener('mousemove', onDrag)
-  document.removeEventListener('mouseup', stopDrag)
   document.removeEventListener('touchmove', onDragTouch)
   document.removeEventListener('touchend', stopDragTouch)
 })
