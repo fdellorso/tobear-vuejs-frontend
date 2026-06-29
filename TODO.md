@@ -14,7 +14,7 @@
 - [x] Homepage rimossa dal flusso principale — `/` ora redirige direttamente a `/todo`
 - [ ] **UX Desktop — azioni complete/delete via hover-reveal** (swipe mouse rimosso per conflitto strutturale con SortableJS, vedi handoff 2026-06-28)
 - [ ] Verificare/rifinire UX desktop generale (drag&drop ora funziona col mouse, ma manca ancora un modo di completare/eliminare senza touch)
-- [ ] PWA service worker cache per offline e sync quando online (verificare se già coperto dal pattern offline-first esistente o serve lavoro aggiuntivo sul SW stesso)
+- [x] PWA service worker cache per offline — navigateFallback corretto (era `/offline.html`, ora `/index.html`), NavigationRoute serve app shell per tutte le route SPA. Sync online (IndexedDB + event `online`) già funzionante.
 - [ ] HomePage.vue — decidere se recuperarla come landing pubblica/marketing in futuro o lasciarla in pausa (codice esistente ma non referenziato da nessuna route)
 
 ## Bug noti / debito tecnico
@@ -30,7 +30,7 @@
 
 ## Pubblicazione MVP
 - [ ] Dominio pubblico reale + certificato Let's Encrypt (oggi solo `laravel.fritz.box` locale via step-ca, non accessibile da internet)
-- [ ] Verifica icona/manifest PWA per buona prima impressione all'installazione
+- [x] Verifica icona/manifest PWA — manifest pulito (rimossi scaffolding, `prefer_related_applications`, placeholder Play Store), `apple-touch-icon` corretto, `start_url`/`scope` relativi
 - [ ] Promozione su r/PWA (Reddit) per validare interesse prima di investire in tier paganti
 
 ## toBear Sync [tier pagante]

@@ -30,7 +30,7 @@ export default ({ mode }) => {
           enabled: false,
         },
         workbox: {
-          navigateFallback: '/offline.html',
+          navigateFallback: '/index.html',
           runtimeCaching: [
             {
               urlPattern: ({ url }) => {
