@@ -1,72 +1,50 @@
 <template>
-  <FeatureSection :features="features">
-    <template v-slot:title>Technologies Used in ToBear</template>
-    <template v-slot:content>
-      ToBear was built with modern web technologies focused on performance, maintainability, and
-      developer productivity. The goal was to create a responsive and intuitive user experience
-      while keeping the codebase clean and scalable. Here's a quick overview of the key technologies
-      behind the app:
-    </template>
-  </FeatureSection>
+  <div class="bg-white px-6 py-24 sm:py-32 lg:px-8">
+    <div class="mx-auto max-w-3xl text-base/7 text-gray-700">
+      <h1 class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
+        Perché toBear
+      </h1>
+      <div class="mt-10 max-w-2xl space-y-6">
+        <p>
+          toBear nasce da un'idea semplice: le todo-list dovrebbero essere veloci, dirette, senza
+          attriti.
+        </p>
+        <p>
+          È ispirata a
+          <a
+            href="https://www.realmacsoftware.com/clear/"
+            class="text-blue-800 underline underline-offset-2 hover:text-blue-700"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Clear</a
+          >, l'app per iOS che per anni ha definito cosa significa gestire i propri task con i gesti
+          — uno swipe per completare, uno per eliminare, un tocco lungo per riordinare. Clear è
+          rimasta ferma nel tempo: solo iOS, mai aggiornata. toBear vuole essere il suo erede
+          multipiattaforma: stessa filosofia gestuale su mobile, una sua identità su desktop.
+        </p>
+        <p>
+          Locale per scelta, non per limite. toBear funziona completamente offline, senza richiedere
+          un account. I tuoi task vivono sul tuo dispositivo. Se un giorno vorrai sincronizzarli tra
+          più dispositivi, potrai creare un account in qualsiasi momento — i task che hai già creato
+          verranno portati con te.
+        </p>
+        <p>
+          Open source. Il codice di toBear è pubblico su
+          <a href="#" class="text-blue-800 underline underline-offset-2 hover:text-blue-700"
+            >GitHub</a
+          >
+          <!-- TODO: sostituire href con URL del repository pubblico -->
+          — puoi guardare come è fatto, segnalare un problema, o contribuire.
+        </p>
+        <p>
+          toBear è un progetto personale, costruito e mantenuto da una persona sola. Se ti piace,
+          fammelo sapere.
+        </p>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script setup>
-import FeatureSection from '@/components/tailwindplus/FeatureSection.vue'
-
-const features = [
-  {
-    name: 'Vue 3 + Composition API',
-    description: 'For building reactive user interfaces using a clean and modular structure.',
-    icon: 'PuzzlePiece',
-  },
-  {
-    name: 'Vite',
-    description:
-      'A fast development server and build tool that significantly speeds up development.',
-    icon: 'Bolt',
-  },
-  {
-    name: 'Tailwind CSS',
-    description: 'For utility-first styling with full design flexibility and responsive support.',
-    icon: 'PaintBrush',
-  },
-  {
-    name: 'VueDraggable (vuedraggable@next)',
-    description: 'To provide smooth drag-and-drop functionality for task reordering.',
-    icon: 'ArrowsUpDown',
-  },
-  {
-    name: 'Axios',
-    description: 'To handle HTTP requests to the backend API.',
-    icon: 'GlobeAlt',
-  },
-  {
-    name: 'Laravel 12 (API)',
-    description:
-      'A powerful PHP backend used to manage tasks, user authentication, and data persistence.',
-    icon: 'Cube',
-  },
-  {
-    name: 'MySQL',
-    description: 'As the relational database for storing users, tasks, and ordering information.',
-    icon: 'CircleStack',
-  },
-  {
-    name: 'Cookie-based Authentication (Laravel Sanctum)',
-    description: 'For secure SPA authentication using session cookies and XSRF protection.',
-    icon: 'LockClosed',
-  },
-  {
-    name: 'PWA',
-    description: 'future',
-    icon: 'LockClosed',
-  },
-  {
-    name: 'Next',
-    description: '.Future',
-    icon: 'LockClosed',
-  },
-]
-</script>
+<script setup></script>
 
 <style scoped></style>
