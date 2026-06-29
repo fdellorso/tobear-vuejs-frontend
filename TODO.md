@@ -20,7 +20,7 @@
 ## Bug noti / debito tecnico
 - [ ] I 9 test pre-esistenti del frontend (markdown lint, PaginationElement variabile inutilizzata) — non bloccanti, da pulire quando si ha tempo
 - [ ] `ProfileIcon.vue` — non distingue "guest" da "non ancora deciso" nel testo del link (rimandato, vedi piano modalità guest)
-- [ ] Valutare se servono test E2E Playwright stabili in CI (oggi usati solo per debug manuale ad-hoc) — ricordare: vanno sempre puntati su `https://laravel.fritz.box:3000`, mai `localhost` (cert/CORS/cookie domain mismatch)
+- [x] Primo test E2E Playwright stabile: `e2e/spa-navigation.spec.js` — verifica che ogni navigazione interna sia client-side (Vue Router) senza full-page reload. Config in `playwright.config.js`, script `npm run test:e2e`. Usare `baseURL: 'https://laravel.fritz.box:3000'` in sviluppo (cert/CORS), mai `localhost`.
 - [ ] File temporanei di test `resize()` in `public/assets/` (backend) non vengono puliti tra run — monitorare crescita, eventualmente migrare a `Storage::fake()`
 
 ## Decisioni architetturali in sospeso

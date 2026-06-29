@@ -49,7 +49,7 @@ const routes = [
       {
         path: '/premium',
         name: 'Premium',
-        meta: { requiresAuth: false, showInNav: true },
+        meta: { requiresAuth: false, showInNav: false },
         component: PremiumPage,
       },
       {

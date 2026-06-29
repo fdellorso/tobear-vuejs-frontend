@@ -57,6 +57,8 @@ npm run dev       # vite dev server, host 0.0.0.0:3000, https (mkcert)
 npm run build
 npm run lint
 npm run format
+npm run test      # vitest (unitari)
+npm run test:e2e  # playwright test (E2E)
 ```
 
 ## Cosa NON fare
@@ -77,6 +79,13 @@ npm run format
 - Stai estendendo o riusando UI già esistente (modali, form, dropdown coperti da `components/tailwindplus/`) → `tailwind-styling`, riusa quello che c'è.
 - Stai progettando qualcosa di nuovo e specifico per toBear, dove l'identità visiva conta (es. il componente TaskItem con swipe, l'onboarding, la home page) → `frontend-design`, per fare scelte estetiche intenzionali coerenti con lo stile Clear, non il default scaffolded di Tailwind Plus.
 - In caso di dubbio, parti da `tailwind-styling` per la struttura/i componenti di base, poi applica `frontend-design` per le decisioni di stile fine (colori, font, spacing) invece di accettare i default.
+
+## Test E2E (Playwright)
+
+- `playwright.config.js` → `testDir: './e2e'`, `baseURL: 'https://laravel.fritz.box:3000'`, `ignoreHTTPSErrors: true`.
+- I test E2E sono **stabili e permanenti**, non script ad-hoc.
+- Eseguire con `npm run test:e2e` (dev server già running su `:3000`).
+- Primo test: `e2e/spa-navigation.spec.js` — verifica che non ci siano full-page reload durante navigazione interna (sentinella `window.__appLoaded`). Se un `<a href>` invece di `RouterLink` si intrufolasse in futuro, questo test lo rileva.
 
 ## Fine sessione
 
