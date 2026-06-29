@@ -62,7 +62,7 @@
       </template>
 
       <div class="py-2">
-        <form>
+        <form @submit.prevent="createTask">
           <div class="flex flex-col">
             <input
               v-model="form.title"
@@ -192,47 +192,45 @@ const fetchTasks = async () => {
 // }
 
 const createTask = async () => {
-  if (!form.value.title.trim()) return
+  const title = form.value.title.trim()
+  const description = form.value.description || ''
+  if (!title) return
+  form.value.title = ''
+  form.value.description = ''
 
   if (userStore.mode === 'guest') {
     const localTask = {
       id: `local-${Date.now()}`,
-      title: form.value.title,
-      description: form.value.description || '',
+      title,
+      description,
       localOnly: true,
     }
     await saveTask(localTask)
-    form.value.title = ''
-    form.value.description = ''
     tasks.value.push(localTask)
     rebuildActiveTasks()
     return
   }
 
   const formData = new FormData()
-  formData.append('title', form.value.title)
-  formData.append('description', form.value.description || '')
+  formData.append('title', title)
+  formData.append('description', description)
 
   try {
     const response = await axiosClient.post('/v1/tasks', formData)
     if (response.status === 201 || response.status === 200) {
       const createdTask = response.data.data
       await saveTask(createdTask)
-      form.value.title = ''
-      form.value.description = ''
       await fetchTasks()
     }
   } catch (error) {
     console.warn('Errore fetching da rete, creo task in IndexedDB', error.message)
     const localTask = {
       id: `local-${Date.now()}`,
-      title: form.value.title,
-      description: form.value.description || '',
+      title,
+      description,
       localOnly: true,
     }
     await saveTask(localTask)
-    form.value.title = ''
-    form.value.description = ''
     tasks.value.push(localTask)
     rebuildActiveTasks()
   }
