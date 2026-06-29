@@ -328,8 +328,7 @@ const handleDelete = async (task) => {
 }
 
 const isDesktop =
-  typeof window !== 'undefined' &&
-  window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
 const handleEdit = async (task, newTitle) => {
   const original = tasks.value.find((t) => t.id === task.id)

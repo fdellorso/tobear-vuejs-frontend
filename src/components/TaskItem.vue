@@ -1,8 +1,5 @@
 <template>
-  <div
-    ref="container"
-    class="relative overflow-hidden min-h-12 rounded-lg shadow-md group"
-  >
+  <div ref="container" class="relative overflow-hidden min-h-12 rounded-lg shadow-md group">
     <span
       ref="rightAction"
       class="md:hidden absolute w-1/2 min-h-12 left-0 px-3 bg-green-500 content-center text-start transition-all"
@@ -20,9 +17,7 @@
       ref="draggable"
       class="flex items-center min-h-12 bg-gray-100 font-bold transition-all duration-300"
       :class="
-        isDesktop
-          ? 'relative rounded-lg'
-          : 'absolute w-full left-0 z-10 cursor-grab select-none'
+        isDesktop ? 'relative rounded-lg' : 'absolute w-full left-0 z-10 cursor-grab select-none'
       "
       :style="isDesktop ? {} : { left: `${left}px` }"
       @touchstart="startDragTouch"
@@ -42,9 +37,7 @@
       </span>
 
       <div class="flex-1 min-w-0" @click="handleTap">
-        <span v-if="!editing" class="block px-3 py-3 truncate">{{
-          title
-        }}</span>
+        <span v-if="!editing" class="block px-3 py-3 truncate">{{ title }}</span>
         <input
           v-else
           ref="editInput"
@@ -66,12 +59,7 @@
           class="p-1.5 rounded-full text-green-600 hover:bg-green-100 transition-colors"
           title="Completa"
         >
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -85,12 +73,7 @@
           class="p-1.5 rounded-full text-red-500 hover:bg-red-100 transition-colors"
           title="Elimina"
         >
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -132,8 +115,7 @@ const props = defineProps({
 const emit = defineEmits(['complete', 'delete', 'horizontal-dragging', 'edit'])
 
 const isDesktop =
-  typeof window !== 'undefined' &&
-  window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
 watch(
   () => props.dragActive,
