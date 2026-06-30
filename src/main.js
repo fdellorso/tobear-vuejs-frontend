@@ -13,14 +13,32 @@ const pinia = createPinia()
 
 app.use(router)
 app.use(pinia)
-app.use(VueMatomo, {
-  // Configure your matomo server and site by providing
-  host: 'https://laravel.fritz.box:8080',
-  siteId: 1,
-})
+
+function initMatomo(appInstance) {
+  const host = import.meta.env.VITE_MATOMO_HOST
+  const siteId = import.meta.env.VITE_MATOMO_SITE_ID
+  if (!host || !siteId) {
+    return
+  }
+  appInstance.use(VueMatomo, {
+    host,
+    siteId,
+    router,
+  })
+}
+
+const consent = localStorage.getItem('matomo_consent')
+if (consent === 'accepted') {
+  initMatomo(app)
+}
+
 app.mount('#app')
 
-window._paq.push(['trackPageView']) //To track pageview
+window.__initMatomo = function () {
+  if (localStorage.getItem('matomo_consent') === 'accepted') {
+    initMatomo(app)
+  }
+}
 
 // Blocco orientamento per PWA installata (solo standalone, non browser normale)
 if (
