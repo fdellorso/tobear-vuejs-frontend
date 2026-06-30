@@ -34,43 +34,17 @@
 import DescriptionList from '@/components/tailwindplus/DescriptionList.vue'
 import StatsSection from '@/components/tailwindplus/StatsSection.vue'
 import useUserStore from '@/stores/user.js'
-import { axiosClient } from '@/axios'
-import { ref, computed, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useTaskStats } from '@/composables/useTaskStats'
 
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
 
-const taskCount = ref(0)
-const tasksLoading = ref(false)
-const tasksError = ref(null)
-
-const fetchTasks = async () => {
-  if (userStore.mode !== 'authenticated') return
-  tasksLoading.value = true
-  tasksError.value = null
-  axiosClient
-    .get('/v1/tasks')
-    .then((response) => {
-      if (Array.isArray(response.data.data)) {
-        taskCount.value = response.data.data.length
-      } else {
-        console.warn('Dati ricevuti in formato inatteso:', response.data)
-        taskCount.value = 0
-      }
-    })
-    .catch((error) => {
-      console.error('Errore nel caricamento dei task:', error)
-      taskCount.value = 0
-      tasksError.value = 'Impossibile caricare il conteggio dei task'
-    })
-    .finally(() => {
-      tasksLoading.value = false
-    })
-}
+const { taskCount, loading: tasksLoading, error: tasksError, fetchStats } = useTaskStats()
 
 const stats = [{ id: 1, name: 'Count of task created', value: taskCount }]
 
-onMounted(fetchTasks)
+onMounted(fetchStats)
 </script>
 
 <style scoped></style>

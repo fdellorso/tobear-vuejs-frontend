@@ -1,5 +1,5 @@
 <template>
-  <Popover v-slot="{ close }" class="fixed bottom-6 left-6 z-50 md:hidden">
+  <Popover v-slot="{ close }" class="fixed bottom-6 left-6 z-50 xl:hidden">
     <PopoverButton
       class="flex items-center justify-center rounded-full bg-gray-800 p-1 shadow-lg ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-amber-500"
     >
