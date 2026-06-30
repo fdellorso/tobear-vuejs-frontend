@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-full">
-    <header class="bg-gray-800">
+    <header class="hidden md:block bg-gray-800">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
           <div class="flex items-center">
@@ -49,14 +49,16 @@
         </div>
       </div>
     </header>
-    <main>
+    <main class="pb-20 md:pb-0">
       <RouterView />
     </main>
+    <MobileNavFab />
   </div>
 </template>
 
 <script setup>
 import LogoIcon from '@/components/LogoIcon.vue'
+import MobileNavFab from '@/components/MobileNavFab.vue'
 import useUserStore from '@/stores/user.js'
 import { router } from '@/router'
 import { axiosClient } from '@/axios'

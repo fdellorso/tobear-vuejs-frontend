@@ -6,7 +6,7 @@
     <div v-else>
       <div
         v-if="mode === 'guest'"
-        class="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm text-gray-600"
+        class="hidden md:block mb-4 rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm text-gray-600"
       >
         Usi toBear in modalità locale.
         <RouterLink to="/login" class="font-medium text-indigo-600 hover:text-indigo-500"
