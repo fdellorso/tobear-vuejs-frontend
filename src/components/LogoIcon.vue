@@ -1,7 +1,10 @@
 <template>
   <div
-    class="mx-auto max-w-max rounded-full shadow-xl overflow-hidden"
-    :class="noBorder ? '' : 'border-2 border-amber-900'"
+    :class="
+      noBorder
+        ? 'mx-auto max-w-max rounded-full overflow-hidden'
+        : 'mx-auto max-w-max rounded-full shadow-xl overflow-hidden border-2 border-amber-900'
+    "
   >
     <img :class="customClass" class="w-auto" src="/img/icons/icon-128x128.png" alt="toBear" />
   </div>

@@ -30,7 +30,7 @@
             autocomplete="username"
             type="username"
             required
-            value="user.mail"
+            :value="user?.email"
             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
           />
         </div>

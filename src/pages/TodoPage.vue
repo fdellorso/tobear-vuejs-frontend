@@ -4,20 +4,6 @@
       <SkeletonTask v-for="n in 5" :key="n" class="mb-2" />
     </div>
     <div v-else>
-      <div
-        v-if="mode === 'guest'"
-        class="hidden md:block mb-4 rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm text-gray-600"
-      >
-        Usi toBear in modalità locale.
-        <RouterLink to="/login" class="font-medium text-indigo-600 hover:text-indigo-500"
-          >Accedi</RouterLink
-        >
-        o
-        <RouterLink to="/register" class="font-medium text-indigo-600 hover:text-indigo-500"
-          >Registrati</RouterLink
-        >
-        per sincronizzare i tuoi task tra dispositivi.
-      </div>
       <div v-if="tasks.length === 0" class="text-gray-500">Nessun task trovato.</div>
 
       <draggable
@@ -93,8 +79,6 @@ import { useTaskDB } from '@/idb/useTaskDB'
 import { migrateGuestTasks } from '@/composables/useGuestMigration'
 
 const userStore = useUserStore()
-const mode = computed(() => userStore.mode)
-
 const tasks = ref([])
 const form = ref({
   title: '',
@@ -121,26 +105,6 @@ const {
   getPendingReorder,
   clearPendingReorder,
 } = useTaskDB()
-
-// const fetchTasks = async () => {
-//   axiosClient
-//     .get('/v1/tasks')
-//     .then((response) => {
-//       // tasks.value = response.data.data
-
-//       if (Array.isArray(response.data.data)) {
-//         tasks.value = response.data.data
-//       } else {
-//         console.warn('Dati ricevuti in formato inatteso:', response.data)
-//       }
-//     })
-//     .catch((error) => {
-//       console.error('Errore nel caricamento dei task:', error)
-//     })
-//     .finally(() => {
-//       loading.value = false
-//     })
-// }
 
 const fetchTasks = async () => {
   loading.value = true
@@ -171,25 +135,6 @@ const fetchTasks = async () => {
     loading.value = false
   }
 }
-
-// const createTask = async () => {
-//   const formData = new FormData()
-//   formData.append('title', form.value.title)
-//   formData.append('description', form.value.description)
-
-//   axiosClient.post('/v1/tasks', formData).then(async (response) => {
-//     const data = await response.data
-
-//     // Se il backend ha risposto con 201 o 200
-//     if (response.status === 201 || response.status === 200) {
-//       form.value.title = ''
-//       form.value.description = ''
-//       await fetchTasks()
-//     } else {
-//       console.error('Errore nella risposta:', data)
-//     }
-//   })
-// }
 
 const createTask = async () => {
   const title = form.value.title.trim()
@@ -235,18 +180,6 @@ const createTask = async () => {
     rebuildActiveTasks()
   }
 }
-
-// const reorderTasks = async () => {
-//   const ids = tasks.value.map((task) => task.id)
-//   try {
-//     await axiosClient.patch('/v1/tasks/reorder', {
-//       tasks: ids,
-//     })
-//     console.log('Ordine aggiornato con successo.')
-//   } catch (error) {
-//     console.error('Errore durante il riordinamento:', error.response?.data || error)
-//   }
-// }
 
 const reorderTasks = async () => {
   activeTasks.value.forEach((task, index) => {

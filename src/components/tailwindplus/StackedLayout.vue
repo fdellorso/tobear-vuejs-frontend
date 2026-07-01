@@ -58,7 +58,12 @@
                     <span class="absolute -inset-1.5" />
                     <span class="sr-only">Open user menu</span>
                     <slot name="profile">
-                      <img class="size-8 rounded-full" :src="user.imageUrl" alt="" />
+                      <img
+                        v-if="user.imageUrl"
+                        class="size-8 rounded-full"
+                        :src="user.imageUrl"
+                        alt=""
+                      />
                     </slot>
                   </MenuButton>
                 </div>
@@ -139,7 +144,12 @@
           <div class="flex items-center px-5">
             <div class="shrink-0">
               <slot name="profile">
-                <img class="size-10 rounded-full" :src="user.imageUrl" alt="" />
+                <img
+                  v-if="user.imageUrl"
+                  class="size-10 rounded-full"
+                  :src="user.imageUrl"
+                  alt=""
+                />
               </slot>
             </div>
             <div class="ml-3">

@@ -1,7 +1,7 @@
 <template>
   <Popover v-slot="{ close }" class="fixed bottom-6 left-6 z-50 xl:hidden">
     <PopoverButton
-      class="flex items-center justify-center rounded-full bg-gray-800 p-1 shadow-lg ring-1 ring-white/10 focus:outline-none focus:ring-2 focus:ring-amber-500"
+      class="flex items-center justify-center rounded-full bg-gray-800 p-1 shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
     >
       <LogoIcon customClass="size-12" :noBorder="true" />
     </PopoverButton>
@@ -18,6 +18,22 @@
         class="absolute bottom-full left-0 mb-3 w-48 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-gray-900/5"
       >
         <div class="py-1">
+          <button
+            @click="
+              () => {
+                router.push('/todo')
+                close()
+              }
+            "
+            class="block w-full px-4 py-2.5 text-left text-sm"
+            :class="
+              isTodoActive
+                ? 'bg-gray-100 text-gray-900 font-medium'
+                : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+            "
+          >
+            Todo
+          </button>
           <RouterLink
             @click="close"
             to="/about"
@@ -75,6 +91,7 @@
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import LogoIcon from '@/components/LogoIcon.vue'
 import useUserStore from '@/stores/user.js'
+import { useRoute } from 'vue-router'
 import { router } from '@/router'
 import { axiosClient } from '@/axios'
 import { computed } from 'vue'
@@ -82,6 +99,8 @@ import { computed } from 'vue'
 const userStore = useUserStore()
 const user = computed(() => userStore.user)
 const mode = computed(() => userStore.mode)
+const route = useRoute()
+const isTodoActive = computed(() => route.path === '/todo')
 
 function logout() {
   axiosClient.post('/logout').then(() => {

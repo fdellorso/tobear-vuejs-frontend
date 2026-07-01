@@ -3,7 +3,7 @@
     <div>
       <div class="mb-6 flex items-center gap-3">
         <RouterLink to="/todo">
-          <LogoIcon customClass="size-8" />
+          <LogoIcon customClass="size-8" :noBorder="true" />
         </RouterLink>
         <span class="text-lg font-semibold text-gray-900">toBear</span>
       </div>
