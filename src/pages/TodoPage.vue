@@ -193,7 +193,8 @@ const reorderTasks = async () => {
   if (userStore.mode === 'guest') {
     const plainTasks = tasks.value.map((task) => ({ ...task }))
     await saveTasks(plainTasks)
-    tasks.value = await getAllTasks()
+    const allGuest = await getAllTasks()
+    tasks.value = allGuest.filter((t) => !t.pendingDelete)
     rebuildActiveTasks()
     return
   }
@@ -205,7 +206,8 @@ const reorderTasks = async () => {
 
     const plainTasks = tasks.value.map((task) => ({ ...task }))
     await saveTasks(plainTasks)
-    tasks.value = await getAllTasks()
+    const allAuth = await getAllTasks()
+    tasks.value = allAuth.filter((t) => !t.pendingDelete)
     rebuildActiveTasks()
 
     await clearPendingReorder()

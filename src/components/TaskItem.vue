@@ -1,17 +1,18 @@
 <template>
   <div ref="container" class="relative overflow-hidden min-h-12 rounded-lg shadow-md group">
-    <span
-      ref="rightAction"
-      class="md:hidden absolute w-1/2 min-h-12 left-0 px-3 bg-green-500 content-center text-start transition-all"
-      style="opacity: 0.5"
-      >Completed</span
+    <div
+      ref="swipeAction"
+      class="md:hidden absolute inset-0 flex items-center px-6 transition-all"
+      :class="swipeDirection === -1 ? 'justify-end' : 'justify-start'"
+      style="opacity: 0"
     >
-    <span
-      ref="leftAction"
-      class="md:hidden absolute w-1/2 min-h-12 right-0 px-3 bg-red-500 content-center text-end transition-all"
-      style="opacity: 0.5"
-      >Delete</span
-    >
+      <span v-show="swipeDirection === 1" class="text-white font-semibold text-sm">{{
+        swipeLeftLabel
+      }}</span>
+      <span v-show="swipeDirection === -1" class="text-white font-semibold text-sm">{{
+        swipeRightLabel
+      }}</span>
+    </div>
 
     <div
       ref="draggable"
@@ -105,13 +106,13 @@
 </template>
 
 <script setup>
-import { ref, watch, onBeforeUnmount, nextTick } from 'vue'
+import { ref, computed, watch, onBeforeUnmount, nextTick } from 'vue'
 
 const draggable = ref(null)
 const container = ref(null)
-const leftAction = ref(null)
-const rightAction = ref(null)
+const swipeAction = ref(null)
 const left = ref(0)
+const swipeDirection = ref(0) // 0 = nessuno, 1 = destra (completa), -1 = sinistra (elimina)
 const editing = ref(false)
 const editTitle = ref('')
 const editInput = ref(null)
@@ -132,6 +133,9 @@ const props = defineProps({
     default: false,
   },
 })
+
+const swipeLeftLabel = computed(() => (props.completed ? 'Reinserisci' : 'Completa'))
+const swipeRightLabel = computed(() => 'Elimina')
 
 const emit = defineEmits(['complete', 'delete', 'horizontal-dragging', 'edit'])
 
@@ -170,14 +174,21 @@ const getMaxOffset = () => container.value.offsetWidth * 0.35
 const handleSwipe = (dx) => {
   const maxOffset = getMaxOffset()
   const newLeft = startLeft + dx
-
   left.value = Math.min(Math.max(newLeft, -maxOffset), maxOffset)
+  swipeDirection.value = left.value > 0 ? 1 : left.value < 0 ? -1 : 0
 
   const ratio = Math.abs(left.value) / maxOffset
-  const opacity = String(0.5 + ratio * 0.5)
+  const opacity = 0.5 + ratio * 0.5
 
-  leftAction.value.style.opacity = left.value <= 0 ? opacity : '0.5'
-  rightAction.value.style.opacity = left.value >= 0 ? opacity : '0.5'
+  if (!swipeAction.value) return
+
+  swipeAction.value.style.opacity = String(opacity)
+
+  if (left.value > 0) {
+    swipeAction.value.style.backgroundColor = props.completed ? '#f97316' : '#22c55e'
+  } else if (left.value < 0) {
+    swipeAction.value.style.backgroundColor = '#ef4444'
+  }
 }
 
 const releaseSwipe = (e) => {
@@ -218,15 +229,15 @@ const releaseSwipe = (e) => {
     setTimeout(() => {
       if (container.value) {
         left.value = 0
-        if (leftAction.value) leftAction.value.style.opacity = '0.5'
-        if (rightAction.value) rightAction.value.style.opacity = '0.5'
+        if (swipeAction.value) swipeAction.value.style.opacity = '0'
+        swipeDirection.value = 0
       }
       emit(action)
     }, 350)
   } else {
     left.value = 0
-    leftAction.value.style.opacity = '0.5'
-    rightAction.value.style.opacity = '0.5'
+    if (swipeAction.value) swipeAction.value.style.opacity = '0'
+    swipeDirection.value = 0
   }
 
   document.removeEventListener('touchmove', onDragTouch)

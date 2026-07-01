@@ -60,6 +60,7 @@
 - Ispirazione: Clear (UX, semplicità, gesti)
 - NON competere su numero di funzionalità con Todoist/TickTick/Microsoft To Do
 - Principio guida: meno opzioni, meno tocchi, più velocità
+- **Mantra "zero attriti"**: ogni nuova feature deve ridurre i tocchi, non aggiungerli. Prima di accettare un dialogo di conferma, una scelta, un passaggio in più — cercare sempre l'alternativa fluida. Esempi concreti: completare una lista con figli → cascata silenziosa (non dialogo); eliminare una lista con figli → dialogo di conferma (è distruttiva e irreversibile, l'attrito è giustificato).
 - Per ogni nuova funzione chiedersi: "rende l'app più semplice, o solo più ricca di opzioni?"
 
 ### Infrastruttura target (produzione)

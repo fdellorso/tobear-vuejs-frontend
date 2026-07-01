@@ -28,6 +28,20 @@ src/
   views/                  # layout (DefaultLayout = autenticato, GuestLayout = pubblico)
 ```
 
+## Layout e navigazione
+
+Il layout principale è `AppLayout` (`src/views/AppLayout.vue`), usato da tutte le route visibili all'utente (`/todo`, `/about`, `/contact`).
+
+Struttura responsive:
+- Mobile (`< md`): nessun header, FAB in basso a sinistra (`MobileNavFab.vue`) con popover Headless UI per navigazione
+- Desktop stretto (`md`-`xl`): stesso FAB, nessun header
+- Desktop largo (`≥ xl`): griglia a 3 colonne — `DesktopSidebar` (sinistra) | `RouterView` (centro) | `DesktopContentPanel` (destra, opzionale)
+
+Route sotto AppLayout: `/todo`, `/about`, `/contact`
+Route sotto GuestLayout: `/login`, `/register`, `/verifyemail`, `/premium`
+
+Comportamento speciale: su desktop largo (`≥ 1280px`), navigare a `/about` o `/contact` apre automaticamente il pannello destro e reindirizza a `/todo` — la colonna centrale mostra sempre la todo list, about/contact vanno nel pannello destro.
+
 ## Convenzioni di progetto (NON assumere, usa queste)
 
 - **Componenti**: sempre `<script setup>`, mai Options API nei componenti (gli store Pinia invece usano lo stile Options — non è un'incoerenza da "correggere", è la convenzione attuale).
@@ -40,7 +54,7 @@ src/
   - Replica questo pattern per qualunque nuova entità offline-capable (vedi roadmap PWA in TODO.md), non inventarne un altro.
 - **Drag & drop**: `vuedraggable` con `v-model` sull'array reattivo + evento `@end` che richiama un metodo di reorder che aggiorna `order` localmente e poi chiama l'API (`PATCH /v1/tasks/reorder`).
 - **Styling**: Tailwind v4 (plugin Vite, non PostCSS config separata). I componenti in `components/tailwindplus/` sono scaffolding di Tailwind Plus: riusali/adattali invece di scrivere component custom da zero per pattern UI comuni (modali, dropdown, form layout, ecc.).
-- **Codice commentato**: nel codebase trovi blocchi di codice commentati (vecchie implementazioni). Sono lasciati intenzionalmente come storico/riferimento durante lo sviluppo attivo — non cancellarli automaticamente durante refactor minori; se non servono più chiedi conferma o segnalalo nell'handoff.
+- Non lasciare blocchi di codice commentato nel codebase — il codice morto va rimosso. Se serve storico, esiste git.
 - **Lingua**: stringhe utente-facing e commenti in italiano, coerente col backend.
 
 ## Workflow di modifica
