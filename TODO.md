@@ -51,3 +51,80 @@
 - [ ] shared list [premium]
 - [ ] grocery list [premium]
 - [ ] sync with HAss, caldav and more [premium]
+
+## Visione e roadmap
+
+### Filosofia del prodotto
+- Offline-first, sync cloud opzionale
+- PWA + desktop + mobile
+- Ispirazione: Clear (UX, semplicità, gesti)
+- NON competere su numero di funzionalità con Todoist/TickTick/Microsoft To Do
+- Principio guida: meno opzioni, meno tocchi, più velocità
+- Per ogni nuova funzione chiedersi: "rende l'app più semplice, o solo più ricca di opzioni?"
+
+### Infrastruttura target (produzione)
+- Hosting: Namecheap Shared Hosting (aggiornato da x10hosting/Hostinger)
+- Storage immagini: Cloudflare R2
+- CDN: Cloudflare
+- Pagamenti: Stripe
+- Dominio: ~12$/anno
+- Costi stimati infrastruttura: ~5.88$/mese Namecheap + R2 (pochi €/mese anche con ~100GB immagini)
+
+### Moduli pianificati
+- 🧸 ToBear — core, free, solo locale
+- 📷 ToBear Reels — foto come task, premium
+- 🛒 ToBear Grocery — vista specializzata delle task (NON app separata), con quantità e foto opzionale
+- 📊 ToBear Insights — dashboard motivazionale (streak, produttività settimanale, storico mensile, record personali)
+
+### Business plan
+Piani:
+- Free: solo locale, nessun account obbligatorio
+- Premium Classic: 2.99€/mese — sync + backup
+- Premium Reels: 4.99€/mese — sync + backup + foto
+
+Target: ~2.000 utenti paganti (1.500 Classic + 500 Reels)
+Ricavi lordi stimati: ~6.980€/mese
+Break-even infrastruttura: pochi abbonati (costi fissi bassissimi)
+
+### Funzionalità future (ordine di priorità da definire)
+
+#### Versione iniziale (MVP già in corso)
+- [x] Task CRUD + reorder
+- [x] Offline-first (IndexedDB)
+- [x] Modalità guest senza account
+- [ ] Liste multiple (oggi c'è solo una lista implicita)
+- [ ] Sync multi-dispositivo (toBear Classic)
+- [ ] Backup cloud
+
+#### Architettura dati — decisione pendente importante
+- Liste annidate (es. Casa > Spesa, Casa > Lavori): emerso come punto architetturale chiave
+  - Permette condivisione e collaborazione naturale
+  - IMPATTA lo schema dati attuale (oggi tasks piatte, nessuna lista)
+  - Da progettare prima di implementare sync, altrimenti regressione garantita
+  - Struttura esempio: Casa > Spesa > task, Casa > Lavori > task
+
+#### Premium Reels (foto come task)
+- Una sola foto per task, opzionale
+- Ridimensionamento automatico + conversione WebP
+- Visualizzazione full-screen
+- Storage Cloudflare R2
+- Le pagine Image/Album/Resize già esistono nel backend — punto di partenza tecnico
+
+#### ToBear Grocery
+- Vista specializzata delle task (NON app separata)
+- Task grocery aggiunge: quantità, foto opzionale, nota
+- Quantità NON esiste nelle task normali — estensione del modello task
+
+#### ToBear Insights
+- Dashboard motivazionale (non analytics aziendale)
+- Metriche: task completate, streak giorni consecutivi, produttività settimanale, storico mensile, grafici, record personali
+
+#### Versioni successive
+- Condivisione liste
+- Collaborazione
+- Notifiche
+
+### Note architetturali da valutare prima del sync
+- Le liste annidate cambiano lo schema dati in modo non retrocompatibile
+- Valutare se implementare liste flat prima (semplice), poi annidate (complesso)
+- La modalità guest deve continuare a funzionare con qualsiasi struttura dati adottata
