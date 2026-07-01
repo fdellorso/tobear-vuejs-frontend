@@ -1,5 +1,7 @@
 <template>
-  <aside class="h-full overflow-y-auto border-l border-gray-200 bg-white p-6">
+  <aside
+    class="h-full overflow-y-auto border-l border-gray-200 bg-white p-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+  >
     <div class="flex items-center justify-between mb-4">
       <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">
         {{ section === 'about' ? 'About' : 'Contatti' }}

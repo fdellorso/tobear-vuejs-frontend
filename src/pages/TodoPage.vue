@@ -30,23 +30,6 @@
         </template>
       </draggable>
 
-      <template v-if="completedTasks.length > 0">
-        <div class="mt-6 mb-2 text-xs font-medium uppercase tracking-wider text-gray-400/60">
-          Completati
-        </div>
-        <TransitionGroup name="completed" tag="ul" class="space-y-2">
-          <li v-for="task in completedTasks" :key="task.id" class="opacity-60">
-            <TaskItem
-              :title="task.title"
-              @complete="handleComplete(task)"
-              @delete="handleDelete(task)"
-              @edit="handleEdit(task, $event)"
-              @horizontal-dragging="(v) => (isHorizontalDragging = v)"
-            />
-          </li>
-        </TransitionGroup>
-      </template>
-
       <div class="py-2">
         <form @submit.prevent="createTask">
           <div class="flex flex-col">
@@ -63,6 +46,24 @@
           </div>
         </form>
       </div>
+
+      <template v-if="completedTasks.length > 0">
+        <div class="mt-6 mb-2 text-xs font-medium uppercase tracking-wider text-gray-400/60">
+          Completati
+        </div>
+        <TransitionGroup name="completed" tag="ul" class="space-y-2">
+          <li v-for="task in completedTasks" :key="task.id" class="opacity-60">
+            <TaskItem
+              :title="task.title"
+              :completed="task.completed"
+              @complete="handleComplete(task)"
+              @delete="handleDelete(task)"
+              @edit="handleEdit(task, $event)"
+              @horizontal-dragging="(v) => (isHorizontalDragging = v)"
+            />
+          </li>
+        </TransitionGroup>
+      </template>
     </div>
   </div>
 </template>

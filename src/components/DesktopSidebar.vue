@@ -1,14 +1,23 @@
 <template>
   <aside class="flex h-full flex-col justify-between border-r border-gray-200 bg-gray-50 p-4">
-    <div>
+    <div
+      class="flex-1 min-h-0 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    >
       <div class="mb-6 flex items-center gap-3">
         <RouterLink to="/todo">
-          <LogoIcon customClass="size-8" :noBorder="true" />
+          <LogoIcon customClass="size-14" :noBorder="true" />
         </RouterLink>
-        <span class="text-lg font-semibold text-gray-900">toBear</span>
+        <span class="text-3xl font-bold text-gray-900">toBear</span>
       </div>
 
       <nav class="space-y-1">
+        <RouterLink
+          to="/todo"
+          class="flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900"
+          :class="{ 'bg-gray-200 text-gray-900': route.path === '/todo' }"
+        >
+          Todo
+        </RouterLink>
         <button
           @click="$emit('openPanel', 'about')"
           class="flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900"
@@ -37,6 +46,9 @@
 
       <div class="border-t border-gray-200 pt-4">
         <template v-if="mode === 'guest'">
+          <p class="px-3 py-2 text-xs text-gray-500">
+            Modalità locale — crea un account per sincronizzare i task.
+          </p>
           <RouterLink
             to="/login"
             class="flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900"
@@ -70,6 +82,7 @@ import useUserStore from '@/stores/user.js'
 import { router } from '@/router'
 import { axiosClient } from '@/axios'
 import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { useTaskStats } from '@/composables/useTaskStats'
 
 defineProps({
@@ -80,6 +93,8 @@ defineProps({
 })
 
 defineEmits(['openPanel'])
+
+const route = useRoute()
 
 const userStore = useUserStore()
 const user = computed(() => userStore.user)

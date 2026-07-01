@@ -2,7 +2,7 @@
   <div
     :class="
       noBorder
-        ? 'mx-auto max-w-max rounded-full overflow-hidden'
+        ? 'mx-auto max-w-max rounded-full shadow-lg overflow-hidden'
         : 'mx-auto max-w-max rounded-full shadow-xl overflow-hidden border-2 border-amber-900'
     "
   >

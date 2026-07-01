@@ -52,18 +52,6 @@ const routes = [
         meta: { requiresAuth: false, showInNav: false },
         component: PremiumPage,
       },
-      {
-        path: '/about',
-        name: 'About',
-        meta: { requiresAuth: false, showInNav: true },
-        component: AboutPage,
-      },
-      {
-        path: '/contact',
-        name: 'Contact',
-        meta: { requiresAuth: false, showInNav: true },
-        component: ContactPage,
-      },
     ],
   },
   {
@@ -85,14 +73,26 @@ const routes = [
     ],
   },
   {
-    path: '/todo',
+    path: '/',
     component: AppLayout,
     children: [
       {
-        path: '',
+        path: '/todo',
         name: 'Todo',
         meta: { showInNav: true },
         component: TodoPage,
+      },
+      {
+        path: '/about',
+        name: 'About',
+        meta: { requiresAuth: false, showInNav: true },
+        component: AboutPage,
+      },
+      {
+        path: '/contact',
+        name: 'Contact',
+        meta: { requiresAuth: false, showInNav: true },
+        component: ContactPage,
       },
     ],
   },

@@ -56,15 +56,32 @@
       >
         <button
           @click.stop="emit('complete')"
-          class="p-1.5 rounded-full text-green-600 hover:bg-green-100 transition-colors"
-          title="Completa"
+          class="p-1.5 rounded-full transition-colors"
+          :class="
+            completed ? 'text-amber-500 hover:bg-amber-100' : 'text-green-600 hover:bg-green-100'
+          "
+          :title="completed ? 'Reinserisci' : 'Completa'"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg
+            v-if="!completed"
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
               d="M5 13l4 4L19 7"
+            />
+          </svg>
+          <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
             />
           </svg>
         </button>
@@ -110,6 +127,10 @@ let lastTouchTime = 0
 const props = defineProps({
   title: String,
   dragActive: Boolean,
+  completed: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['complete', 'delete', 'horizontal-dragging', 'edit'])

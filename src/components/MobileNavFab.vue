@@ -1,9 +1,9 @@
 <template>
   <Popover v-slot="{ close }" class="fixed bottom-6 left-6 z-50 xl:hidden">
     <PopoverButton
-      class="flex items-center justify-center rounded-full bg-gray-800 p-1 shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+      class="flex items-center justify-center focus:outline-none rounded-full shadow-lg"
     >
-      <LogoIcon customClass="size-12" :noBorder="true" />
+      <LogoIcon customClass="size-14" :noBorder="true" />
     </PopoverButton>
 
     <transition
