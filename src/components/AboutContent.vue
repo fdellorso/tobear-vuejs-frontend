@@ -1,6 +1,6 @@
 <template>
-  <div class="mx-auto max-w-3xl text-base/7 text-gray-700">
-    <h1 class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl">
+  <div class="mx-auto max-w-3xl text-base/7 text-tb-text-sec">
+    <h1 class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-tb-text sm:text-5xl">
       Perché toBear
     </h1>
     <div class="mt-10 max-w-2xl space-y-6">
@@ -12,7 +12,7 @@
         È ispirata a
         <a
           href="https://www.realmacsoftware.com/clear/"
-          class="text-blue-800 underline underline-offset-2 hover:text-blue-700"
+          class="text-tb-accent underline underline-offset-2 hover:text-tb-accent"
           target="_blank"
           rel="noopener noreferrer"
           >Clear</a

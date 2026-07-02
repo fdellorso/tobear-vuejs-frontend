@@ -1,0 +1,61 @@
+/* ===== toBear — Design tokens ===== */
+
+/* Tema scuro (default — attuale) */
+:root,
+[data-theme='dark'] {
+  --color-bg: #1a1917;
+  --color-surface: #2e2c28;
+  --color-surface-2: #1f1e1b;
+  --color-border: #3d3b35;
+  --color-text: #f0ede6;
+  --color-text-sec: #a09d96;
+  --color-text-muted: #6b6860;
+  --color-nav-active: #2e2d29;
+  --color-accent: #e8823a;
+  --color-accent-bg: #2e1f0f;
+  --color-success: #5dba82;
+  --color-success-bg: #152a1e;
+  --color-danger: #e06060;
+  --color-danger-bg: #2a1212;
+  --color-warning: #e8823a;
+  --color-warning-bg: #2e1f0f;
+}
+
+/* Tema chiaro */
+[data-theme='light'] {
+  --color-bg: #f5f3ee;
+  --color-surface: #ffffff;
+  --color-surface-2: #faf9f7;
+  --color-border: #e8e5de;
+  --color-text: #1a1a18;
+  --color-text-sec: #6b6860;
+  --color-text-muted: #a09d96;
+  --color-nav-active: #edeae3;
+  --color-accent: #c4600a;
+  --color-accent-bg: #fdf0e6;
+  --color-success: #2d7a4f;
+  --color-success-bg: #e6f4ec;
+  --color-danger: #b83232;
+  --color-danger-bg: #faeaea;
+  --color-warning: #c4600a;
+  --color-warning-bg: #fdf0e6;
+}
+
+@theme inline {
+  --color-tb-bg: var(--color-bg);
+  --color-tb-surface: var(--color-surface);
+  --color-tb-surface-2: var(--color-surface-2);
+  --color-tb-border: var(--color-border);
+  --color-tb-text: var(--color-text);
+  --color-tb-text-sec: var(--color-text-sec);
+  --color-tb-text-muted: var(--color-text-muted);
+  --color-tb-nav-active: var(--color-nav-active);
+  --color-tb-accent: var(--color-accent);
+  --color-tb-accent-bg: var(--color-accent-bg);
+  --color-tb-success: var(--color-success);
+  --color-tb-success-bg: var(--color-success-bg);
+  --color-tb-danger: var(--color-danger);
+  --color-tb-danger-bg: var(--color-danger-bg);
+  --color-tb-warning: var(--color-warning);
+  --color-tb-warning-bg: var(--color-warning-bg);
+}

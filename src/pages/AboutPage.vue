@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white px-6 py-8 lg:px-8">
+  <div class="bg-tb-bg px-6 py-8 lg:px-8 min-h-screen">
     <AboutContent />
   </div>
 </template>

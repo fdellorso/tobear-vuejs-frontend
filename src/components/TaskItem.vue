@@ -16,7 +16,7 @@
 
     <div
       ref="draggable"
-      class="flex items-center min-h-12 bg-gray-100 font-bold transition-all duration-300"
+      class="flex items-center min-h-12 bg-tb-surface transition-all duration-300"
       :class="
         isDesktop ? 'relative rounded-lg' : 'absolute w-full left-0 z-10 cursor-grab select-none'
       "
@@ -24,7 +24,7 @@
       @touchstart="startDragTouch"
     >
       <span
-        class="hidden md:flex drag-handle cursor-grab px-3 text-gray-400 hover:text-gray-600 select-none touch-none"
+        class="hidden md:flex drag-handle cursor-grab px-3 text-tb-text-muted hover:text-tb-text-sec select-none touch-none"
         @mousedown.stop
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -44,7 +44,7 @@
           ref="editInput"
           v-model="editTitle"
           type="text"
-          class="block w-full px-3 py-3 bg-transparent border-0 outline-none ring-2 ring-indigo-300 rounded"
+          class="block w-full px-3 py-3 bg-transparent border-0 outline-none ring-2 ring-[var(--color-tb-accent)]/30 rounded"
           @blur="saveEdit"
           @keydown.enter="$event.target.blur()"
           @keydown.escape="cancelEdit"
@@ -59,7 +59,9 @@
           @click.stop="emit('complete')"
           class="p-1.5 rounded-full transition-colors"
           :class="
-            completed ? 'text-amber-500 hover:bg-amber-100' : 'text-green-600 hover:bg-green-100'
+            completed
+              ? 'text-tb-warning bg-tb-warning-bg hover:bg-tb-warning-bg'
+              : 'text-tb-success bg-tb-success-bg hover:bg-tb-success-bg'
           "
           :title="completed ? 'Reinserisci' : 'Completa'"
         >
@@ -88,7 +90,7 @@
         </button>
         <button
           @click.stop="emit('delete')"
-          class="p-1.5 rounded-full text-red-500 hover:bg-red-100 transition-colors"
+          class="p-1.5 rounded-full text-tb-danger bg-tb-danger-bg hover:bg-tb-danger-bg transition-colors"
           title="Elimina"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

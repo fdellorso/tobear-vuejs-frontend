@@ -1,40 +1,40 @@
 <template>
   <div class="mx-auto max-w-2xl text-center">
-    <h2 class="text-4xl font-semibold tracking-tight text-balance text-gray-900 sm:text-5xl">
+    <h2 class="text-4xl font-semibold tracking-tight text-balance text-tb-text sm:text-5xl">
       Contattaci
     </h2>
-    <p class="mt-2 text-lg/8 text-gray-600">
+    <p class="mt-2 text-lg/8 text-tb-text-sec">
       Un problema, un suggerimento, o solo un saluto — scrivici pure.
     </p>
   </div>
 
   <div
     v-if="submitted"
-    class="mx-auto mt-16 max-w-xl rounded-lg bg-green-50 p-8 text-center sm:mt-20"
+    class="mx-auto mt-16 max-w-xl rounded-lg bg-tb-success-bg p-8 text-center sm:mt-20"
   >
-    <p class="text-lg font-semibold text-green-800">Grazie!</p>
-    <p class="mt-2 text-green-700">Ti risponderemo al più presto.</p>
+    <p class="text-lg font-semibold text-tb-success">Grazie!</p>
+    <p class="mt-2 text-tb-success">Ti risponderemo al più presto.</p>
   </div>
 
   <form v-else @submit.prevent="handleSubmit" class="mx-auto mt-16 max-w-xl sm:mt-20">
     <div class="grid grid-cols-1 gap-x-8 gap-y-6">
       <div>
-        <label for="nome" class="block text-sm/6 font-semibold text-gray-900">Nome</label>
+        <label for="nome" class="block text-sm/6 font-semibold text-tb-text">Nome</label>
         <div class="mt-2.5">
           <input
             id="nome"
             v-model="nome"
             type="text"
             autocomplete="name"
-            class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+            class="block w-full rounded-md bg-tb-surface px-3.5 py-2 text-base text-tb-text outline-1 -outline-offset-1 outline-tb-border placeholder:text-tb-text-muted focus:outline-2 focus:-outline-offset-2 focus:outline-tb-accent"
             placeholder="Il tuo nome (opzionale)"
           />
         </div>
       </div>
 
       <div>
-        <label for="email" class="block text-sm/6 font-semibold text-gray-900">
-          Email <span class="text-red-500">*</span>
+        <label for="email" class="block text-sm/6 font-semibold text-tb-text">
+          Email <span class="text-tb-danger">*</span>
         </label>
         <div class="mt-2.5">
           <input
@@ -42,31 +42,34 @@
             v-model="email"
             type="email"
             autocomplete="email"
-            class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+            class="block w-full rounded-md bg-tb-surface px-3.5 py-2 text-base text-tb-text outline-1 -outline-offset-1 outline-tb-border placeholder:text-tb-text-muted focus:outline-2 focus:-outline-offset-2 focus:outline-tb-accent"
           />
         </div>
-        <p v-if="fieldErrors.email" class="mt-1 text-sm text-red-500">{{ fieldErrors.email }}</p>
+        <p v-if="fieldErrors.email" class="mt-1 text-sm text-tb-danger">{{ fieldErrors.email }}</p>
       </div>
 
       <div>
-        <label for="messaggio" class="block text-sm/6 font-semibold text-gray-900">
-          Messaggio <span class="text-red-500">*</span>
+        <label for="messaggio" class="block text-sm/6 font-semibold text-tb-text">
+          Messaggio <span class="text-tb-danger">*</span>
         </label>
         <div class="mt-2.5">
           <textarea
             id="messaggio"
             v-model="messaggio"
             rows="4"
-            class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+            class="block w-full rounded-md bg-tb-surface px-3.5 py-2 text-base text-tb-text outline-1 -outline-offset-1 outline-tb-border placeholder:text-tb-text-muted focus:outline-2 focus:-outline-offset-2 focus:outline-tb-accent"
           />
         </div>
-        <p v-if="fieldErrors.messaggio" class="mt-1 text-sm text-red-500">
+        <p v-if="fieldErrors.messaggio" class="mt-1 text-sm text-tb-danger">
           {{ fieldErrors.messaggio }}
         </p>
       </div>
     </div>
 
-    <p v-if="errorMessage" class="mt-6 rounded-md bg-red-50 p-3 text-center text-sm text-red-700">
+    <p
+      v-if="errorMessage"
+      class="mt-6 rounded-md bg-tb-danger-bg p-3 text-center text-sm text-tb-danger"
+    >
       {{ errorMessage }}
     </p>
 
@@ -74,7 +77,7 @@
       <button
         type="submit"
         :disabled="loading"
-        class="block w-full rounded-md bg-blue-800 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+        class="block w-full rounded-md bg-tb-accent px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-tb-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tb-accent disabled:cursor-not-allowed disabled:opacity-50"
       >
         <span v-if="loading">Invio in corso…</span>
         <span v-else>Invia messaggio</span>
@@ -82,12 +85,12 @@
     </div>
   </form>
 
-  <div class="mx-auto mt-10 max-w-xl text-center text-sm text-gray-500">
+  <div class="mx-auto mt-10 max-w-xl text-center text-sm text-tb-text-muted">
     <p>
       Preferisci segnalare un bug tecnico?
       <a
         href="#"
-        class="font-semibold text-blue-800 underline underline-offset-2 hover:text-blue-700"
+        class="font-semibold text-tb-accent underline underline-offset-2 hover:text-tb-accent"
         >Apri una issue su GitHub</a
       >
       <!-- TODO: sostituire href con URL del repository pubblico -->

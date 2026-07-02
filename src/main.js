@@ -7,12 +7,16 @@ import VueMatomo from 'vue-matomo'
 
 import App from './App.vue'
 import { router } from '@/router'
+import { useThemeStore } from '@/stores/theme'
 
 const app = createApp(App)
 const pinia = createPinia()
 
 app.use(router)
 app.use(pinia)
+
+const themeStore = useThemeStore()
+themeStore.init()
 
 function initMatomo(appInstance) {
   const host = import.meta.env.VITE_MATOMO_HOST

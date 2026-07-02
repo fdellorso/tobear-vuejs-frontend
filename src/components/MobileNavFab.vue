@@ -15,7 +15,7 @@
       leave-to-class="opacity-0 translate-y-1"
     >
       <PopoverPanel
-        class="absolute bottom-full left-0 mb-3 w-48 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-gray-900/5"
+        class="absolute bottom-full left-0 mb-3 w-48 overflow-hidden rounded-xl bg-tb-surface shadow-lg ring-1 ring-tb-text/5"
       >
         <div class="py-1">
           <button
@@ -28,8 +28,8 @@
             class="block w-full px-4 py-2.5 text-left text-sm"
             :class="
               isTodoActive
-                ? 'bg-gray-100 text-gray-900 font-medium'
-                : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                ? 'bg-tb-nav-active text-tb-text font-medium'
+                : 'text-tb-text-sec hover:bg-tb-surface-2 hover:text-tb-text'
             "
           >
             Todo
@@ -37,50 +37,64 @@
           <RouterLink
             @click="close"
             to="/about"
-            class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+            class="block px-4 py-2.5 text-sm text-tb-text-sec hover:bg-tb-surface-2 hover:text-tb-text"
           >
             About
           </RouterLink>
           <RouterLink
             @click="close"
             to="/contact"
-            class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+            class="block px-4 py-2.5 text-sm text-tb-text-sec hover:bg-tb-surface-2 hover:text-tb-text"
           >
             Contatti
           </RouterLink>
         </div>
-        <hr class="border-t border-gray-100" />
+        <hr class="border-t border-tb-border" />
         <div class="py-1">
           <template v-if="mode === 'guest'">
-            <p class="px-4 py-2 text-xs text-gray-400">
+            <p class="px-4 py-2 text-xs text-tb-text-muted">
               Modalità locale — crea un account per sincronizzare i task.
             </p>
             <RouterLink
               @click="close"
               to="/login"
-              class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+              class="block px-4 py-2.5 text-sm text-tb-text-sec hover:bg-tb-surface-2 hover:text-tb-text"
             >
               Accedi
             </RouterLink>
             <RouterLink
               @click="close"
               to="/register"
-              class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+              class="block px-4 py-2.5 text-sm text-tb-text-sec hover:bg-tb-surface-2 hover:text-tb-text"
             >
               Registrati
             </RouterLink>
           </template>
           <template v-else-if="mode === 'authenticated'">
-            <span class="block px-4 py-2.5 text-sm font-medium text-gray-900">
+            <span class="block px-4 py-2.5 text-sm font-medium text-tb-text">
               {{ user.name }}
             </span>
             <button
               @click="(close(), logout())"
-              class="block w-full px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+              class="block w-full px-4 py-2.5 text-left text-sm text-tb-text-sec hover:bg-tb-surface-2 hover:text-tb-text"
             >
               Esci
             </button>
           </template>
+        </div>
+        <div class="border-t border-tb-border px-3 py-2">
+          <div class="flex items-center gap-1 rounded-lg border border-tb-border p-1">
+            <button
+              v-for="option in themeOptions"
+              :key="option.value"
+              @click="themeStore.setTheme(option.value)"
+              :title="option.label"
+              class="flex flex-1 items-center justify-center rounded-md p-1.5 text-tb-text-muted transition-colors hover:text-tb-text-sec"
+              :class="{ 'bg-tb-nav-active text-tb-text-sec': themeStore.theme === option.value }"
+            >
+              <component :is="option.icon" class="size-4" />
+            </button>
+          </div>
         </div>
       </PopoverPanel>
     </transition>
@@ -95,6 +109,16 @@ import { useRoute } from 'vue-router'
 import { router } from '@/router'
 import { axiosClient } from '@/axios'
 import { computed } from 'vue'
+import { useThemeStore } from '@/stores/theme'
+import { SunIcon, MoonIcon, ComputerDesktopIcon } from '@heroicons/vue/24/outline'
+
+const themeStore = useThemeStore()
+
+const themeOptions = [
+  { value: 'light', label: 'Chiaro', icon: SunIcon },
+  { value: 'dark', label: 'Scuro', icon: MoonIcon },
+  { value: 'system', label: 'Sistema', icon: ComputerDesktopIcon },
+]
 
 const userStore = useUserStore()
 const user = computed(() => userStore.user)

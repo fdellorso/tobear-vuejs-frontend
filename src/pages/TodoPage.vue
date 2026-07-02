@@ -1,10 +1,16 @@
 <template>
   <div class="mx-auto max-w-2xl px-4 py-4">
+    <div class="hidden xl:flex items-baseline justify-between px-0 pb-3 pt-1">
+      <span class="text-xs font-medium uppercase tracking-widest text-tb-text-muted"
+        >I miei task</span
+      >
+      <span class="text-xs text-tb-text-muted">{{ activeTasks.length }} attivi</span>
+    </div>
     <div v-if="loading">
       <SkeletonTask v-for="n in 5" :key="n" class="mb-2" />
     </div>
     <div v-else>
-      <div v-if="tasks.length === 0" class="text-gray-500">Nessun task trovato.</div>
+      <div v-if="tasks.length === 0" class="text-tb-text-muted">Nessun task trovato.</div>
 
       <draggable
         class="space-y-2 list-group list-none"
@@ -40,7 +46,7 @@
               id="newtask"
               placeholder="Titolo del task"
               @blur="createTask"
-              class="border border-gray-300 rounded-lg shadow-md p-3"
+              class="border border-tb-border rounded-lg shadow-md p-3"
               required
             />
           </div>
@@ -48,7 +54,7 @@
       </div>
 
       <template v-if="completedTasks.length > 0">
-        <div class="mt-6 mb-2 text-xs font-medium uppercase tracking-wider text-gray-400/60">
+        <div class="mt-6 mb-2 text-xs font-medium uppercase tracking-wider text-tb-text-muted/60">
           Completati
         </div>
         <TransitionGroup name="completed" tag="ul" class="space-y-2">
@@ -414,6 +420,6 @@ onMounted(async () => {
 
 .ghost {
   opacity: 0.9;
-  background: #8b5e3c;
+  background: var(--color-tb-accent);
 }
 </style>
