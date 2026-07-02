@@ -29,18 +29,6 @@ const routes = [
     meta: { requiresAuth: false },
     children: [
       {
-        path: '/login',
-        name: 'Login',
-        meta: { requiresAuth: false, showInNav: false, guest: true },
-        component: LoginPage,
-      },
-      {
-        path: '/register',
-        name: 'Register',
-        meta: { requiresAuth: false, showInNav: false, guest: true },
-        component: RegisterPage,
-      },
-      {
         path: '/verifyemail',
         name: 'VerifyEmail',
         meta: { requiresAuth: false, showInNav: false },
@@ -93,6 +81,18 @@ const routes = [
         name: 'Contact',
         meta: { requiresAuth: false, showInNav: true },
         component: ContactPage,
+      },
+      {
+        path: '/login',
+        name: 'Login',
+        meta: { requiresAuth: false, showInNav: false, guest: true },
+        component: LoginPage,
+      },
+      {
+        path: '/register',
+        name: 'Register',
+        meta: { requiresAuth: false, showInNav: false, guest: true },
+        component: RegisterPage,
       },
     ],
   },

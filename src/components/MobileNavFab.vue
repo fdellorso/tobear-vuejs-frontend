@@ -1,7 +1,7 @@
 <template>
   <Popover v-slot="{ close }" class="fixed bottom-6 left-6 z-50 xl:hidden">
     <PopoverButton
-      class="flex items-center justify-center focus:outline-none rounded-full shadow-lg"
+      class="flex items-center justify-center focus:outline-none rounded-full shadow-lg cursor-pointer"
     >
       <LogoIcon customClass="size-14" :noBorder="true" />
     </PopoverButton>

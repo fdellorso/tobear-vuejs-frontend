@@ -22,6 +22,7 @@
       class="hidden xl:block"
       :section="activePanel"
       @close="activePanel = null"
+      @login-success="activePanel = null"
     />
   </div>
 
@@ -46,11 +47,17 @@ const gridClasses = computed(() =>
 
 function handlePanelRedirect(path) {
   if (window.innerWidth >= 1280) {
-    if (path === '/about') {
-      activePanel.value = 'about'
-      router.push('/todo')
-    } else if (path === '/contact') {
-      activePanel.value = 'contact'
+    const panelRoutes = {
+      '/about': 'about',
+      '/contact': 'contact',
+      '/login': 'login',
+      '/register': 'register',
+      '/user': 'user',
+      '/setting': 'setting',
+    }
+    const panel = panelRoutes[path]
+    if (panel) {
+      activePanel.value = panel
       router.push('/todo')
     }
   }

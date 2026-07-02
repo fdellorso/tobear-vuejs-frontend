@@ -1,44 +1,28 @@
 <template>
-  <SignInPage
-    :navigationRoutes="navigationRoutes"
-    @submitLogin="submitLogin"
-    @submitForgot="submitForgot"
-  >
-    <template v-slot:logo>&nbsp;</template>
-    <template v-slot:message>
-      <div v-if="verifiedMessage" class="mt-4 mx-4 p-3 rounded text-white bg-green-400">
-        {{ verifiedMessage }}
-      </div>
-      <div v-if="errorMessage" class="mt-4 mx-4 p-3 rounded text-white bg-red-400">
-        {{ errorMessage }}
-      </div>
-    </template>
-  </SignInPage>
+  <LoginContent
+    :errorMessage="errorMessage"
+    :verifiedMessage="verifiedMessage"
+    @submit-login="submitLogin"
+    @submit-forgot="submitForgot"
+  />
 </template>
 
 <script setup>
 import { axiosClient, withCSRF } from '@/axios'
-import { router, flatRoutes } from '@/router'
-import { useRoute } from 'vue-router'
+import { router } from '@/router'
 import useUserStore from '@/stores/user.js'
 import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { migrateGuestTasks } from '@/composables/useGuestMigration'
-import SignInPage from '@/components/tailwindplus/SignInPage.vue'
-// import LoGo from '@/components/LoGo.vue'
-
-const navigationRoutes = {
-  register: flatRoutes.find((route) => route.name === 'Register')?.path,
-}
+import LoginContent from '@/components/LoginContent.vue'
 
 const errorMessage = ref('')
 const verifiedMessage = ref('')
-
 const userStore = useUserStore()
 const route = useRoute()
 
 async function submitLogin(formData) {
   errorMessage.value = ''
-
   try {
     await withCSRF(() => axiosClient.post('/login', formData))
     userStore.clearSession()
@@ -53,7 +37,6 @@ async function submitLogin(formData) {
 function submitForgot(forgotEmail) {
   errorMessage.value = ''
   verifiedMessage.value = ''
-
   withCSRF(() =>
     axiosClient
       .post('/forgot-password', { email: forgotEmail })
@@ -71,19 +54,13 @@ onMounted(async () => {
     try {
       await userStore.fetchUser()
     } catch {
-      // Ignora errori
+      /* Ignora errori */
     }
   }
-  if (userStore.user) {
-    router.replace({ name: 'Todo' })
-  }
-
+  if (userStore.user) router.replace({ name: 'Todo' })
   if (route.query.verified === '1') {
     verifiedMessage.value = 'Your email has been verified successfully.'
-
     router.replace({ path: '/login' })
   }
 })
 </script>
-
-<style scoped></style>

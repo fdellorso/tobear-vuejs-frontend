@@ -35,6 +35,15 @@
           <EnvelopeIcon class="size-4 shrink-0" />
           Contatti
         </button>
+        <button
+          v-if="mode === 'authenticated'"
+          @click="$emit('openPanel', activePanel === 'user' ? null : 'user')"
+          class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-tb-text-sec hover:bg-tb-nav-active hover:text-tb-text"
+          :class="{ 'bg-tb-nav-active text-tb-text': activePanel === 'user' }"
+        >
+          <UserIcon class="size-4 shrink-0" />
+          Profile
+        </button>
       </nav>
     </div>
 
@@ -52,18 +61,18 @@
           <p class="px-3 py-2 text-xs text-tb-text-muted">
             Modalità locale — crea un account per sincronizzare i task.
           </p>
-          <RouterLink
-            to="/login"
+          <button
+            @click="$emit('openPanel', activePanel === 'login' ? null : 'login')"
             class="flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-tb-text-sec hover:bg-tb-nav-active hover:text-tb-text"
           >
             Accedi
-          </RouterLink>
-          <RouterLink
-            to="/register"
-            class="mt-1 flex w-full items-center rounded-md bg-tb-accent px-3 py-2 text-sm font-medium text-white hover:bg-tb-accent"
+          </button>
+          <button
+            @click="$emit('openPanel', activePanel === 'register' ? null : 'register')"
+            class="mt-1 flex w-full items-center rounded-md bg-tb-accent px-3 py-2 text-sm font-medium text-white hover:opacity-90"
           >
             Registrati
-          </RouterLink>
+          </button>
         </template>
         <template v-else-if="mode === 'authenticated' && user">
           <div class="px-3 py-2 text-sm font-medium text-tb-text">{{ user.name }}</div>
@@ -72,6 +81,20 @@
             class="mt-1 flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-tb-text-sec hover:bg-tb-nav-active hover:text-tb-text"
           >
             Esci
+          </button>
+        </template>
+        <template v-else>
+          <button
+            @click="$emit('openPanel', activePanel === 'login' ? null : 'login')"
+            class="flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-tb-text-sec hover:bg-tb-nav-active hover:text-tb-text"
+          >
+            Accedi
+          </button>
+          <button
+            @click="$emit('openPanel', activePanel === 'register' ? null : 'register')"
+            class="mt-1 flex w-full items-center rounded-md bg-tb-accent px-3 py-2 text-sm font-medium text-white hover:opacity-90"
+          >
+            Registrati
           </button>
         </template>
 
@@ -108,6 +131,7 @@ import {
   CheckIcon,
   InformationCircleIcon,
   EnvelopeIcon,
+  UserIcon,
 } from '@heroicons/vue/24/outline'
 
 const themeStore = useThemeStore()
