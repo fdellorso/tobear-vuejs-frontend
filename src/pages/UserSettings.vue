@@ -1,79 +1,103 @@
 <template>
-  <template v-if="user">
-    <div class="mx-auto max-w-2xl px-4 py-4">
-      <FormLayout></FormLayout>
+  <div v-if="user" class="mx-auto max-w-2xl px-4 py-8 min-h-screen">
+    <div class="mb-8">
+      <h1 class="text-xl font-semibold text-tb-text">Settings</h1>
+      <p class="mt-1 text-sm text-tb-text-muted">Manage your account preferences.</p>
     </div>
-    <div class="max-w-xl mx-auto py-10 px-4">
-      <h1 class="text-2xl font-bold mb-6">User Settings</h1>
 
-      <div class="mb-6">
-        <p class="text-gray-700"><strong>Email:</strong> {{ user.email }}</p>
-        <p class="text-gray-700">
-          <strong>Verified:</strong> {{ user.email_verified_at ? 'Yes' : 'No' }}
-        </p>
+    <!-- Info account -->
+    <div class="mb-8 rounded-xl border border-tb-border bg-tb-surface p-4">
+      <h2 class="mb-3 text-xs font-medium uppercase tracking-wider text-tb-text-muted">Account</h2>
+      <div class="space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-tb-text-sec">Email</span>
+          <span class="text-sm font-medium text-tb-text">{{ user.email }}</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-tb-text-sec">Email verified</span>
+          <span
+            class="text-sm font-medium"
+            :class="user.email_verified_at ? 'text-tb-success' : 'text-tb-danger'"
+          >
+            {{ user.email_verified_at ? 'Yes' : 'No' }}
+          </span>
+        </div>
       </div>
+    </div>
 
-      <h2 class="text-lg font-semibold mb-4">Reset Password</h2>
+    <!-- Cambio password -->
+    <div class="rounded-xl border border-tb-border bg-tb-surface p-4">
+      <h2 class="mb-4 text-xs font-medium uppercase tracking-wider text-tb-text-muted">
+        Change password
+      </h2>
 
-      <div v-if="successMessage" class="mb-4 text-green-700 bg-green-100 p-3 rounded">
+      <div
+        v-if="successMessage"
+        class="mb-4 rounded-lg bg-tb-success-bg p-3 text-sm text-tb-success"
+      >
         {{ successMessage }}
       </div>
-      <div v-if="errorMessage" class="mb-4 text-red-700 bg-red-100 p-3 rounded">
+      <div v-if="errorMessage" class="mb-4 rounded-lg bg-tb-danger-bg p-3 text-sm text-tb-danger">
         {{ errorMessage }}
       </div>
 
-      <form @submit.prevent="resetPassword" class="space-y-4">
+      <form @submit.prevent="changePassword" class="space-y-4">
         <div>
-          <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+          <label for="current_password" class="block text-sm font-medium text-tb-text-sec"
+            >Current password</label
+          >
           <input
-            id="username"
-            autocomplete="username"
-            type="username"
+            id="current_password"
+            v-model="form.current_password"
+            type="password"
+            autocomplete="current-password"
             required
-            :value="user?.email"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            class="mt-1 block w-full rounded-lg border border-tb-border bg-tb-bg px-3 py-2 text-sm text-tb-text placeholder:text-tb-text-muted focus:border-tb-accent focus:outline-none"
           />
         </div>
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">New Password</label>
+          <label for="password" class="block text-sm font-medium text-tb-text-sec"
+            >New password</label
+          >
           <input
             id="password"
-            autocomplete="new-password"
             v-model="form.password"
             type="password"
+            autocomplete="new-password"
             required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            class="mt-1 block w-full rounded-lg border border-tb-border bg-tb-bg px-3 py-2 text-sm text-tb-text placeholder:text-tb-text-muted focus:border-tb-accent focus:outline-none"
           />
         </div>
         <div>
-          <label for="password_confirmation" class="block text-sm font-medium text-gray-700"
-            >Confirm Password</label
+          <label for="password_confirmation" class="block text-sm font-medium text-tb-text-sec"
+            >Confirm new password</label
           >
           <input
             id="password_confirmation"
-            autocomplete="new-password"
             v-model="form.password_confirmation"
             type="password"
+            autocomplete="new-password"
             required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            class="mt-1 block w-full rounded-lg border border-tb-border bg-tb-bg px-3 py-2 text-sm text-tb-text placeholder:text-tb-text-muted focus:border-tb-accent focus:outline-none"
           />
         </div>
         <button
           type="submit"
-          class="bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          :disabled="loading"
+          class="w-full rounded-lg bg-tb-accent px-4 py-2 text-sm font-semibold text-white hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Reset Password
+          {{ loading ? 'Saving...' : 'Update password' }}
         </button>
       </form>
     </div>
-  </template>
-  <div v-else class="mx-auto max-w-2xl px-4 py-4 text-center">
-    <p class="text-sm text-gray-500">Devi aver effettuato l'accesso per vedere le impostazioni.</p>
+  </div>
+
+  <div v-else class="mx-auto max-w-2xl px-4 py-8 text-center min-h-screen">
+    <p class="text-sm text-tb-text-muted">You must be logged in to access settings.</p>
   </div>
 </template>
 
 <script setup>
-import FormLayout from '@/components/tailwindplus/FormLayout.vue'
 import { ref, computed } from 'vue'
 import useUserStore from '@/stores/user.js'
 import { axiosClient, withCSRF } from '@/axios'
@@ -82,35 +106,36 @@ const userStore = useUserStore()
 const user = computed(() => userStore.user)
 
 const form = ref({
-  email: user.value?.email ?? '',
+  current_password: '',
   password: '',
   password_confirmation: '',
 })
 
+const loading = ref(false)
 const successMessage = ref('')
 const errorMessage = ref('')
 
-const resetPassword = () => {
+async function changePassword() {
   errorMessage.value = ''
   successMessage.value = ''
+  loading.value = true
 
-  withCSRF(() =>
-    axiosClient
-      .post('/reset-password', {
-        email: form.value.email,
+  try {
+    await withCSRF(() =>
+      axiosClient.put('/password', {
+        current_password: form.value.current_password,
         password: form.value.password,
         password_confirmation: form.value.password_confirmation,
-      })
-      .then(() => {
-        successMessage.value = 'Password has been reset successfully.'
-        form.value.password = ''
-        form.value.password_confirmation = ''
-      })
-      .catch((error) => {
-        errorMessage.value = error.response?.data?.message || 'Failed to reset password.'
       }),
-  )
+    )
+    successMessage.value = 'Password updated successfully.'
+    form.value.current_password = ''
+    form.value.password = ''
+    form.value.password_confirmation = ''
+  } catch (error) {
+    errorMessage.value = error.response?.data?.message || 'Failed to update password.'
+  } finally {
+    loading.value = false
+  }
 }
 </script>
-
-<style scoped></style>
