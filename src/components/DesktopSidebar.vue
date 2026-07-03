@@ -119,7 +119,7 @@
 import LogoIcon from '@/components/LogoIcon.vue'
 import useUserStore from '@/stores/user.js'
 import { router } from '@/router'
-import { axiosClient } from '@/axios'
+import { axiosClient, withCSRF } from '@/axios'
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useTaskStats } from '@/composables/useTaskStats'
@@ -162,10 +162,12 @@ const statsTotal = computed(() => taskCount.value)
 const statsCompleted = computed(() => completedCount.value)
 
 function logout() {
-  axiosClient.post('/logout').then(() => {
-    userStore.resetUser()
-    router.push({ name: 'Home' })
-  })
+  withCSRF(() =>
+    axiosClient.post('/logout').then(() => {
+      userStore.resetUser()
+      router.push({ name: 'Home' })
+    }),
+  )
 }
 
 onMounted(fetchStats)
