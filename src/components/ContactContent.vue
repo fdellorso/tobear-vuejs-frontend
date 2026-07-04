@@ -1,10 +1,10 @@
 <template>
   <div class="mx-auto max-w-2xl text-center">
     <h2 class="text-4xl font-semibold tracking-tight text-balance text-tb-text sm:text-5xl">
-      Contattaci
+      {{ $t('contact.title') }}
     </h2>
     <p class="mt-2 text-lg/8 text-tb-text-sec">
-      Un problema, un suggerimento, o solo un saluto — scrivici pure.
+      {{ $t('contact.subtitle') }}
     </p>
   </div>
 
@@ -12,14 +12,16 @@
     v-if="submitted"
     class="mx-auto mt-16 max-w-xl rounded-lg bg-tb-success-bg p-8 text-center sm:mt-20"
   >
-    <p class="text-lg font-semibold text-tb-success">Grazie!</p>
-    <p class="mt-2 text-tb-success">Ti risponderemo al più presto.</p>
+    <p class="text-lg font-semibold text-tb-success">{{ $t('contact.thankYou') }}</p>
+    <p class="mt-2 text-tb-success">{{ $t('contact.thankYouMessage') }}</p>
   </div>
 
   <form v-else @submit.prevent="handleSubmit" class="mx-auto mt-16 max-w-xl sm:mt-20">
     <div class="grid grid-cols-1 gap-x-8 gap-y-6">
       <div>
-        <label for="nome" class="block text-sm/6 font-semibold text-tb-text">Nome</label>
+        <label for="nome" class="block text-sm/6 font-semibold text-tb-text">{{
+          $t('contact.nameLabel')
+        }}</label>
         <div class="mt-2.5">
           <input
             id="nome"
@@ -27,14 +29,14 @@
             type="text"
             autocomplete="name"
             class="block w-full rounded-md bg-tb-surface px-3.5 py-2 text-base text-tb-text outline-1 -outline-offset-1 outline-tb-border placeholder:text-tb-text-muted focus:outline-2 focus:-outline-offset-2 focus:outline-tb-accent"
-            placeholder="Il tuo nome (opzionale)"
+            :placeholder="t('contact.namePlaceholder')"
           />
         </div>
       </div>
 
       <div>
         <label for="email" class="block text-sm/6 font-semibold text-tb-text">
-          Email <span class="text-tb-danger">*</span>
+          {{ $t('auth.emailLabel') }} <span class="text-tb-danger">*</span>
         </label>
         <div class="mt-2.5">
           <input
@@ -50,7 +52,7 @@
 
       <div>
         <label for="messaggio" class="block text-sm/6 font-semibold text-tb-text">
-          Messaggio <span class="text-tb-danger">*</span>
+          {{ $t('contact.messageLabel') }} <span class="text-tb-danger">*</span>
         </label>
         <div class="mt-2.5">
           <textarea
@@ -79,21 +81,21 @@
         :disabled="loading"
         class="block w-full rounded-md bg-tb-accent px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-tb-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-tb-accent disabled:cursor-not-allowed disabled:opacity-50"
       >
-        <span v-if="loading">Invio in corso…</span>
-        <span v-else>Invia messaggio</span>
+        <span v-if="loading">{{ $t('contact.submitting') }}</span>
+        <span v-else>{{ $t('contact.submitButton') }}</span>
       </button>
     </div>
   </form>
 
   <div class="mx-auto mt-10 max-w-xl text-center text-sm text-tb-text-muted">
     <p>
-      Preferisci segnalare un bug tecnico?
+      {{ $t('contact.bugReport') }}
       <a
         href="https://github.com/fdellorso/tobear-vuejs-frontend/issues"
         target="_blank"
         rel="noopener noreferrer"
         class="font-semibold text-tb-accent underline underline-offset-2 hover:opacity-80"
-        >Apri una issue su GitHub</a
+        >{{ $t('contact.openIssue') }}</a
       >
     </p>
   </div>
@@ -101,7 +103,10 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { axiosClient, withCSRF } from '@/axios'
+
+const { t } = useI18n()
 
 const nome = ref('')
 const email = ref('')
@@ -119,13 +124,13 @@ function validate() {
   fieldErrors.messaggio = ''
 
   if (!email.value) {
-    fieldErrors.email = "L'email è obbligatoria."
+    fieldErrors.email = t('contact.errorEmail')
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-    fieldErrors.email = 'Inserisci un indirizzo email valido.'
+    fieldErrors.email = t('contact.errorEmailInvalid')
   }
 
   if (!messaggio.value) {
-    fieldErrors.messaggio = 'Il messaggio è obbligatorio.'
+    fieldErrors.messaggio = t('contact.errorMessage')
   }
 
   return !fieldErrors.email && !fieldErrors.messaggio
@@ -147,10 +152,9 @@ async function handleSubmit() {
     submitted.value = true
   } catch (error) {
     if (error.response?.status === 429) {
-      errorMessage.value = 'Hai inviato troppi messaggi, riprova più tardi.'
+      errorMessage.value = t('contact.errorTooMany')
     } else {
-      errorMessage.value =
-        error.response?.data?.message || "Errore nell'invio del messaggio. Riprova."
+      errorMessage.value = error.response?.data?.message || t('contact.errorGeneric')
     }
   } finally {
     loading.value = false

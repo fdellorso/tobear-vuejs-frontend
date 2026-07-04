@@ -20,32 +20,38 @@
 
     <div v-else class="grid grid-cols-2 gap-4 sm:grid-cols-3">
       <div class="rounded-xl border border-tb-border bg-tb-surface p-4">
-        <p class="text-xs font-medium uppercase tracking-wider text-tb-text-muted">Totali</p>
+        <p class="text-xs font-medium uppercase tracking-wider text-tb-text-muted">
+          {{ $t('profile.total') }}
+        </p>
         <p class="mt-2 text-3xl font-semibold text-tb-text">{{ taskCount }}</p>
       </div>
       <div class="rounded-xl border border-tb-border bg-tb-surface p-4">
-        <p class="text-xs font-medium uppercase tracking-wider text-tb-text-muted">Attivi</p>
+        <p class="text-xs font-medium uppercase tracking-wider text-tb-text-muted">
+          {{ $t('profile.active') }}
+        </p>
         <p class="mt-2 text-3xl font-semibold text-tb-text">{{ activeCount }}</p>
       </div>
       <div class="rounded-xl border border-tb-border bg-tb-surface p-4">
-        <p class="text-xs font-medium uppercase tracking-wider text-tb-text-muted">Completati</p>
+        <p class="text-xs font-medium uppercase tracking-wider text-tb-text-muted">
+          {{ $t('profile.completed') }}
+        </p>
         <p class="mt-2 text-3xl font-semibold text-tb-success">{{ completedCount }}</p>
       </div>
       <div class="rounded-xl border border-tb-border bg-tb-surface p-4">
         <p class="text-xs font-medium uppercase tracking-wider text-tb-text-muted">
-          Questa settimana
+          {{ $t('profile.thisWeek') }}
         </p>
         <p class="mt-2 text-3xl font-semibold text-tb-text">{{ thisWeekCount }}</p>
       </div>
       <div class="rounded-xl border border-tb-border bg-tb-surface p-4">
         <p class="text-xs font-medium uppercase tracking-wider text-tb-text-muted">
-          Completati questa settimana
+          {{ $t('profile.completedThisWeek') }}
         </p>
         <p class="mt-2 text-3xl font-semibold text-tb-success">{{ completedThisWeekCount }}</p>
       </div>
       <div class="rounded-xl border border-tb-border bg-tb-surface p-4">
         <p class="text-xs font-medium uppercase tracking-wider text-tb-text-muted">
-          % completamento
+          {{ $t('profile.completionRate') }}
         </p>
         <p class="mt-2 text-3xl font-semibold text-tb-accent">{{ completionRate }}%</p>
       </div>
@@ -53,7 +59,7 @@
   </div>
 
   <div v-else class="mx-auto max-w-2xl px-4 py-8 text-center">
-    <p class="text-sm text-tb-text-muted">Devi aver effettuato l'accesso per vedere il profilo.</p>
+    <p class="text-sm text-tb-text-muted">{{ $t('auth.notLoggedInProfile') }}</p>
   </div>
 </template>
 

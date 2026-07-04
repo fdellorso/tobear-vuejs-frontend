@@ -2,6 +2,7 @@ import './assets/style.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { i18n } from '@/i18n'
 
 import VueMatomo from 'vue-matomo'
 
@@ -14,6 +15,7 @@ const pinia = createPinia()
 
 app.use(router)
 app.use(pinia)
+app.use(i18n)
 
 const themeStore = useThemeStore()
 themeStore.init()

@@ -17,7 +17,7 @@
           :class="{ 'bg-tb-nav-active text-tb-text': route.path === '/todo' }"
         >
           <CheckIcon class="size-4 shrink-0" />
-          Todo
+          {{ $t('nav.todo') }}
         </RouterLink>
         <button
           @click="$emit('openPanel', activePanel === 'about' ? null : 'about')"
@@ -25,7 +25,7 @@
           :class="{ 'bg-tb-nav-active text-tb-text': activePanel === 'about' }"
         >
           <InformationCircleIcon class="size-4 shrink-0" />
-          About
+          {{ $t('nav.about') }}
         </button>
         <button
           @click="$emit('openPanel', activePanel === 'contact' ? null : 'contact')"
@@ -33,7 +33,7 @@
           :class="{ 'bg-tb-nav-active text-tb-text': activePanel === 'contact' }"
         >
           <EnvelopeIcon class="size-4 shrink-0" />
-          Contatti
+          {{ $t('nav.contact') }}
         </button>
         <button
           v-if="mode === 'authenticated'"
@@ -42,7 +42,7 @@
           :class="{ 'bg-tb-nav-active text-tb-text': activePanel === 'user' }"
         >
           <UserIcon class="size-4 shrink-0" />
-          Profile
+          {{ $t('nav.profile') }}
         </button>
       </nav>
     </div>
@@ -59,19 +59,19 @@
       <div class="border-t border-tb-border pt-4">
         <template v-if="mode === 'guest'">
           <p class="px-3 py-2 text-xs text-tb-text-muted">
-            Modalità locale — crea un account per sincronizzare i task.
+            {{ $t('auth.localMode') }}
           </p>
           <button
             @click="$emit('openPanel', activePanel === 'login' ? null : 'login')"
             class="flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-tb-text-sec hover:bg-tb-nav-active hover:text-tb-text"
           >
-            Accedi
+            {{ $t('nav.signIn') }}
           </button>
           <button
             @click="$emit('openPanel', activePanel === 'register' ? null : 'register')"
             class="mt-1 flex w-full items-center rounded-md bg-tb-accent px-3 py-2 text-sm font-medium text-white hover:opacity-90"
           >
-            Registrati
+            {{ $t('nav.signUp') }}
           </button>
         </template>
         <template v-else-if="mode === 'authenticated' && user">
@@ -80,7 +80,7 @@
             @click="logout"
             class="mt-1 flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-tb-text-sec hover:bg-tb-nav-active hover:text-tb-text"
           >
-            Esci
+            {{ $t('nav.signOut') }}
           </button>
         </template>
         <template v-else>
@@ -88,13 +88,13 @@
             @click="$emit('openPanel', activePanel === 'login' ? null : 'login')"
             class="flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-tb-text-sec hover:bg-tb-nav-active hover:text-tb-text"
           >
-            Accedi
+            {{ $t('nav.signIn') }}
           </button>
           <button
             @click="$emit('openPanel', activePanel === 'register' ? null : 'register')"
             class="mt-1 flex w-full items-center rounded-md bg-tb-accent px-3 py-2 text-sm font-medium text-white hover:opacity-90"
           >
-            Registrati
+            {{ $t('nav.signUp') }}
           </button>
         </template>
 
@@ -108,6 +108,18 @@
             :class="{ 'bg-tb-nav-active text-tb-text-sec': themeStore.theme === option.value }"
           >
             <component :is="option.icon" class="size-4" />
+          </button>
+        </div>
+        <div class="mt-2 flex items-center gap-1 rounded-lg border border-tb-border p-1">
+          <button
+            v-for="lang in localeOptions"
+            :key="lang.value"
+            @click="localeStore.setLocale(lang.value)"
+            :title="lang.label"
+            class="flex flex-1 items-center justify-center rounded-md p-1.5 text-xs font-medium text-tb-text-muted transition-colors hover:text-tb-text-sec"
+            :class="{ 'bg-tb-nav-active text-tb-text-sec': localeStore.locale === lang.value }"
+          >
+            {{ lang.flag }}
           </button>
         </div>
       </div>
@@ -124,6 +136,8 @@ import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useTaskStats } from '@/composables/useTaskStats'
 import { useThemeStore } from '@/stores/theme'
+import { useLocaleStore } from '@/stores/locale'
+import { useI18n } from 'vue-i18n'
 import {
   SunIcon,
   MoonIcon,
@@ -135,11 +149,18 @@ import {
 } from '@heroicons/vue/24/outline'
 
 const themeStore = useThemeStore()
+const localeStore = useLocaleStore()
+const { t } = useI18n()
 
 const themeOptions = [
-  { value: 'light', label: 'Chiaro', icon: SunIcon },
-  { value: 'dark', label: 'Scuro', icon: MoonIcon },
-  { value: 'system', label: 'Sistema', icon: ComputerDesktopIcon },
+  { value: 'light', label: t('theme.light'), icon: SunIcon },
+  { value: 'dark', label: t('theme.dark'), icon: MoonIcon },
+  { value: 'system', label: t('theme.system'), icon: ComputerDesktopIcon },
+]
+
+const localeOptions = [
+  { value: 'en', label: 'English', flag: 'EN' },
+  { value: 'it', label: 'Italiano', flag: 'IT' },
 ]
 
 defineProps({

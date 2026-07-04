@@ -1,0 +1,125 @@
+{
+  "nav": {
+    "todo": "Todo",
+    "about": "About",
+    "contact": "Contact",
+    "profile": "Profile",
+    "premium": "Premium",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signOut": "Sign out"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "todo": {
+    "title": "My tasks",
+    "active": "{count} active",
+    "empty": "No tasks found.",
+    "placeholder": "Task title",
+    "completed": "Completed",
+    "completeAction": "Complete",
+    "restoreAction": "Restore",
+    "deleteAction": "Delete"
+  },
+  "auth": {
+    "localMode": "Local mode — create an account to sync your tasks.",
+    "signInTitle": "Sign in",
+    "signUpTitle": "Create account",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "currentPasswordLabel": "Current password",
+    "newPasswordLabel": "New password",
+    "confirmPasswordLabel": "Confirm new password",
+    "fullNameLabel": "Full name",
+    "forgotPassword": "Forgot password?",
+    "sendResetLink": "Send reset link",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "updatePassword": "Update password",
+    "saving": "Saving...",
+    "notLoggedInProfile": "You must be logged in to view your profile.",
+    "notLoggedInSettings": "You must be logged in to access settings."
+  },
+  "verify": {
+    "title": "Account Created Successfully",
+    "message": "A verification email has been sent to your email address. Please check your inbox and follow the link to verify your account.",
+    "resend": "Resend Verification Email",
+    "sending": "Sending...",
+    "success": "Verification email has been resent successfully.",
+    "error": "Failed to resend email."
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account preferences.",
+    "accountSection": "Account",
+    "emailLabel": "Email",
+    "verifiedLabel": "Email verified",
+    "verifiedYes": "Yes",
+    "verifiedNo": "No",
+    "passwordSection": "Change password",
+    "passwordSuccess": "Password updated successfully.",
+    "passwordError": "Failed to update password."
+  },
+  "profile": {
+    "total": "Total",
+    "active": "Active",
+    "completed": "Completed",
+    "thisWeek": "This week",
+    "completedThisWeek": "Completed this week",
+    "completionRate": "Completion rate"
+  },
+  "errors": {
+    "generic": "An error occurred",
+    "passwordReset": "Failed to reset password.",
+    "statsError": "Unable to load statistics"
+  },
+  "cookie": {
+    "message": "We use Matomo (self-hosted) to understand how toBear is used. No data is shared with third parties.",
+    "accept": "Accept",
+    "reject": "Reject"
+  },
+  "premium": {
+    "title": "toBear Premium",
+    "subtitle": "Sync your tasks across all your devices and unlock more features.",
+    "classic": "Classic",
+    "reels": "Reels",
+    "comingSoon": "Payments coming soon via Stripe.",
+    "perMonth": "/mo",
+    "classicFeatures": {
+      "sync": "Sync across devices",
+      "backup": "Cloud backup",
+      "updates": "All future updates"
+    },
+    "reelsFeatures": {
+      "everything": "Everything in Classic",
+      "photos": "Photo tasks (ToBear Reels)",
+      "storage": "Cloudflare R2 storage"
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "message": "The page you're looking for doesn't exist or has been moved.",
+    "back": "Back to your tasks"
+  },
+  "contact": {
+    "title": "Contact us",
+    "subtitle": "A problem, a suggestion, or just a hello — write to us.",
+    "namePlaceholder": "Your name (optional)",
+    "nameLabel": "Name",
+    "messageLabel": "Message",
+    "submitButton": "Send message",
+    "submitting": "Sending…",
+    "thankYou": "Thank you!",
+    "thankYouMessage": "We'll get back to you as soon as possible.",
+    "bugReport": "Prefer to report a technical bug?",
+    "openIssue": "Open an issue on GitHub",
+    "errorEmail": "Email is required.",
+    "errorEmailInvalid": "Please enter a valid email address.",
+    "errorMessage": "Message is required.",
+    "errorTooMany": "You have sent too many messages, please try again later.",
+    "errorGeneric": "Error sending message. Please try again."
+  }
+}

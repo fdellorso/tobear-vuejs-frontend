@@ -8,6 +8,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 import viteCompression from 'vite-plugin-compression'
 // import MkCert from 'vite-plugin-mkcert'
 
+import Markdown from 'unplugin-vue-markdown/vite'
 import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
@@ -19,7 +20,16 @@ export default ({ mode }) => {
     // base: env.VITE_BASE_URL,
     base: '/',
     plugins: [
-      vue(),
+      vue({
+        include: [/\.vue$/, /\.md$/],
+      }),
+      Markdown({
+        markdownItOptions: {
+          html: true,
+          linkify: true,
+          typographer: true,
+        },
+      }),
       vueDevTools(),
       tailwindcss(),
       VitePWA({

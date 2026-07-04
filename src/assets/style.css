@@ -1,5 +1,6 @@
 @import './themes.css';
 @import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 
 html,
 body {

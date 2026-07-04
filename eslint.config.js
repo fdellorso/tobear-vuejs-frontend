@@ -30,7 +30,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['**/TODO.md'],
+    files: ['**/TODO.md', 'handoffs/*.md'],
     plugins: { markdown },
     language: 'markdown/commonmark',
     rules: {

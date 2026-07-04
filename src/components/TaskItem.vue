@@ -63,7 +63,7 @@
               ? 'text-tb-warning bg-tb-warning-bg hover:bg-tb-warning-bg'
               : 'text-tb-success bg-tb-success-bg hover:bg-tb-success-bg'
           "
-          :title="completed ? 'Reinserisci' : 'Completa'"
+          :title="completed ? t('todo.restoreAction') : t('todo.completeAction')"
         >
           <svg
             v-if="!completed"
@@ -91,7 +91,7 @@
         <button
           @click.stop="emit('delete')"
           class="p-1.5 rounded-full text-tb-danger bg-tb-danger-bg hover:bg-tb-danger-bg transition-colors"
-          title="Elimina"
+          :title="t('todo.deleteAction')"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -109,6 +109,7 @@
 
 <script setup>
 import { ref, computed, watch, onBeforeUnmount, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const draggable = ref(null)
 const container = ref(null)
@@ -136,8 +137,12 @@ const props = defineProps({
   },
 })
 
-const swipeLeftLabel = computed(() => (props.completed ? 'Reinserisci' : 'Completa'))
-const swipeRightLabel = computed(() => 'Elimina')
+const swipeLeftLabel = computed(() =>
+  props.completed ? t('todo.restoreAction') : t('todo.completeAction'),
+)
+const swipeRightLabel = computed(() => t('todo.deleteAction'))
+
+const { t } = useI18n()
 
 const emit = defineEmits(['complete', 'delete', 'horizontal-dragging', 'edit'])
 

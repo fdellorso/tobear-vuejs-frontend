@@ -1,0 +1,125 @@
+{
+  "nav": {
+    "todo": "Attività",
+    "about": "Info",
+    "contact": "Contatti",
+    "profile": "Profilo",
+    "premium": "Premium",
+    "signIn": "Accedi",
+    "signUp": "Registrati",
+    "signOut": "Esci"
+  },
+  "theme": {
+    "light": "Chiaro",
+    "dark": "Scuro",
+    "system": "Sistema"
+  },
+  "todo": {
+    "title": "Le mie attività",
+    "active": "{count} attive",
+    "empty": "Nessuna attività trovata.",
+    "placeholder": "Titolo attività",
+    "completed": "Completate",
+    "completeAction": "Completa",
+    "restoreAction": "Recupera",
+    "deleteAction": "Elimina"
+  },
+  "auth": {
+    "localMode": "Modalità locale — crea un account per sincronizzare le tue attività.",
+    "signInTitle": "Accedi",
+    "signUpTitle": "Crea account",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "currentPasswordLabel": "Password attuale",
+    "newPasswordLabel": "Nuova password",
+    "confirmPasswordLabel": "Conferma nuova password",
+    "fullNameLabel": "Nome completo",
+    "forgotPassword": "Password dimenticata?",
+    "sendResetLink": "Invia link di reset",
+    "noAccount": "Non hai un account?",
+    "hasAccount": "Hai già un account?",
+    "updatePassword": "Aggiorna password",
+    "saving": "Salvataggio...",
+    "notLoggedInProfile": "Devi aver effettuato l'accesso per vedere il profilo.",
+    "notLoggedInSettings": "Devi aver effettuato l'accesso per vedere le impostazioni."
+  },
+  "verify": {
+    "title": "Account creato con successo",
+    "message": "Un'email di verifica è stata inviata al tuo indirizzo email. Controlla la tua casella di posta e segui il link per verificare il tuo account.",
+    "resend": "Invia di nuovo l'email di verifica",
+    "sending": "Invio in corso...",
+    "success": "Email di verifica reinviata con successo.",
+    "error": "Invio email fallito."
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "subtitle": "Gestisci le preferenze del tuo account.",
+    "accountSection": "Account",
+    "emailLabel": "Email",
+    "verifiedLabel": "Email verificata",
+    "verifiedYes": "Sì",
+    "verifiedNo": "No",
+    "passwordSection": "Cambia password",
+    "passwordSuccess": "Password aggiornata con successo.",
+    "passwordError": "Aggiornamento password fallito."
+  },
+  "profile": {
+    "total": "Totale",
+    "active": "Attive",
+    "completed": "Completate",
+    "thisWeek": "Questa settimana",
+    "completedThisWeek": "Completate questa settimana",
+    "completionRate": "Tasso di completamento"
+  },
+  "errors": {
+    "generic": "Si è verificato un errore",
+    "passwordReset": "Reimpostazione password fallita.",
+    "statsError": "Impossibile caricare le statistiche"
+  },
+  "cookie": {
+    "message": "Utilizziamo Matomo (self-hosted) per capire come viene usato toBear. Nessun dato viene condiviso con terze parti.",
+    "accept": "Accetta",
+    "reject": "Rifiuta"
+  },
+  "premium": {
+    "title": "toBear Premium",
+    "subtitle": "Sincronizza le tue attività su tutti i tuoi dispositivi e sblocca altre funzionalità.",
+    "classic": "Classic",
+    "reels": "Reels",
+    "comingSoon": "Pagamenti in arrivo via Stripe.",
+    "perMonth": "/mese",
+    "classicFeatures": {
+      "sync": "Sincronizzazione tra dispositivi",
+      "backup": "Backup su cloud",
+      "updates": "Tutti gli aggiornamenti futuri"
+    },
+    "reelsFeatures": {
+      "everything": "Tutto incluso in Classic",
+      "photos": "Attività con foto (ToBear Reels)",
+      "storage": "Archiviazione Cloudflare R2"
+    }
+  },
+  "notFound": {
+    "title": "Pagina non trovata",
+    "message": "La pagina che stai cercando non esiste o è stata spostata.",
+    "back": "Torna alle tue attività"
+  },
+  "contact": {
+    "title": "Contattaci",
+    "subtitle": "Un problema, un suggerimento, o solo un saluto — scrivici pure.",
+    "namePlaceholder": "Il tuo nome (opzionale)",
+    "nameLabel": "Nome",
+    "messageLabel": "Messaggio",
+    "submitButton": "Invia messaggio",
+    "submitting": "Invio in corso…",
+    "thankYou": "Grazie!",
+    "thankYouMessage": "Ti risponderemo al più presto.",
+    "bugReport": "Preferisci segnalare un bug tecnico?",
+    "openIssue": "Apri una issue su GitHub",
+    "errorEmail": "L'email è obbligatoria.",
+    "errorEmailInvalid": "Inserisci un indirizzo email valido.",
+    "errorMessage": "Il messaggio è obbligatorio.",
+    "errorTooMany": "Hai inviato troppi messaggi, riprova più tardi.",
+    "errorGeneric": "Errore nell'invio del messaggio. Riprova."
+  }
+}

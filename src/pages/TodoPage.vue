@@ -1,16 +1,18 @@
 <template>
   <div class="mx-auto max-w-2xl px-4 py-4">
     <div class="hidden xl:flex items-baseline justify-between px-0 pb-3 pt-1">
-      <span class="text-xs font-medium uppercase tracking-widest text-tb-text-muted"
-        >I miei task</span
-      >
-      <span class="text-xs text-tb-text-muted">{{ activeTasks.length }} attivi</span>
+      <span class="text-xs font-medium uppercase tracking-widest text-tb-text-muted">{{
+        $t('todo.title')
+      }}</span>
+      <span class="text-xs text-tb-text-muted">{{
+        $t('todo.active', { count: activeTasks.length })
+      }}</span>
     </div>
     <div v-if="loading">
       <SkeletonTask v-for="n in 5" :key="n" class="mb-2" />
     </div>
     <div v-else>
-      <div v-if="tasks.length === 0" class="text-tb-text-muted">Nessun task trovato.</div>
+      <div v-if="tasks.length === 0" class="text-tb-text-muted">{{ $t('todo.empty') }}</div>
 
       <draggable
         class="space-y-2 list-group list-none"
@@ -44,7 +46,7 @@
               type="text"
               name="newtask"
               id="newtask"
-              placeholder="Titolo del task"
+              :placeholder="t('todo.placeholder')"
               @blur="createTask"
               class="border border-tb-border rounded-lg shadow-md p-3"
               required
@@ -55,7 +57,7 @@
 
       <template v-if="completedTasks.length > 0">
         <div class="mt-6 mb-2 text-xs font-medium uppercase tracking-wider text-tb-text-muted/60">
-          Completati
+          {{ $t('todo.completed') }}
         </div>
         <TransitionGroup name="completed" tag="ul" class="space-y-2">
           <li v-for="task in completedTasks" :key="task.id" class="opacity-60">
@@ -79,6 +81,7 @@ import { axiosClient } from '@/axios'
 import { ref, onMounted, computed } from 'vue'
 import draggable from 'vuedraggable'
 import useUserStore from '@/stores/user.js'
+import { useI18n } from 'vue-i18n'
 
 import SkeletonTask from '@/components/SkeletonTask.vue'
 import TaskItem from '@/components/TaskItem.vue'
@@ -86,6 +89,7 @@ import { useTaskDB } from '@/idb/useTaskDB'
 import { migrateGuestTasks } from '@/composables/useGuestMigration'
 
 const userStore = useUserStore()
+const { t } = useI18n()
 const tasks = ref([])
 const form = ref({
   title: '',

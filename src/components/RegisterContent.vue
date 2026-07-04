@@ -1,10 +1,12 @@
 <template>
   <div class="mx-auto max-w-md px-4 py-8 min-h-screen">
-    <h2 class="mb-6 text-xl font-semibold text-tb-text">Create account</h2>
+    <h2 class="mb-6 text-xl font-semibold text-tb-text">{{ $t('auth.signUpTitle') }}</h2>
 
     <form @submit.prevent="handleSubmit" class="space-y-4">
       <div>
-        <label for="reg-name" class="block text-sm font-medium text-tb-text-sec">Full name</label>
+        <label for="reg-name" class="block text-sm font-medium text-tb-text-sec">{{
+          $t('auth.fullNameLabel')
+        }}</label>
         <input
           id="reg-name"
           v-model="form.name"
@@ -16,7 +18,9 @@
         <p v-if="errors.name" class="mt-1 text-xs text-tb-danger">{{ errors.name[0] }}</p>
       </div>
       <div>
-        <label for="reg-email" class="block text-sm font-medium text-tb-text-sec">Email</label>
+        <label for="reg-email" class="block text-sm font-medium text-tb-text-sec">{{
+          $t('auth.emailLabel')
+        }}</label>
         <input
           id="reg-email"
           v-model="form.email"
@@ -28,9 +32,9 @@
         <p v-if="errors.email" class="mt-1 text-xs text-tb-danger">{{ errors.email[0] }}</p>
       </div>
       <div>
-        <label for="reg-password" class="block text-sm font-medium text-tb-text-sec"
-          >Password</label
-        >
+        <label for="reg-password" class="block text-sm font-medium text-tb-text-sec">{{
+          $t('auth.passwordLabel')
+        }}</label>
         <input
           id="reg-password"
           v-model="form.password"
@@ -42,9 +46,9 @@
         <p v-if="errors.password" class="mt-1 text-xs text-tb-danger">{{ errors.password[0] }}</p>
       </div>
       <div>
-        <label for="reg-confirm" class="block text-sm font-medium text-tb-text-sec"
-          >Confirm password</label
-        >
+        <label for="reg-confirm" class="block text-sm font-medium text-tb-text-sec">{{
+          $t('auth.confirmPasswordLabel')
+        }}</label>
         <input
           id="reg-confirm"
           v-model="form.password_confirmation"
@@ -58,15 +62,15 @@
         type="submit"
         class="w-full rounded-lg bg-tb-accent px-4 py-2 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
       >
-        Create account
+        {{ $t('auth.signUpTitle') }}
       </button>
     </form>
 
     <p class="mt-6 text-center text-sm text-tb-text-muted">
-      Already have an account?
-      <RouterLink to="/login" class="font-medium text-tb-accent hover:opacity-80"
-        >Sign in</RouterLink
-      >
+      {{ $t('auth.hasAccount') }}
+      <RouterLink to="/login" class="font-medium text-tb-accent hover:opacity-80">{{
+        $t('auth.signInTitle')
+      }}</RouterLink>
     </p>
   </div>
 </template>

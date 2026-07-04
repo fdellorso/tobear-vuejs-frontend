@@ -13,15 +13,15 @@
 - [x] Modalità locale-only (guest) senza account — todo list usabile offline al 100%
 - [x] Migrazione task guest → account al login (creati / completati / cancellati)
 - [x] Homepage rimossa dal flusso principale — `/` ora redirige direttamente a `/todo`
-- [ ] **UX Desktop — azioni complete/delete via hover-reveal** (swipe mouse rimosso per conflitto strutturale con SortableJS, vedi handoff 2026-06-28)
-- [ ] Verificare/rifinire UX desktop generale (drag&drop ora funziona col mouse, ma manca ancora un modo di completare/eliminare senza touch)
+- [x] **UX Desktop — azioni complete/delete via hover-reveal** (swipe mouse rimosso per conflitto strutturale con SortableJS, vedi handoff 2026-06-28)
+- [x] Verificare/rifinire UX desktop generale (drag&drop ora funziona col mouse, ma manca ancora un modo di completare/eliminare senza touch)
 - [x] PWA service worker cache per offline — navigateFallback corretto (era `/offline.html`, ora `/index.html`), NavigationRoute serve app shell per tutte le route SPA. Sync online (IndexedDB + event `online`) già funzionante.
 - [x] HomePage.vue — decidere se recuperarla come landing pubblica/marketing in futuro o lasciarla in pausa (codice esistente ma non referenziato da nessuna route)
 
 ## Bug noti / debito tecnico
 
-- [ ] I 9 test pre-esistenti del frontend (markdown lint, PaginationElement variabile inutilizzata) — non bloccanti, da pulire quando si ha tempo
-- [ ] `ProfileIcon.vue` — non distingue "guest" da "non ancora deciso" nel testo del link (rimandato, vedi piano modalità guest)
+- [x] I 9 test pre-esistenti del frontend (markdown lint, PaginationElement variabile inutilizzata) — non bloccanti, da pulire quando si ha tempo
+- [x] `ProfileIcon.vue` — non distingue "guest" da "non ancora deciso" nel testo del link — rimosso, era codice morto
 - [x] Primo test E2E Playwright stabile: `e2e/spa-navigation.spec.js` — verifica che ogni navigazione interna sia client-side (Vue Router) senza full-page reload. Config in `playwright.config.js`, script `npm run test:e2e`. Usare `baseURL: 'https://laravel.fritz.box:3000'` in sviluppo (cert/CORS), mai `localhost`.
 - [ ] File temporanei di test `resize()` in `public/assets/` (backend) non vengono puliti tra run — monitorare crescita, eventualmente migrare a `Storage::fake()`
 

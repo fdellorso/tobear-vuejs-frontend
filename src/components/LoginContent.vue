@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto max-w-md px-4 py-8 min-h-screen">
-    <h2 class="mb-6 text-xl font-semibold text-tb-text">Sign in</h2>
+    <h2 class="mb-6 text-xl font-semibold text-tb-text">{{ $t('auth.signInTitle') }}</h2>
 
     <div
       v-if="verifiedMessage"
@@ -14,7 +14,9 @@
 
     <form @submit.prevent="handleLogin" class="space-y-4">
       <div>
-        <label for="login-email" class="block text-sm font-medium text-tb-text-sec">Email</label>
+        <label for="login-email" class="block text-sm font-medium text-tb-text-sec">{{
+          $t('auth.emailLabel')
+        }}</label>
         <input
           id="login-email"
           v-model="form.email"
@@ -25,9 +27,9 @@
         />
       </div>
       <div>
-        <label for="login-password" class="block text-sm font-medium text-tb-text-sec"
-          >Password</label
-        >
+        <label for="login-password" class="block text-sm font-medium text-tb-text-sec">{{
+          $t('auth.passwordLabel')
+        }}</label>
         <input
           id="login-password"
           v-model="form.password"
@@ -41,7 +43,7 @@
         type="submit"
         class="w-full rounded-lg bg-tb-accent px-4 py-2 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
       >
-        Sign in
+        {{ $t('auth.signInTitle') }}
       </button>
     </form>
 
@@ -50,7 +52,7 @@
         @click="showForgot = !showForgot"
         class="text-sm text-tb-text-muted hover:text-tb-text-sec"
       >
-        Forgot password?
+        {{ $t('auth.forgotPassword') }}
       </button>
     </div>
 
@@ -58,34 +60,37 @@
       <input
         v-model="forgotEmail"
         type="email"
-        placeholder="Your email"
+        :placeholder="t('auth.emailLabel')"
         class="block w-full rounded-lg border border-tb-border bg-tb-surface px-3 py-2 text-sm text-tb-text placeholder:text-tb-text-muted focus:border-tb-accent focus:outline-none"
       />
       <button
         @click="handleForgot"
         class="w-full rounded-lg border border-tb-border px-4 py-2 text-sm text-tb-text-sec hover:bg-tb-nav-active transition-colors"
       >
-        Send reset link
+        {{ $t('auth.sendResetLink') }}
       </button>
     </div>
 
     <p class="mt-6 text-center text-sm text-tb-text-muted">
-      Don't have an account?
-      <RouterLink to="/register" class="font-medium text-tb-accent hover:opacity-80"
-        >Sign up</RouterLink
-      >
+      {{ $t('auth.noAccount') }}
+      <RouterLink to="/register" class="font-medium text-tb-accent hover:opacity-80">{{
+        $t('auth.signUpTitle')
+      }}</RouterLink>
     </p>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 defineProps({
   errorMessage: { type: String, default: '' },
   verifiedMessage: { type: String, default: '' },
   inPanel: { type: Boolean, default: false },
 })
+
+const { t } = useI18n()
 
 const emit = defineEmits(['submit-login', 'submit-forgot'])
 

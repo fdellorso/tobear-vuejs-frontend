@@ -1,46 +1,46 @@
 <template>
-  <BentoGrids></BentoGrids>
-  <PricingSection></PricingSection>
-  <FeatureSection :features="features">
-    <template v-slot:title>Everything you need to deploy your app</template>
-    <template v-slot:content>
-      Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a
-      elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.
-    </template>
-  </FeatureSection>
+  <div class="mx-auto max-w-2xl px-4 py-8 min-h-screen">
+    <div class="mb-8 text-center">
+      <h1 class="text-2xl font-semibold text-tb-text">{{ $t('premium.title') }}</h1>
+      <p class="mt-2 text-sm text-tb-text-muted">
+        {{ $t('premium.subtitle') }}
+      </p>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div class="rounded-xl border border-tb-border bg-tb-surface p-6">
+        <h2 class="text-lg font-semibold text-tb-text">{{ $t('premium.classic') }}</h2>
+        <p class="mt-1 text-2xl font-bold text-tb-accent">
+          €2.99<span class="text-sm font-normal text-tb-text-muted">{{
+            $t('premium.perMonth')
+          }}</span>
+        </p>
+        <ul class="mt-4 space-y-2 text-sm text-tb-text-sec">
+          <li>✓ {{ $t('premium.classicFeatures.sync') }}</li>
+          <li>✓ {{ $t('premium.classicFeatures.backup') }}</li>
+          <li>✓ {{ $t('premium.classicFeatures.updates') }}</li>
+        </ul>
+      </div>
+
+      <div class="rounded-xl border border-tb-accent bg-tb-surface p-6">
+        <h2 class="text-lg font-semibold text-tb-text">{{ $t('premium.reels') }}</h2>
+        <p class="mt-1 text-2xl font-bold text-tb-accent">
+          €4.99<span class="text-sm font-normal text-tb-text-muted">{{
+            $t('premium.perMonth')
+          }}</span>
+        </p>
+        <ul class="mt-4 space-y-2 text-sm text-tb-text-sec">
+          <li>✓ {{ $t('premium.reelsFeatures.everything') }}</li>
+          <li>✓ {{ $t('premium.reelsFeatures.photos') }}</li>
+          <li>✓ {{ $t('premium.reelsFeatures.storage') }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="mt-8 text-center text-xs text-tb-text-muted">
+      {{ $t('premium.comingSoon') }}
+    </p>
+  </div>
 </template>
 
-<script setup>
-import BentoGrids from '@/components/tailwindplus/BentoGrids.vue'
-import FeatureSection from '@/components/tailwindplus/FeatureSection.vue'
-import PricingSection from '@/components/tailwindplus/PricingSection.vue'
-
-const features = [
-  {
-    name: 'Push to deploy',
-    description:
-      'Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.',
-    icon: 'LockClosed',
-  },
-  {
-    name: 'SSL certificates',
-    description:
-      'Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.',
-    icon: 'LockClosed',
-  },
-  {
-    name: 'Simple queues',
-    description:
-      'Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.',
-    icon: 'LockClosed',
-  },
-  {
-    name: 'Advanced security',
-    description:
-      'Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.',
-    icon: 'LockClosed',
-  },
-]
-</script>
-
-<style scoped></style>
+<script setup></script>

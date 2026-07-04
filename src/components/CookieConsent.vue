@@ -28,8 +28,7 @@ function rifiuta() {
     class="fixed inset-x-0 bottom-0 z-50 flex flex-col gap-y-4 bg-gray-900/95 px-6 py-4 backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between sm:gap-x-6"
   >
     <p class="text-sm/6 text-gray-200">
-      Usiamo Matomo (self-hosted) per capire come viene usato toBear. Nessun dato viene condiviso
-      con terzi.
+      {{ $t('cookie.message') }}
     </p>
     <div class="flex shrink-0 gap-x-3">
       <button
@@ -37,14 +36,14 @@ function rifiuta() {
         class="rounded-md bg-white/10 px-3.5 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         @click="rifiuta"
       >
-        Rifiuta
+        {{ $t('cookie.reject') }}
       </button>
       <button
         type="button"
         class="rounded-md bg-amber-500 px-3.5 py-2 text-sm font-semibold text-white shadow-xs hover:bg-amber-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-500"
         @click="accetta"
       >
-        Accetta
+        {{ $t('cookie.accept') }}
       </button>
     </div>
   </div>
