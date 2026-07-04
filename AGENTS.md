@@ -16,7 +16,7 @@ Se l'utente dice "leggi gli handoff" o "riprendi da dove eravamo", esegui i punt
 
 ## Architettura
 
-```
+```text
 src/
   axios/index.js        # axiosClient (cookie+XSRF auth), axiosCSRF, helper withCSRF
   stores/                # Pinia, Options API style (non Composition API per gli store)

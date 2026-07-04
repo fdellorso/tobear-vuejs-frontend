@@ -89,11 +89,12 @@
     <p>
       Preferisci segnalare un bug tecnico?
       <a
-        href="#"
-        class="font-semibold text-tb-accent underline underline-offset-2 hover:text-tb-accent"
+        href="https://github.com/fdellorso/tobear-vuejs-frontend/issues"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-semibold text-tb-accent underline underline-offset-2 hover:opacity-80"
         >Apri una issue su GitHub</a
       >
-      <!-- TODO: sostituire href con URL del repository pubblico -->
     </p>
   </div>
 </template>

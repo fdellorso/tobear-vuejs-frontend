@@ -29,6 +29,14 @@ export default defineConfig([
       'markdown/no-html': 'error',
     },
   },
+  {
+    files: ['**/TODO.md'],
+    plugins: { markdown },
+    language: 'markdown/commonmark',
+    rules: {
+      'markdown/no-missing-label-refs': 'off',
+    },
+  },
 
   globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '.opencode/**']),
 

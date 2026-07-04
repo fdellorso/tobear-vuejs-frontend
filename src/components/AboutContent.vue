@@ -29,10 +29,9 @@
       </p>
       <p>
         Open source. Il codice di toBear è pubblico su
-        <a href="#" class="text-blue-800 underline underline-offset-2 hover:text-blue-700"
+        <a href="https://github.com/fdellorso/tobear-vuejs-frontend" target="_blank" rel="noopener noreferrer" class="text-tb-accent underline underline-offset-2 hover:opacity-80"
           >GitHub</a
         >
-        <!-- TODO: sostituire href con URL del repository pubblico -->
         — puoi guardare come è fatto, segnalare un problema, o contribuire.
       </p>
       <p>

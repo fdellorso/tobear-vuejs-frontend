@@ -16,7 +16,7 @@
 - [ ] **UX Desktop — azioni complete/delete via hover-reveal** (swipe mouse rimosso per conflitto strutturale con SortableJS, vedi handoff 2026-06-28)
 - [ ] Verificare/rifinire UX desktop generale (drag&drop ora funziona col mouse, ma manca ancora un modo di completare/eliminare senza touch)
 - [x] PWA service worker cache per offline — navigateFallback corretto (era `/offline.html`, ora `/index.html`), NavigationRoute serve app shell per tutte le route SPA. Sync online (IndexedDB + event `online`) già funzionante.
-- [ ] HomePage.vue — decidere se recuperarla come landing pubblica/marketing in futuro o lasciarla in pausa (codice esistente ma non referenziato da nessuna route)
+- [x] HomePage.vue — decidere se recuperarla come landing pubblica/marketing in futuro o lasciarla in pausa (codice esistente ma non referenziato da nessuna route)
 
 ## Bug noti / debito tecnico
 

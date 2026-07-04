@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import useUserStore from '@/stores/user.js'
 
-import DefaultLayout from '@/views/DefaultLayout.vue'
-import GuestLayout from '@/views/GuestLayout.vue'
 import AppLayout from '@/views/AppLayout.vue'
 
 import LoginPage from '@/pages/LoginPage.vue'
@@ -22,43 +20,6 @@ const routes = [
   {
     path: '/',
     redirect: '/todo',
-  },
-  {
-    path: '/',
-    component: GuestLayout,
-    meta: { requiresAuth: false },
-    children: [
-      {
-        path: '/verifyemail',
-        name: 'VerifyEmail',
-        meta: { requiresAuth: false, showInNav: false },
-        component: VerifyEmail,
-      },
-      {
-        path: '/premium',
-        name: 'Premium',
-        meta: { requiresAuth: false, showInNav: false },
-        component: PremiumPage,
-      },
-    ],
-  },
-  {
-    path: '/dashboard',
-    component: DefaultLayout,
-    children: [
-      {
-        path: '/user',
-        name: 'User',
-        meta: { requiresAccount: true, showInNav: false },
-        component: UserProfile,
-      },
-      {
-        path: '/setting',
-        name: 'Setting',
-        meta: { requiresAccount: true, showInNav: false },
-        component: UserSettings,
-      },
-    ],
   },
   {
     path: '/',
@@ -93,6 +54,30 @@ const routes = [
         name: 'Register',
         meta: { requiresAuth: false, showInNav: false, guest: true },
         component: RegisterPage,
+      },
+      {
+        path: '/verifyemail',
+        name: 'VerifyEmail',
+        meta: { requiresAuth: false, showInNav: false },
+        component: VerifyEmail,
+      },
+      {
+        path: '/premium',
+        name: 'Premium',
+        meta: { requiresAuth: false, showInNav: false },
+        component: PremiumPage,
+      },
+      {
+        path: '/user',
+        name: 'User',
+        meta: { requiresAccount: true, showInNav: false },
+        component: UserProfile,
+      },
+      {
+        path: '/setting',
+        name: 'Setting',
+        meta: { requiresAccount: true, showInNav: false },
+        component: UserSettings,
       },
     ],
   },
@@ -140,10 +125,4 @@ router.beforeEach(async (to, from, next) => {
   next()
 })
 
-function flattenRoutes(routes) {
-  return routes.flatMap((route) => (route.children ? flattenRoutes(route.children) : [route]))
-}
-
-const flatRoutes = flattenRoutes(routes)
-
-export { router, routes, flatRoutes }
+export { router, routes }
