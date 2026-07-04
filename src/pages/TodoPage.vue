@@ -121,7 +121,9 @@ const fetchTasks = async () => {
   loading.value = true
   if (userStore.mode === 'guest') {
     const allTasks = await getAllTasks()
-    tasks.value = allTasks.filter((t) => !t.pendingDelete)
+    tasks.value = allTasks
+      .filter((t) => !t.pendingDelete)
+      .map((t) => ({ ...t, completed: !!t.completed }))
     rebuildActiveTasks()
     loading.value = false
     return
@@ -140,7 +142,9 @@ const fetchTasks = async () => {
   } catch (error) {
     console.warn('Errore fetching da rete, carico da IndexedDB', error.message)
     const allTasks = await getAllTasks()
-    tasks.value = allTasks.filter((t) => !t.pendingDelete)
+    tasks.value = allTasks
+      .filter((t) => !t.pendingDelete)
+      .map((t) => ({ ...t, completed: !!t.completed }))
     rebuildActiveTasks()
   } finally {
     loading.value = false

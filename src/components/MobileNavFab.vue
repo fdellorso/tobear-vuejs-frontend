@@ -74,6 +74,13 @@
             <span class="block px-4 py-2.5 text-sm font-medium text-tb-text">
               {{ user.name }}
             </span>
+            <RouterLink
+              @click="close"
+              to="/setting"
+              class="block px-4 py-2.5 text-sm text-tb-text-sec hover:bg-tb-surface-2 hover:text-tb-text"
+            >
+              {{ $t('nav.settings') }}
+            </RouterLink>
             <button
               @click="(close(), logout())"
               class="block w-full px-4 py-2.5 text-left text-sm text-tb-text-sec hover:bg-tb-surface-2 hover:text-tb-text"
@@ -119,7 +126,7 @@ import LogoIcon from '@/components/LogoIcon.vue'
 import useUserStore from '@/stores/user.js'
 import { useRoute } from 'vue-router'
 import { router } from '@/router'
-import { axiosClient } from '@/axios'
+import { axiosClient, withCSRF } from '@/axios'
 import { computed } from 'vue'
 import { useThemeStore } from '@/stores/theme'
 import { useLocaleStore } from '@/stores/locale'
@@ -147,10 +154,9 @@ const mode = computed(() => userStore.mode)
 const route = useRoute()
 const isTodoActive = computed(() => route.path === '/todo')
 
-function logout() {
-  axiosClient.post('/logout').then(() => {
-    userStore.resetUser()
-    router.push({ name: 'Home' })
-  })
+async function logout() {
+  await withCSRF(() => axiosClient.post('/logout'))
+  userStore.resetUser()
+  router.push({ name: 'Home' })
 }
 </script>

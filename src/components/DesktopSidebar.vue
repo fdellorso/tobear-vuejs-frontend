@@ -44,6 +44,15 @@
           <UserIcon class="size-4 shrink-0" />
           {{ $t('nav.profile') }}
         </button>
+        <button
+          v-if="mode === 'authenticated'"
+          @click="$emit('openPanel', activePanel === 'setting' ? null : 'setting')"
+          class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-tb-text-sec hover:bg-tb-nav-active hover:text-tb-text"
+          :class="{ 'bg-tb-nav-active text-tb-text': activePanel === 'setting' }"
+        >
+          <Cog6ToothIcon class="size-4 shrink-0" />
+          {{ $t('nav.settings') }}
+        </button>
       </nav>
     </div>
 
@@ -146,6 +155,7 @@ import {
   InformationCircleIcon,
   EnvelopeIcon,
   UserIcon,
+  Cog6ToothIcon,
 } from '@heroicons/vue/24/outline'
 
 const themeStore = useThemeStore()
@@ -182,13 +192,10 @@ const { taskCount, completedCount, loading: statsLoading, fetchStats } = useTask
 const statsTotal = computed(() => taskCount.value)
 const statsCompleted = computed(() => completedCount.value)
 
-function logout() {
-  withCSRF(() =>
-    axiosClient.post('/logout').then(() => {
-      userStore.resetUser()
-      router.push({ name: 'Home' })
-    }),
-  )
+async function logout() {
+  await withCSRF(() => axiosClient.post('/logout'))
+  userStore.resetUser()
+  router.push({ name: 'Home' })
 }
 
 onMounted(fetchStats)
