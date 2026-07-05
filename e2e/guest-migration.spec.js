@@ -46,8 +46,8 @@ test.describe('Guest → Authenticated migration', () => {
     }
 
     // 2. Crea 2 task come guest
-    await page.waitForSelector('input[placeholder="Titolo del task"]', { timeout: 10000 })
-    const input = page.locator('input[placeholder="Titolo del task"]')
+    await page.waitForSelector('input[placeholder="Task title"]', { timeout: 10000 })
+    const input = page.locator('input[placeholder="Task title"]')
 
     await input.fill('Task migrazione 1')
     await input.press('Enter')
@@ -64,7 +64,7 @@ test.describe('Guest → Authenticated migration', () => {
     // 4. Esegui login
     await page.fill('input[type="email"]', TEST_EMAIL)
     await page.fill('input[type="password"]', TEST_PASSWORD)
-    await page.getByRole('button', { name: 'Sign in' }).click()
+    await page.locator('form').getByRole('button', { name: 'Sign in' }).click()
 
     // 5. Aspetta redirect a /todo
     await page.waitForURL('**/todo', { timeout: 10000 })
@@ -87,8 +87,8 @@ test.describe('Guest → Authenticated migration', () => {
       await page.waitForTimeout(300)
     }
 
-    await page.waitForSelector('input[placeholder="Titolo del task"]', { timeout: 10000 })
-    const input = page.locator('input[placeholder="Titolo del task"]')
+    await page.waitForSelector('input[placeholder="Task title"]', { timeout: 10000 })
+    const input = page.locator('input[placeholder="Task title"]')
     await input.fill('Task idempotenza')
     await input.press('Enter')
     await expect(page.locator('text=Task idempotenza')).toBeVisible({ timeout: 5000 })
@@ -98,7 +98,7 @@ test.describe('Guest → Authenticated migration', () => {
     await page.waitForLoadState('networkidle')
     await page.fill('input[type="email"]', TEST_EMAIL)
     await page.fill('input[type="password"]', TEST_PASSWORD)
-    await page.getByRole('button', { name: 'Sign in' }).click()
+    await page.locator('form').getByRole('button', { name: 'Sign in' }).click()
     await page.waitForURL('**/todo', { timeout: 10000 })
     await page.waitForLoadState('networkidle')
     await page.waitForTimeout(2000)
@@ -119,7 +119,7 @@ test.describe('Guest → Authenticated migration', () => {
     await page.waitForLoadState('networkidle')
     await page.fill('input[type="email"]', TEST_EMAIL)
     await page.fill('input[type="password"]', TEST_PASSWORD)
-    await page.getByRole('button', { name: 'Sign in' }).click()
+    await page.locator('form').getByRole('button', { name: 'Sign in' }).click()
     await page.waitForURL('**/todo', { timeout: 10000 })
     await page.waitForLoadState('networkidle')
 
@@ -142,7 +142,7 @@ test.describe('Guest → Authenticated migration', () => {
     await page.goto('/todo')
     await page.waitForLoadState('networkidle')
 
-    await expect(page.getByRole('button', { name: 'Accedi' })).toBeVisible({ timeout: 5000 })
+    await expect(page.getByRole('button', { name: 'Sign in' }).first()).toBeVisible({ timeout: 5000 })
   })
 
 })

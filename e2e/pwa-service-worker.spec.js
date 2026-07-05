@@ -71,8 +71,8 @@ test.describe('PWA Service Worker', () => {
     await context.setOffline(true)
 
     // Crea un task offline
-    await page.waitForSelector('input[placeholder="Titolo del task"]', { timeout: 10000 })
-    const input = page.locator('input[placeholder="Titolo del task"]')
+    await page.waitForSelector('input[placeholder="Task title"]', { timeout: 10000 })
+    const input = page.locator('input[placeholder="Task title"]')
     await input.fill('Task offline PWA')
     await input.press('Enter')
 

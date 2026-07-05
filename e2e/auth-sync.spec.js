@@ -5,9 +5,9 @@ test.describe('Auth + Sync flow', () => {
   test('guest can create tasks locally', async ({ page }) => {
     await page.goto('/todo')
     await page.waitForLoadState('networkidle')
-    await page.waitForSelector('input[placeholder="Titolo del task"]', { timeout: 10000 })
+    await page.waitForSelector('input[placeholder="Task title"]', { timeout: 10000 })
 
-    const input = page.locator('input[placeholder="Titolo del task"]')
+    const input = page.locator('input[placeholder="Task title"]')
     await input.fill('Task guest di test')
     await input.press('Enter')
 
@@ -36,9 +36,9 @@ test.describe('Auth + Sync flow', () => {
   test('guest mode persists tasks after reload', async ({ page }) => {
     await page.goto('/todo')
     await page.waitForLoadState('networkidle')
-    await page.waitForSelector('input[placeholder="Titolo del task"]', { timeout: 10000 })
+    await page.waitForSelector('input[placeholder="Task title"]', { timeout: 10000 })
 
-    const input = page.locator('input[placeholder="Titolo del task"]')
+    const input = page.locator('input[placeholder="Task title"]')
     await input.fill('Task persistente E2E')
     await input.press('Enter')
     await expect(page.locator('text=Task persistente E2E')).toBeVisible({ timeout: 5000 })
@@ -53,10 +53,18 @@ test.describe('Auth + Sync flow', () => {
     await page.waitForLoadState('networkidle')
     await page.evaluate(() => { window.__appLoaded = true })
 
-    // Chiudi il cookie consent banner se presente
-    const rifiutaBtn = page.getByRole('button', { name: 'Rifiuta' })
-    if (await rifiutaBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
+    // Chiudi cookie banner (nome varia per lingua: 'Rifiuta' in italiano, 'Reject' in inglese)
+    const rifiutaBtn = page.locator('button').filter({ hasText: /Rifiuta|Reject/i }).first()
+    await rifiutaBtn.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {})
+    if (await rifiutaBtn.isVisible().catch(() => false)) {
       await rifiutaBtn.click()
+      await page.waitForTimeout(500)
+    }
+
+    // Chiudi il PWA banner se presente
+    const pwaBanner = page.getByText('Install toBear')
+    if (await pwaBanner.isVisible({ timeout: 2000 }).catch(() => false)) {
+      await page.getByRole('button', { name: 'Dismiss' }).click()
       await page.waitForTimeout(300)
     }
 
@@ -65,7 +73,7 @@ test.describe('Auth + Sync flow', () => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.locator('.fixed.bottom-6').click()
     await page.waitForTimeout(300)
-    await page.getByRole('link', { name: 'Accedi' }).click()
+    await page.getByRole('link', { name: 'Sign in' }).click()
     await page.waitForLoadState('networkidle')
 
     const appLoaded = await page.evaluate(() => window.__appLoaded)

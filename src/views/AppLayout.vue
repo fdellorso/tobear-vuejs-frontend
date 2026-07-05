@@ -27,6 +27,7 @@
   </div>
 
   <MobileNavFab />
+  <PwaInstallBanner />
 </template>
 
 <script setup>
@@ -35,6 +36,7 @@ import { useRoute, useRouter } from 'vue-router'
 import MobileNavFab from '@/components/MobileNavFab.vue'
 import DesktopSidebar from '@/components/DesktopSidebar.vue'
 import DesktopContentPanel from '@/components/DesktopContentPanel.vue'
+import PwaInstallBanner from '@/components/PwaInstallBanner.vue'
 
 const route = useRoute()
 const router = useRouter()

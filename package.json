@@ -11,7 +11,8 @@
     "format": "prettier --write src/",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e:pwa": "playwright test --config=playwright.pwa.config.js"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.23",

@@ -12,7 +12,7 @@ test.describe('Task creation: Enter key without full-page reload', () => {
       window.__appLoaded = true
     })
 
-    const input = page.getByPlaceholder('Titolo del task')
+    const input = page.getByPlaceholder('Task title')
     await input.waitFor({ state: 'visible', timeout: 3000 })
 
     await input.fill('Task da Enter')

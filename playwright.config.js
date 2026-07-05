@@ -2,6 +2,7 @@ import { defineConfig } from '@playwright/test'
 
 export default defineConfig({
   testDir: './e2e',
+  testIgnore: ['**/pwa-service-worker.spec.js'],
   timeout: 30000,
   retries: 0,
   use: {

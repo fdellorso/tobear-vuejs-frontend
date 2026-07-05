@@ -70,7 +70,8 @@
     "completed": "Completed",
     "thisWeek": "This week",
     "completedThisWeek": "Completed this week",
-    "completionRate": "Completion rate"
+    "completionRate": "Completion rate",
+    "statsLine": "{total} tasks, {completed} completed"
   },
   "errors": {
     "generic": "An error occurred",
@@ -99,6 +100,14 @@
       "photos": "Photo tasks (ToBear Reels)",
       "storage": "Cloudflare R2 storage"
     }
+  },
+  "pwa": {
+    "title": "Install toBear",
+    "description": "Add toBear to your home screen for quick access, even offline.",
+    "descriptionIos": "Tap the share icon then \"Add to Home Screen\" to install toBear as an app.",
+    "install": "Install",
+    "understood": "Got it",
+    "dismiss": "Dismiss"
   },
   "notFound": {
     "title": "Page not found",

@@ -1,5 +1,5 @@
 <template>
-  <Popover v-slot="{ close }" class="fixed bottom-6 left-6 z-50 xl:hidden">
+  <Popover v-slot="{ close }" class="fixed bottom-6 left-6 z-40 xl:hidden">
     <PopoverButton
       class="flex items-center justify-center focus:outline-none rounded-full shadow-lg cursor-pointer"
     >
@@ -55,20 +55,22 @@
             <p class="px-4 py-2 text-xs text-tb-text-muted">
               {{ $t('auth.localMode') }}
             </p>
-            <RouterLink
-              @click="close"
-              to="/login"
-              class="block px-4 py-2.5 text-sm text-tb-text-sec hover:bg-tb-surface-2 hover:text-tb-text"
-            >
-              {{ $t('nav.signIn') }}
-            </RouterLink>
-            <RouterLink
-              @click="close"
-              to="/register"
-              class="block px-4 py-2.5 text-sm text-tb-text-sec hover:bg-tb-surface-2 hover:text-tb-text"
-            >
-              {{ $t('nav.signUp') }}
-            </RouterLink>
+            <template v-if="authEnabled">
+              <RouterLink
+                @click="close"
+                to="/login"
+                class="block px-4 py-2.5 text-sm text-tb-text-sec hover:bg-tb-surface-2 hover:text-tb-text"
+              >
+                {{ $t('nav.signIn') }}
+              </RouterLink>
+              <RouterLink
+                @click="close"
+                to="/register"
+                class="block px-4 py-2.5 text-sm text-tb-text-sec hover:bg-tb-surface-2 hover:text-tb-text"
+              >
+                {{ $t('nav.signUp') }}
+              </RouterLink>
+            </template>
           </template>
           <template v-else-if="mode === 'authenticated'">
             <span class="block px-4 py-2.5 text-sm font-medium text-tb-text">
@@ -128,11 +130,13 @@ import { useRoute } from 'vue-router'
 import { router } from '@/router'
 import { axiosClient, withCSRF } from '@/axios'
 import { computed } from 'vue'
+import { useAuthEnabled } from '@/composables/useAuthEnabled'
 import { useThemeStore } from '@/stores/theme'
 import { useLocaleStore } from '@/stores/locale'
 import { useI18n } from 'vue-i18n'
 import { SunIcon, MoonIcon, ComputerDesktopIcon } from '@heroicons/vue/24/outline'
 
+const { authEnabled } = useAuthEnabled()
 const themeStore = useThemeStore()
 const localeStore = useLocaleStore()
 const { t } = useI18n()

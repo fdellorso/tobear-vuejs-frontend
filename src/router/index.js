@@ -98,6 +98,12 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
 
+  const authEnabled = import.meta.env.VITE_AUTH_ENABLED !== 'false'
+
+  if (!authEnabled && (to.path === '/login' || to.path === '/register')) {
+    return next({ name: 'Todo' })
+  }
+
   // Ripristina modalità salvata da localStorage
   if (userStore.mode === null) {
     userStore.loadMode()

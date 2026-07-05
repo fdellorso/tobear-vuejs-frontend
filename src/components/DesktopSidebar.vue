@@ -59,8 +59,7 @@
     <div>
       <div v-if="mode === 'authenticated' && user" class="mb-4 space-y-2">
         <p v-if="!statsLoading" class="text-xs text-tb-text-muted">
-          <span class="font-medium text-tb-text-sec">{{ statsTotal }}</span> task di cui
-          <span class="font-medium text-tb-success">{{ statsCompleted }}</span> completati
+          {{ $t('profile.statsLine', { total: statsTotal, completed: statsCompleted }) }}
         </p>
         <p v-else class="h-4 w-24 animate-pulse rounded bg-tb-nav-active"></p>
       </div>
@@ -70,18 +69,20 @@
           <p class="px-3 py-2 text-xs text-tb-text-muted">
             {{ $t('auth.localMode') }}
           </p>
-          <button
-            @click="$emit('openPanel', activePanel === 'login' ? null : 'login')"
-            class="flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-tb-text-sec hover:bg-tb-nav-active hover:text-tb-text"
-          >
-            {{ $t('nav.signIn') }}
-          </button>
-          <button
-            @click="$emit('openPanel', activePanel === 'register' ? null : 'register')"
-            class="mt-1 flex w-full items-center rounded-md bg-tb-accent px-3 py-2 text-sm font-medium text-white hover:opacity-90"
-          >
-            {{ $t('nav.signUp') }}
-          </button>
+          <template v-if="authEnabled">
+            <button
+              @click="$emit('openPanel', activePanel === 'login' ? null : 'login')"
+              class="flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-tb-text-sec hover:bg-tb-nav-active hover:text-tb-text"
+            >
+              {{ $t('nav.signIn') }}
+            </button>
+            <button
+              @click="$emit('openPanel', activePanel === 'register' ? null : 'register')"
+              class="mt-1 flex w-full items-center rounded-md bg-tb-accent px-3 py-2 text-sm font-medium text-white hover:opacity-90"
+            >
+              {{ $t('nav.signUp') }}
+            </button>
+          </template>
         </template>
         <template v-else-if="mode === 'authenticated' && user">
           <div class="px-3 py-2 text-sm font-medium text-tb-text">{{ user.name }}</div>
@@ -93,18 +94,20 @@
           </button>
         </template>
         <template v-else>
-          <button
-            @click="$emit('openPanel', activePanel === 'login' ? null : 'login')"
-            class="flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-tb-text-sec hover:bg-tb-nav-active hover:text-tb-text"
-          >
-            {{ $t('nav.signIn') }}
-          </button>
-          <button
-            @click="$emit('openPanel', activePanel === 'register' ? null : 'register')"
-            class="mt-1 flex w-full items-center rounded-md bg-tb-accent px-3 py-2 text-sm font-medium text-white hover:opacity-90"
-          >
-            {{ $t('nav.signUp') }}
-          </button>
+          <template v-if="authEnabled">
+            <button
+              @click="$emit('openPanel', activePanel === 'login' ? null : 'login')"
+              class="flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-tb-text-sec hover:bg-tb-nav-active hover:text-tb-text"
+            >
+              {{ $t('nav.signIn') }}
+            </button>
+            <button
+              @click="$emit('openPanel', activePanel === 'register' ? null : 'register')"
+              class="mt-1 flex w-full items-center rounded-md bg-tb-accent px-3 py-2 text-sm font-medium text-white hover:opacity-90"
+            >
+              {{ $t('nav.signUp') }}
+            </button>
+          </template>
         </template>
 
         <div class="mt-3 flex items-center gap-1 rounded-lg border border-tb-border p-1">
@@ -142,6 +145,7 @@ import useUserStore from '@/stores/user.js'
 import { router } from '@/router'
 import { axiosClient, withCSRF } from '@/axios'
 import { computed, onMounted } from 'vue'
+import { useAuthEnabled } from '@/composables/useAuthEnabled'
 import { useRoute } from 'vue-router'
 import { useTaskStats } from '@/composables/useTaskStats'
 import { useThemeStore } from '@/stores/theme'
@@ -158,6 +162,7 @@ import {
   Cog6ToothIcon,
 } from '@heroicons/vue/24/outline'
 
+const { authEnabled } = useAuthEnabled()
 const themeStore = useThemeStore()
 const localeStore = useLocaleStore()
 const { t } = useI18n()

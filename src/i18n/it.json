@@ -70,7 +70,8 @@
     "completed": "Completate",
     "thisWeek": "Questa settimana",
     "completedThisWeek": "Completate questa settimana",
-    "completionRate": "Tasso di completamento"
+    "completionRate": "Tasso di completamento",
+    "statsLine": "{total} task, {completed} completati"
   },
   "errors": {
     "generic": "Si è verificato un errore",
@@ -99,6 +100,14 @@
       "photos": "Attività con foto (ToBear Reels)",
       "storage": "Archiviazione Cloudflare R2"
     }
+  },
+  "pwa": {
+    "title": "Installa toBear",
+    "description": "Aggiungi toBear alla schermata home per accedervi rapidamente, anche offline.",
+    "descriptionIos": "Tocca l'icona di condivisione poi \"Aggiungi a schermata Home\" per installare toBear.",
+    "install": "Installa",
+    "understood": "Ho capito",
+    "dismiss": "Chiudi"
   },
   "notFound": {
     "title": "Pagina non trovata",
