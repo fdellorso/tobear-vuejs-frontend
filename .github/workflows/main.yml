@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
@@ -34,26 +34,27 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
-          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
+          VITE_API_BASE_URL: /api
+          VITE_BASE_URL: /app
           VITE_MATOMO_HOST: ${{ secrets.VITE_MATOMO_HOST }}
           VITE_MATOMO_SITE_ID: ${{ secrets.VITE_MATOMO_SITE_ID }}
+          VITE_AUTH_ENABLED: false
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.ftp_server_x10 }}
-          username: ${{ secrets.ftp_username_x10 }}
-          password: ${{ secrets.ftp_password_x10 }}
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
           local-dir: dist/
-          server-dir: ${{ secrets.ftp_folder_x10 }}
+          server-dir: ${{ secrets.FTP_FOLDER }}
           exclude: |
             **/.git*
             **/.git*/**
 
       - name: Deploy summary
         run: |
-          echo "### ✅ Deploy completato" >> $GITHUB_STEP_SUMMARY
+          echo "### ✅ Frontend deploy completato" >> $GITHUB_STEP_SUMMARY
           echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Autore**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
