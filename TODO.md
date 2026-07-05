@@ -163,3 +163,29 @@ Decisione da prendere:
 Raccomandazione: vue-i18n con file JSON per lingua (en.json, it.json) — standard de facto nell'ecosistema Vue, supporta pluralizzazione, date, numeri, lazy loading per lingua.
 
 Priorità: dopo la pubblicazione MVP.
+
+## Deploy x10hosting (fase test)
+
+### Checklist pre-deploy frontend
+- [ ] Aggiornare VITE_BASE_URL in .env.production con dominio reale
+- [ ] Aggiornare VITE_API_BASE_URL con URL backend reale
+- [ ] Aggiornare VITE_MATOMO_HOST=https://stats.tobear.x10.mx
+- [ ] Aggiornare VITE_MATOMO_SITE_ID con ID reale da Matomo
+- [ ] Configurare secrets GitHub (ftp_server_x10, ftp_username_x10, ftp_password_x10, ftp_folder_x10)
+- [ ] Verificare manifest.webmanifest (start_url, scope, theme_color)
+- [ ] Push su main → GitHub Actions deploya automaticamente
+
+### Checklist pre-deploy backend
+- [ ] Creare DB MySQL su x10hosting (pannello cPanel)
+- [ ] Compilare .env.production.x10 con credenziali reali DB + mail
+- [ ] Configurare secrets GitHub (DB_HOST_X10, DB_DATABASE_X10, DB_USERNAME_X10, DB_PASSWORD_X10, MAIL_*)
+- [ ] Verificare CORS_ALLOWED_ORIGINS nel .env punta al dominio frontend
+- [ ] Push su main → GitHub Actions deploya automaticamente
+- [ ] Eseguire php artisan migrate --force manualmente via cPanel o endpoint protetto
+
+### Post-deploy
+- [ ] Validazione PWABuilder su tobear.x10.mx
+- [ ] Verifica installazione PWA su Android Chrome
+- [ ] Verifica offline mode funzionante
+- [ ] Verifica form contatto funzionante
+- [ ] Test manuale flusso completo (guest → crea task → offline → torna online)

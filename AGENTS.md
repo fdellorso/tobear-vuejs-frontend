@@ -104,3 +104,26 @@ npm run test:e2e  # playwright test (E2E)
 ## Fine sessione
 
 Prima di chiudere una sessione di lavoro significativa, esegui `/handoff` per scrivere il file di handoff in `handoffs/`.
+
+## Stack tecnologico (versioni al 2026-07-05)
+
+| Tecnologia | Versione |
+|---|---|
+| Node.js | 22.22.3 |
+| npm | 10.9.8 |
+| Vue | 3.5.13 |
+| Vite | 6.2.4 |
+| Tailwind CSS | 4.1.5 |
+| vue-router | 4.5.1 |
+| Pinia | 3.0.2 |
+| vue-i18n | 11.4.6 |
+| vite-plugin-pwa | 1.0.0 |
+
+## Produzione (x10hosting — fase test)
+
+- Dominio: tobear.x10.mx
+- Matomo: stats.tobear.x10.mx (già configurato)
+- Deploy: GitHub Actions → FTP (SamKirkland/FTP-Deploy-Action)
+- Auth nascosta: VITE_AUTH_ENABLED=false in .env.production
+- Obiettivo immediato: validazione PWABuilder
+- Obiettivo futuro: pubblicazione Play Store (dopo Namecheap + liste annidate + premium)
