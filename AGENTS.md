@@ -79,6 +79,7 @@ npm run test:e2e  # playwright test (E2E)
 - Non rimuovere il layer IndexedDB/offline per "semplificare" — è un requisito di prodotto (PWA offline, vedi TODO.md).
 - Non cambiare lo stile degli store Pinia da Options a Composition API senza richiesta esplicita.
 - Non eseguire `git push` o aprire PR senza richiesta esplicita.
+- Non usare `git commit --amend` su commit già pushati o che potrebbero essere pushati dall'utente. Se serve correggere un fix precedente, crea un nuovo commit (`git commit -m "fix: ..."`) invece di ammendare. Questo previene la divergenza tra branch locale e origin/main.
 
 ## Skills disponibili
 
