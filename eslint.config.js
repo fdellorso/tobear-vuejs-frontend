@@ -35,6 +35,7 @@ export default defineConfig([
     language: 'markdown/commonmark',
     rules: {
       'markdown/no-missing-label-refs': 'off',
+      'markdown/fenced-code-language': 'off',
     },
   },
 
