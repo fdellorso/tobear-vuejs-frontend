@@ -11,6 +11,33 @@ import viteCompression from 'vite-plugin-compression'
 import Markdown from 'unplugin-vue-markdown/vite'
 import tailwindcss from '@tailwindcss/vite'
 
+function cspDynamicPlugin(env) {
+  return {
+    name: 'csp-dynamic',
+    transformIndexHtml(html) {
+      const apiBase = env.VITE_API_BASE_URL || '/api'
+      const matomoHost = env.VITE_MATOMO_HOST || ''
+
+      let apiOrigin = ''
+      if (apiBase.startsWith('http')) {
+        try {
+          apiOrigin = new URL(apiBase).origin
+        } catch { /* empty */ }
+      }
+
+      const scriptSrc = `'self' 'unsafe-inline'${matomoHost ? ` ${matomoHost}` : ''}`
+      const connectSrc = `'self'${apiOrigin ? ` ${apiOrigin}` : ''}${matomoHost ? ` ${matomoHost}` : ''}`
+      const imgSrc = `'self' data:${matomoHost ? ` ${matomoHost}` : ''}`
+      const csp = `script-src ${scriptSrc}; connect-src ${connectSrc}; img-src ${imgSrc}; object-src 'self'`
+
+      return html.replace(
+        /<meta[\s\S]*?http-equiv="Content-Security-Policy"[\s\S]*?\/?>/i,
+        `<meta http-equiv="Content-Security-Policy" content="${csp}">`
+      )
+    }
+  }
+}
+
 // https://vite.dev/config/
 export default ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
@@ -71,13 +98,13 @@ export default ({ mode }) => {
         },
       }),
       viteCompression({
-        verbose: true, // logga i file compressi
-        disable: false, // abilita la compressione (disabilita in dev se vuoi)
-        threshold: 1025, // comprime solo file > 10 KB
+        verbose: true,
+        disable: false,
+        threshold: 1025,
         algorithm: 'gzip',
-        ext: '.gz', // estensione del file generato
+        ext: '.gz',
       }),
-      // MkCert(),
+      cspDynamicPlugin(env),
     ],
     resolve: {
       alias: {
