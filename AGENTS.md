@@ -107,7 +107,7 @@ Prima di chiudere una sessione di lavoro significativa, esegui `/handoff` per sc
 
 | Tecnologia | Versione |
 |---|---|
-| Node.js | 22.22.3 |
+| Node.js | 24.18.0 |
 | npm | 10.9.8 |
 | Vue | 3.5.13 |
 | Vite | 6.2.4 |

@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
@@ -41,13 +41,10 @@ jobs:
           VITE_AUTH_ENABLED: false
 
       - name: Run E2E tests on production build
-        run: |
-          npx serve@latest dist -l 4173 &
-          sleep 3
-          npm run test:e2e:pwa
+        run: npm run test:e2e:pwa
 
       - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}

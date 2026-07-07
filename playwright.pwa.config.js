@@ -1,3 +1,4 @@
+/* global process */
 import { defineConfig } from '@playwright/test'
 
 export default defineConfig({
@@ -12,7 +13,7 @@ export default defineConfig({
     ignoreHTTPSErrors: true,
   },
   webServer: {
-    command: 'npm run build && npx serve dist -l 4173',
+    command: process.env.CI ? 'npx serve dist -l 4173' : 'npm run build && npx serve dist -l 4173',
     url: 'http://localhost:4173',
     reuseExistingServer: false,
     timeout: 60000,
