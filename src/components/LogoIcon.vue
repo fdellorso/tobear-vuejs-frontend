@@ -6,7 +6,13 @@
         : 'mx-auto max-w-max rounded-full shadow-xl overflow-hidden border-2 border-amber-900'
     "
   >
-    <img :class="customClass" class="w-auto" src="/img/icons/icon-128x128.png" alt="toBear" fetchpriority="high" />
+    <img
+      :class="customClass"
+      class="w-auto"
+      src="/img/icons/icon-128x128.png"
+      alt="toBear"
+      fetchpriority="high"
+    />
   </div>
 </template>
 

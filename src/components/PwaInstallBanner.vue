@@ -13,7 +13,7 @@
     >
       <button
         @click="dismiss"
-        class="absolute top-2 right-2 p-1 rounded-full text-tb-text-muted hover:text-tb-text hover:bg-tb-nav-active transition-colors"
+        class="absolute top-2 right-2 p-1 rounded-full text-tb-text-sec hover:text-tb-text hover:bg-tb-nav-active transition-colors"
         :aria-label="$t('pwa.dismiss')"
       >
         <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

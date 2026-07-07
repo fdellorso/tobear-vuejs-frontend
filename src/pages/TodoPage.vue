@@ -12,7 +12,7 @@
       <SkeletonTask v-for="n in 5" :key="n" class="mb-2" />
     </div>
     <div v-else>
-      <div v-if="tasks.length === 0" class="text-tb-text-muted">{{ $t('todo.empty') }}</div>
+      <div v-if="tasks.length === 0" class="text-tb-text-sec">{{ $t('todo.empty') }}</div>
 
       <draggable
         class="space-y-2 list-group list-none"
@@ -56,7 +56,7 @@
       </div>
 
       <template v-if="completedTasks.length > 0">
-        <div class="mt-6 mb-2 text-xs font-medium uppercase tracking-wider text-tb-text-muted/60">
+        <div class="mt-6 mb-2 text-xs font-medium uppercase tracking-wider text-tb-text-sec/80">
           {{ $t('todo.completed') }}
         </div>
         <TransitionGroup name="completed" tag="ul" class="space-y-2">

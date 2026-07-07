@@ -98,7 +98,7 @@
               :key="option.value"
               @click="themeStore.setTheme(option.value)"
               :title="option.label"
-              class="flex flex-1 items-center justify-center rounded-md p-1.5 text-tb-text-muted transition-colors hover:text-tb-text-sec"
+              class="flex flex-1 items-center justify-center rounded-md p-1.5 text-tb-text-sec transition-colors"
               :class="{ 'bg-tb-nav-active text-tb-text-sec': themeStore.theme === option.value }"
             >
               <component :is="option.icon" class="size-4" />
@@ -110,7 +110,7 @@
               :key="lang.value"
               @click="localeStore.setLocale(lang.value)"
               :title="lang.label"
-              class="flex flex-1 items-center justify-center rounded-md p-1.5 text-xs font-medium text-tb-text-muted transition-colors hover:text-tb-text-sec"
+              class="flex flex-1 items-center justify-center rounded-md p-1.5 text-xs font-medium text-tb-text-sec transition-colors"
               :class="{ 'bg-tb-nav-active text-tb-text-sec': localeStore.locale === lang.value }"
             >
               {{ lang.flag }}

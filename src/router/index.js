@@ -97,7 +97,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   // Tenta fetchUser solo se non siamo già in modalità guest esplicita
-  if (userStore.mode !== 'guest' && !userStore.isUserLoaded) {
+  if (authEnabled && userStore.mode !== 'guest' && !userStore.isUserLoaded) {
     try {
       await userStore.fetchUser()
     } catch {
@@ -106,6 +106,8 @@ router.beforeEach(async (to, from, next) => {
         userStore.setMode('guest')
       }
     }
+  } else if (!authEnabled && userStore.mode === null) {
+    userStore.setMode('guest')
   }
 
   // Redirect utenti autenticati lontano da login/register
