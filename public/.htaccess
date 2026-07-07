@@ -1,13 +1,13 @@
-<IfModule mod_headers.c>
+<IfModule mod_rewrite.c>
     RewriteEngine On
 
-    Content-Security-Policy "default-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests" "expr=%{CONTENT_TYPE} =~ m#text\/(html|javascript)|application\/pdf|xml#i"
+    # SPA fallback: serve index.html for all non-file, non-directory requests
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.html [L]
+</IfModule>
 
-    # Header always set
-    Strict-Transport-Security "max-age=16070400; includeSubDomains" "expr=%{HTTPS} == 'on'"
-    # (1) Enable your site for HSTS preload inclusion.
-    # Header always set
-    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" "expr=%{HTTPS} == 'on'"
-    # PWA webmanifest MIME type (LiteSpeed doesn't ship .webmanifest by default)
+# PWA webmanifest MIME type (LiteSpeed doesn't ship .webmanifest by default)
+<IfModule mod_mime.c>
     AddType application/manifest+json .webmanifest
 </IfModule>
