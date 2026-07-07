@@ -25,5 +25,11 @@
       "command": ["npx", "@vue/language-server", "--stdio"],
       "extensions": [".vue", ".js"]
     }
+  },
+  "model": "opencode-go/deepseek-v4-flash",
+  "agent": {
+    "plan": {
+      "model": "opencode-go/glm-5.2"
+    }
   }
 }
