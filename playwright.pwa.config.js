@@ -7,14 +7,14 @@ export default defineConfig({
   timeout: 60000,
   retries: 0,
   use: {
-    baseURL: 'http://localhost:4173',
+    baseURL: 'http://localhost:4173/app/',
     headless: true,
     viewport: { width: 1280, height: 720 },
     ignoreHTTPSErrors: true,
   },
   webServer: {
-    command: process.env.CI ? 'npx serve dist -l 4173' : 'npm run build && npx serve dist -l 4173',
-    url: 'http://localhost:4173',
+    command: process.env.CI ? 'npx vite preview --port 4173' : 'npm run build && npx vite preview --port 4173',
+    url: 'http://localhost:4173/app/',
     reuseExistingServer: false,
     timeout: 60000,
   },

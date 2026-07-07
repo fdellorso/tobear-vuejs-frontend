@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-const PWA_URL = 'http://localhost:4173'
+const PWA_URL = 'http://localhost:4173/app'
 
 /**
  * Naviga a / per caricare l'app e registrare il SW,
@@ -57,7 +57,7 @@ test.describe('PWA Service Worker', () => {
     await waitForSw(page)
 
     // Naviga a /todo tramite SW (navigateFallback → index.html)
-    await page.evaluate(() => window.location.href = '/todo')
+    await page.evaluate(() => window.location.href = '/app/todo')
     await page.waitForLoadState('networkidle')
 
     // Chiudi cookie banner se presente
@@ -90,7 +90,7 @@ test.describe('PWA Service Worker', () => {
     await waitForSw(page)
 
     // Ora che il SW controlla la pagina, naviga a una route SPA
-    await page.evaluate(() => window.location.href = '/todo')
+    await page.evaluate(() => window.location.href = '/app/todo')
     await page.waitForLoadState('domcontentloaded')
 
     await expect(page.locator('#app')).toBeVisible()
