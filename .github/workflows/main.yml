@@ -28,9 +28,6 @@ jobs:
       - name: Test
         run: npm run test
 
-      - name: Copy prod manifest
-        run: cp public/prod_x10.manifest.webmanifest public/manifest.webmanifest
-
       - name: Build
         run: npm run build
         env:

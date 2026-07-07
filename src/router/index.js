@@ -3,19 +3,6 @@ import useUserStore from '@/stores/user.js'
 
 import AppLayout from '@/views/AppLayout.vue'
 
-import LoginPage from '@/pages/LoginPage.vue'
-import RegisterPage from '@/pages/RegisterPage.vue'
-import VerifyEmail from '@/pages/VerifyEmail.vue'
-import PremiumPage from '@/pages/PremiumPage.vue'
-import AboutPage from '@/pages/AboutPage.vue'
-import ContactPage from '@/pages/ContactPage.vue'
-
-import TodoPage from '@/pages/TodoPage.vue'
-import UserProfile from '@/pages/UserProfile.vue'
-import UserSettings from '@/pages/UserSettings.vue'
-
-import NotFound from '@/pages/NotFound.vue'
-
 const routes = [
   {
     path: '/',
@@ -29,55 +16,55 @@ const routes = [
         path: '/todo',
         name: 'Todo',
         meta: { showInNav: true },
-        component: TodoPage,
+        component: () => import('@/pages/TodoPage.vue'),
       },
       {
         path: '/about',
         name: 'About',
         meta: { requiresAuth: false, showInNav: true },
-        component: AboutPage,
+        component: () => import('@/pages/AboutPage.vue'),
       },
       {
         path: '/contact',
         name: 'Contact',
         meta: { requiresAuth: false, showInNav: true },
-        component: ContactPage,
+        component: () => import('@/pages/ContactPage.vue'),
       },
       {
         path: '/login',
         name: 'Login',
         meta: { requiresAuth: false, showInNav: false, guest: true },
-        component: LoginPage,
+        component: () => import('@/pages/LoginPage.vue'),
       },
       {
         path: '/register',
         name: 'Register',
         meta: { requiresAuth: false, showInNav: false, guest: true },
-        component: RegisterPage,
+        component: () => import('@/pages/RegisterPage.vue'),
       },
       {
         path: '/verifyemail',
         name: 'VerifyEmail',
         meta: { requiresAuth: false, showInNav: false },
-        component: VerifyEmail,
+        component: () => import('@/pages/VerifyEmail.vue'),
       },
       {
         path: '/premium',
         name: 'Premium',
         meta: { requiresAuth: false, showInNav: false },
-        component: PremiumPage,
+        component: () => import('@/pages/PremiumPage.vue'),
       },
       {
         path: '/user',
         name: 'User',
         meta: { requiresAccount: true, showInNav: false },
-        component: UserProfile,
+        component: () => import('@/pages/UserProfile.vue'),
       },
       {
         path: '/setting',
         name: 'Setting',
         meta: { requiresAccount: true, showInNav: false },
-        component: UserSettings,
+        component: () => import('@/pages/UserSettings.vue'),
       },
     ],
   },
@@ -85,7 +72,7 @@ const routes = [
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     meta: { showInNav: false },
-    component: NotFound,
+    component: () => import('@/pages/NotFound.vue'),
   },
 ]
 

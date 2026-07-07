@@ -8,4 +8,6 @@
     # (1) Enable your site for HSTS preload inclusion.
     # Header always set
     Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" "expr=%{HTTPS} == 'on'"
+    # PWA webmanifest MIME type (LiteSpeed doesn't ship .webmanifest by default)
+    AddType application/manifest+json .webmanifest
 </IfModule>

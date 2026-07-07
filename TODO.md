@@ -176,7 +176,7 @@ Priorità: dopo la pubblicazione MVP.
 - [x] vite.config.js base dinamico: `env.VITE_BASE_URL || '/'`
 - [x] viteCompression: `gzip` (non brotli, compatibile x10hosting)
 - [x] Logout navigation: `{ name: 'Todo' }` (non `{ name: 'Home' }` inesistente)
-- [x] Manifest prod_x10: start_url/scope `/app/`, lang `"en"`
+- [x] Manifest unificato: path relativi, lang `"en"`
 - [ ] Aggiornare VITE_MATOMO_HOST=https://stats.tobear.x10.mx
 - [ ] Aggiornare VITE_MATOMO_SITE_ID con ID reale da Matomo
 - [ ] Configurare secrets GitHub (ftp_server_x10, ftp_username_x10, ftp_password_x10, ftp_folder_x10)

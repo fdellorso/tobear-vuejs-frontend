@@ -31,7 +31,7 @@ function cspDynamicPlugin(env) {
       const csp = `script-src ${scriptSrc}; connect-src ${connectSrc}; img-src ${imgSrc}; object-src 'self'`
 
       return html.replace(
-        /<meta[\s\S]*?http-equiv="Content-Security-Policy"[\s\S]*?\/?>/i,
+        /<meta\s+http-equiv="Content-Security-Policy"[^>]*>/i,
         `<meta http-equiv="Content-Security-Policy" content="${csp}">`
       )
     }
