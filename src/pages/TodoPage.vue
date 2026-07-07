@@ -17,7 +17,7 @@
       <draggable
         class="space-y-2 list-group list-none"
         :component="'transition-group'"
-        :component-data="{ name: 'flip-list', tag: 'ul' }"
+        :component-data="{ name: 'flip-list', tag: 'ul', role: 'list' }"
         v-model="activeTasks"
         v-bind="dragOptions"
         @start="drag = true"

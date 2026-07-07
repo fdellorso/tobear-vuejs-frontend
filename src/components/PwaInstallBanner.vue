@@ -30,7 +30,7 @@
         <img src="/img/icons/icon-72x72.png" alt="toBear" class="size-10 rounded-xl shrink-0" />
         <div class="min-w-0">
           <p class="text-sm font-semibold text-tb-text">{{ $t('pwa.title') }}</p>
-          <p class="mt-0.5 text-xs text-tb-text-muted leading-relaxed">
+          <p class="mt-0.5 text-xs text-tb-text-sec leading-relaxed">
             {{ isIos ? $t('pwa.descriptionIos') : $t('pwa.description') }}
           </p>
         </div>

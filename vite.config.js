@@ -30,10 +30,18 @@ function cspDynamicPlugin(env) {
       const imgSrc = `'self' data:${matomoHost ? ` ${matomoHost}` : ''}`
       const csp = `script-src ${scriptSrc}; connect-src ${connectSrc}; img-src ${imgSrc}; object-src 'self'`
 
-      return html.replace(
+      let result = html.replace(
         /<meta\s+http-equiv="Content-Security-Policy"[^>]*>/i,
         `<meta http-equiv="Content-Security-Policy" content="${csp}">`
       )
+
+      result = result.replace(
+        /<link\s+rel="stylesheet"\s+crossorigin\s+href="([^"]+)"\s*\/?>/i,
+        (_, href) =>
+          `<link rel="stylesheet" href="${href}" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" crossorigin href="${href}"></noscript>`
+      )
+
+      return result
     }
   }
 }
@@ -66,7 +74,7 @@ export default ({ mode }) => {
           enabled: false,
         },
         workbox: {
-          navigateFallback: '/index.html',
+          navigateFallback: 'index.html',
           runtimeCaching: [
             {
               urlPattern: /\/api\//,
@@ -104,6 +112,13 @@ export default ({ mode }) => {
         algorithm: 'gzip',
         ext: '.gz',
       }),
+      viteCompression({
+        verbose: true,
+        disable: false,
+        threshold: 1025,
+        algorithm: 'brotliCompress',
+        ext: '.br',
+      }),
       cspDynamicPlugin(env),
     ],
     resolve: {
@@ -118,8 +133,18 @@ export default ({ mode }) => {
       allowedHosts: ['laravel.fritz.box'],
     },
     build: {
+      target: 'esnext',
       minify: true,
       sourcemap: false,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules') && !id.includes('.pnpm/')) {
+              return 'vendor'
+            }
+          },
+        },
+      },
     },
     test: {
       environment: 'happy-dom',

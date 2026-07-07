@@ -1,13 +1,86 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
+# Brotli on-the-fly compression (LiteSpeed/Apache)
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/javascript application/javascript application/json application/manifest+json image/svg+xml
+</IfModule>
+<IfModule lsmod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/javascript application/javascript application/json application/manifest+json image/svg+xml
+</IfModule>
 
-    # SPA fallback: serve index.html for all non-file, non-directory requests
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ index.html [L]
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  <IfModule mod_headers.c>
+    # --- Serve pre-compressed Brotli files ---
+    RewriteCond %{HTTP:Accept-Encoding} br
+    RewriteCond %{REQUEST_FILENAME}.br -f
+    RewriteRule ^(.*)$ $1.br [L]
+
+    # --- Serve pre-compressed Gzip files ---
+    RewriteCond %{HTTP:Accept-Encoding} gzip
+    RewriteCond %{REQUEST_FILENAME}.gz -f
+    RewriteRule ^(.*)$ $1.gz [L]
+  </IfModule>
+
+  # SPA fallback: serve index.html for all non-file, non-directory requests
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Set correct Content-Type and Content-Encoding for pre-compressed files
+  # The rewrite rule above serves e.g. vendor.js.br instead of vendor.js
+  # Without these headers, .br files get MIME type application/octet-stream
+
+  # JavaScript
+  <FilesMatch "\.js\.(br|gz)$">
+    Header set Content-Type "application/javascript"
+  </FilesMatch>
+  <FilesMatch "\.js\.br$">
+    Header set Content-Encoding "br"
+  </FilesMatch>
+  <FilesMatch "\.js\.gz$">
+    Header set Content-Encoding "gzip"
+  </FilesMatch>
+
+  # CSS
+  <FilesMatch "\.css\.(br|gz)$">
+    Header set Content-Type "text/css"
+  </FilesMatch>
+  <FilesMatch "\.css\.br$">
+    Header set Content-Encoding "br"
+  </FilesMatch>
+  <FilesMatch "\.css\.gz$">
+    Header set Content-Encoding "gzip"
+  </FilesMatch>
+
+  # HTML
+  <FilesMatch "\.html\.br$">
+    Header set Content-Type "text/html; charset=utf-8"
+    Header set Content-Encoding "br"
+  </FilesMatch>
+  <FilesMatch "\.html\.gz$">
+    Header set Content-Type "text/html; charset=utf-8"
+    Header set Content-Encoding "gzip"
+  </FilesMatch>
+
+  # SVG
+  <FilesMatch "\.svg\.br$">
+    Header set Content-Type "image/svg+xml"
+    Header set Content-Encoding "br"
+  </FilesMatch>
+  <FilesMatch "\.svg\.gz$">
+    Header set Content-Type "image/svg+xml"
+    Header set Content-Encoding "gzip"
+  </FilesMatch>
+
+  # Vary header for all JS/CSS including pre-compressed variants
+  <FilesMatch "\.(js|css)(\.(br|gz))?$">
+    Header append Vary Accept-Encoding
+  </FilesMatch>
 </IfModule>
 
 # PWA webmanifest MIME type (LiteSpeed doesn't ship .webmanifest by default)
 <IfModule mod_mime.c>
-    AddType application/manifest+json .webmanifest
+  AddType application/manifest+json .webmanifest
 </IfModule>
