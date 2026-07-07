@@ -66,6 +66,8 @@ export default ({ mode }) => {
       }),
       vueDevTools(),
       tailwindcss(),
+      // Nota: la compressione brotli on-the-fly è gestita dal server (.htaccess mod_brotli/lsmod_brotli).
+      // I file .br precompressi non sono generati per evitare problemi di MIME type su LiteSpeed.
       VitePWA({
         registerType: 'autoUpdate',
         injectRegister: 'auto',
@@ -111,13 +113,6 @@ export default ({ mode }) => {
         threshold: 1025,
         algorithm: 'gzip',
         ext: '.gz',
-      }),
-      viteCompression({
-        verbose: true,
-        disable: false,
-        threshold: 1025,
-        algorithm: 'brotliCompress',
-        ext: '.br',
       }),
       cspDynamicPlugin(env),
     ],
