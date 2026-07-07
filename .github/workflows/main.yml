@@ -40,6 +40,9 @@ jobs:
           VITE_MATOMO_SITE_ID: ${{ secrets.VITE_MATOMO_SITE_ID }}
           VITE_AUTH_ENABLED: false
 
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
       - name: Run E2E tests on production build
         run: npm run test:e2e:pwa
 
