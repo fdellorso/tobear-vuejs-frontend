@@ -20,6 +20,8 @@
 
 ## Bug noti / debito tecnico
 
+- [ ] PWA offline caching non funziona con base `/app/` — VitePWA non prefissa il precaching con il base path. Il SW non serve navigation/asset requests offline. Investigare: additionalManifestEntries manuali, buildBase, o deploy su root/subdomain.
+
 - [x] I 9 test pre-esistenti del frontend (markdown lint, PaginationElement variabile inutilizzata) — non bloccanti, da pulire quando si ha tempo
 - [x] `ProfileIcon.vue` — non distingue "guest" da "non ancora deciso" nel testo del link — rimosso, era codice morto
 - [x] Primo test E2E Playwright stabile: `e2e/spa-navigation.spec.js` — verifica che ogni navigazione interna sia client-side (Vue Router) senza full-page reload. Config in `playwright.config.js`, script `npm run test:e2e`. Usare `baseURL: 'https://laravel.fritz.box:3000'` in sviluppo (cert/CORS), mai `localhost`.
