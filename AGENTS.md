@@ -23,9 +23,8 @@ src/
   router/index.js        # route con meta.requiresAuth / meta.guest
   idb/useTaskDB.js        # wrapper IndexedDB per cache offline dei task
   components/             # componenti riusabili
-    tailwindplus/         # componenti scaffolded da Tailwind Plus, non toccare lo stile base se non necessario
   pages/                  # una pagina per route
-  views/                  # layout (DefaultLayout = autenticato, GuestLayout = pubblico)
+  views/                  # layout (AppLayout — unico layout)
 ```
 
 ## Layout e navigazione
@@ -37,8 +36,7 @@ Struttura responsive:
 - Desktop stretto (`md`-`xl`): stesso FAB, nessun header
 - Desktop largo (`≥ xl`): griglia a 3 colonne — `DesktopSidebar` (sinistra) | `RouterView` (centro) | `DesktopContentPanel` (destra, opzionale)
 
-Route sotto AppLayout: `/todo`, `/about`, `/contact`
-Route sotto GuestLayout: `/login`, `/register`, `/verifyemail`, `/premium`
+Tutte le route sotto AppLayout: `/todo`, `/about`, `/contact`, `/login`, `/register`, `/verifyemail`, `/premium`, `/user`, `/setting`
 
 Comportamento speciale: su desktop largo (`≥ 1280px`), navigare a `/about` o `/contact` apre automaticamente il pannello destro e reindirizza a `/todo` — la colonna centrale mostra sempre la todo list, about/contact vanno nel pannello destro.
 
@@ -53,9 +51,9 @@ Comportamento speciale: su desktop largo (`≥ 1280px`), navigare a `/about` o `
   - sync: listener su `window.addEventListener('online', ...)` che richiama `syncLocalTasks()` per inviare al backend i task con `localOnly: true`.
   - Replica questo pattern per qualunque nuova entità offline-capable (vedi roadmap PWA in TODO.md), non inventarne un altro.
 - **Drag & drop**: `vuedraggable` con `v-model` sull'array reattivo + evento `@end` che richiama un metodo di reorder che aggiorna `order` localmente e poi chiama l'API (`PATCH /v1/tasks/reorder`).
-- **Styling**: Tailwind v4 (plugin Vite, non PostCSS config separata). I componenti in `components/tailwindplus/` sono scaffolding di Tailwind Plus: riusali/adattali invece di scrivere component custom da zero per pattern UI comuni (modali, dropdown, form layout, ecc.).
+- **Styling**: Tailwind v4 (plugin Vite, non PostCSS config separata). Usa i token `tb-*` del design system in `src/assets/themes.css`. Per componenti UI comuni (modali, dropdown, form layout) riusa pattern esistenti invece di scriverli da zero.
 - Non lasciare blocchi di codice commentato nel codebase — il codice morto va rimosso. Se serve storico, esiste git.
-- **Lingua**: stringhe utente-facing e commenti in italiano, coerente col backend.
+- **Lingua**: stringhe utente-facing gestite da **vue-i18n** con default `en` e fallback `en`. Backend produce messaggi in **inglese**. Non scrivere stringhe italiane hardcoded.
 
 ## Workflow di modifica
 
@@ -67,7 +65,7 @@ Comportamento speciale: su desktop largo (`≥ 1280px`), navigare a `/about` o `
 ## Comandi utili
 
 ```bash
-npm run dev       # vite dev server, host 0.0.0.0:3000, https (mkcert)
+npm run dev       # vite dev server, host 0.0.0.0:3001, http
 npm run build
 npm run lint
 npm run format
@@ -86,12 +84,12 @@ npm run test:e2e  # playwright test (E2E)
 
 - `vue-conventions` — struttura componenti/pagine/store, naming, script setup vs Options API.
 - `offline-sync-pattern` — il pattern IndexedDB + sync online/offline da replicare per nuove feature.
-- `tailwind-styling` — uso di Tailwind v4 e dei componenti tailwindplus esistenti.
+- `tailwind-styling` — uso di Tailwind v4 e del design system tb-* token per lo styling.
 - `frontend-design` (Anthropic, installata via `npx skills add anthropics/skills`) — guida a scelte estetiche deliberate (tipografia, palette, spaziatura) ed evita pattern visivi generici/abusati.
 
 **Quando usare `tailwind-styling` vs `frontend-design`:**
-- Stai estendendo o riusando UI già esistente (modali, form, dropdown coperti da `components/tailwindplus/`) → `tailwind-styling`, riusa quello che c'è.
-- Stai progettando qualcosa di nuovo e specifico per toBear, dove l'identità visiva conta (es. il componente TaskItem con swipe, l'onboarding, la home page) → `frontend-design`, per fare scelte estetiche intenzionali coerenti con lo stile Clear, non il default scaffolded di Tailwind Plus.
+- Stai estendendo o riusando UI già esistente (pattern TB esistenti, modali, form, dropdown) → `tailwind-styling`, usa i token tb-*.
+- Stai progettando qualcosa di nuovo e specifico per toBear, dove l'identità visiva conta (es. il componente TaskItem con swipe, l'onboarding, la home page) → `frontend-design`, per fare scelte estetiche intenzionali coerenti con lo stile Clear, non il default scaffolded.
 - In caso di dubbio, parti da `tailwind-styling` per la struttura/i componenti di base, poi applica `frontend-design` per le decisioni di stile fine (colori, font, spacing) invece di accettare i default.
 
 ## Test E2E (Playwright)
@@ -124,6 +122,9 @@ Prima di chiudere una sessione di lavoro significativa, esegui `/handoff` per sc
 - Dominio: tobear.x10.mx
 - Matomo: stats.tobear.x10.mx (già configurato)
 - Deploy: GitHub Actions → FTP (SamKirkland/FTP-Deploy-Action)
-- Auth nascosta: VITE_AUTH_ENABLED=false in .env.production
+- Deploy target: `backend/public/app/` (backend catch-all serve SPA)
+- `VITE_BASE_URL=/app/` in `.env.production`
+- `VITE_API_BASE_URL=/api` (same-origin, relativo)
+- Auth nascosta: `VITE_AUTH_ENABLED=false` in `.env.production`
 - Obiettivo immediato: validazione PWABuilder
 - Obiettivo futuro: pubblicazione Play Store (dopo Namecheap + liste annidate + premium)

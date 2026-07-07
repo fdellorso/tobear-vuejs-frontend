@@ -38,7 +38,7 @@ export default defineConfig([
     },
   },
 
-  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '.opencode/**']),
+  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '.opencode/**', 'docs/**']),
 
   {
     files: ['**/*.{js,mjs,jsx,vue}'],

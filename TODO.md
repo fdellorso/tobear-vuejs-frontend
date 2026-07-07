@@ -167,12 +167,17 @@ Priorità: dopo la pubblicazione MVP.
 ## Deploy x10hosting (fase test)
 
 ### Checklist pre-deploy frontend
-- [ ] Aggiornare VITE_BASE_URL in .env.production con dominio reale
-- [ ] Aggiornare VITE_API_BASE_URL con URL backend reale
+- [x] Aggiornare VITE_BASE_URL in .env.production con `/app/` (slash finale richiesto da Vite per subpath)
+- [x] Aggiornare VITE_API_BASE_URL con `/api` (same-origin, relativo)
+- [x] CSP produzione same-origin (rimossi URL hardcoded `laravel.fritz.box:8080/8000`)
+- [x] SW API caching: urlPattern regex `/\/api\//` (fix ReferenceError in sw.js)
+- [x] vite.config.js base dinamico: `env.VITE_BASE_URL || '/'`
+- [x] viteCompression: `gzip` (non brotli, compatibile x10hosting)
+- [x] Logout navigation: `{ name: 'Todo' }` (non `{ name: 'Home' }` inesistente)
+- [x] Manifest prod_x10: start_url/scope `/app/`, lang `"en"`
 - [ ] Aggiornare VITE_MATOMO_HOST=https://stats.tobear.x10.mx
 - [ ] Aggiornare VITE_MATOMO_SITE_ID con ID reale da Matomo
 - [ ] Configurare secrets GitHub (ftp_server_x10, ftp_username_x10, ftp_password_x10, ftp_folder_x10)
-- [ ] Verificare manifest.webmanifest (start_url, scope, theme_color)
 - [ ] Push su main → GitHub Actions deploya automaticamente
 
 ### Checklist pre-deploy backend

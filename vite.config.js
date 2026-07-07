@@ -17,8 +17,7 @@ export default ({ mode }) => {
 
   return defineConfig({
     mode,
-    // base: env.VITE_BASE_URL,
-    base: '/',
+    base: env.VITE_BASE_URL || '/',
     plugins: [
       vue({
         include: [/\.vue$/, /\.md$/],
@@ -43,13 +42,7 @@ export default ({ mode }) => {
           navigateFallback: '/index.html',
           runtimeCaching: [
             {
-              urlPattern: ({ url }) => {
-                const apiBase = env.VITE_API_BASE_URL
-                if (apiBase.startsWith('http')) {
-                  return url.href.startsWith(apiBase)
-                }
-                return url.pathname.startsWith(apiBase)
-              },
+              urlPattern: /\/api\//,
               handler: 'NetworkFirst',
               options: {
                 cacheName: 'api-cache',
@@ -81,7 +74,7 @@ export default ({ mode }) => {
         verbose: true, // logga i file compressi
         disable: false, // abilita la compressione (disabilita in dev se vuoi)
         threshold: 1025, // comprime solo file > 10 KB
-        algorithm: 'brotliCompress', // gzip o 'brotliCompress' o 'deflate'
+        algorithm: 'gzip',
         ext: '.gz', // estensione del file generato
       }),
       // MkCert(),

@@ -200,7 +200,7 @@ const statsCompleted = computed(() => completedCount.value)
 async function logout() {
   await withCSRF(() => axiosClient.post('/logout'))
   userStore.resetUser()
-  router.push({ name: 'Home' })
+  router.push({ name: 'Todo' })
 }
 
 onMounted(fetchStats)
