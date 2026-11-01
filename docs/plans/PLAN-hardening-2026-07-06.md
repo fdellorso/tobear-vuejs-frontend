@@ -2,7 +2,7 @@
 
 **Repo**: `frontend/`
 **Scope**: solo critici+alta sicurezza/build
-**Base**: audit `AUDIT-2026-07-06.md` (sezioni 7, 8, 12)
+**Base**: audit `../docs/superpowers/reports/AUDIT-2026-07-06.md` (sezioni 7, 8, 12)
 **Architettura di deploy**: same-host, backend catch-all serve SPA da `public/app/`. Frontend `dist/` deployato in `backend/public/app/` via FTP separato.
 
 **Prerequisito**: il backend deve essere già stato deployato (il catch-all deve esistere e funzionare, anche se restituisce redirect a frontend_url finché `public/app/` è vuoto).

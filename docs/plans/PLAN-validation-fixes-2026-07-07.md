@@ -2,14 +2,14 @@
 
 **Repo**: `frontend/`
 **Scope**: fix critici e medi emersi dalla validazione post-deploy su x10hosting
-**Base**: `VALIDATION-2026-07-07.md` (root `todos_app/`)
+**Base**: `../docs/superpowers/reports/VALIDATION-2026-07-07.md`
 **Architettura di deploy**: same-host, `dist/` deployato in `backend/public/app/`
 
 ---
 
 ## 1. Fix cspDynamicPlugin regex — 🔴 CRITICO
 
-**Riferimenti**: C1 (critico), B5, D6, E2, E3 (VALIDATION-2026-07-07.md)
+**Riferimenti**: C1 (critico), B5, D6, E2, E3 (../docs/superpowers/reports/VALIDATION-2026-07-07.md)
 **Cosa fare**:
 
 1. Modifica `vite.config.js:33-35` (funzione `cspDynamicPlugin`, metodo `transformIndexHtml`):
@@ -57,7 +57,7 @@
 
 ## 2. Fix path assoluti in index.html
 
-**Riferimenti**: B5, D6 (VALIDATION-2026-07-07.md)
+**Riferimenti**: B5, D6 (../docs/superpowers/reports/VALIDATION-2026-07-07.md)
 **Cosa fare**:
 
 1. Modifica `index.html` righe 7-18, 43:
@@ -104,7 +104,7 @@
 
 ## 3. Lazy loading router
 
-**Riferimenti**: C2, G3 (VALIDATION-2026-07-07.md)
+**Riferimenti**: C2, G3 (../docs/superpowers/reports/VALIDATION-2026-07-07.md)
 **Cosa fare**:
 
 1. Modifica `src/router/index.js:5-16`:

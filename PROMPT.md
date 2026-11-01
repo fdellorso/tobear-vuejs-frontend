@@ -11,7 +11,7 @@ Il backend è già stato hardenato e committato (piano backend eseguito). Verifi
 2. Leggi TODO.md.
 3. Leggi gli ultimi 2 file in handoffs/ (più recente per primo).
 4. Leggi docs/plans/PLAN-hardening-2026-07-06.md — È IL PIANO DA ESEGUIRE.
-5. Per contesto: leggi ../AUDIT-2026-07-06.md (audit completo).
+5. Per contesto: leggi ../docs/superpowers/reports/AUDIT-2026-07-06.md (audit completo).
 
 ## Decisioni già prese (NON rinegoziare)
 
@@ -51,7 +51,7 @@ Sei il Technical Lead del progetto Tobear, repo frontend Vue/PWA. Esegui il pian
 
 - Frontend hardenato, committato, pushato, deployato su x10hosting (PROMPT 2).
 - Backend fix post-validazione già eseguito (PROMPT 4), o almeno il backend è funzionante e accessibile.
-- Validazione post-deploy eseguita (PROMPT 3, root todos_app/) → report in ../VALIDATION-2026-07-07.md.
+- Validazione post-deploy eseguita (PROMPT 3, root) → report in ../docs/superpowers/reports/VALIDATION-2026-07-07.md.
 - 3 FAIL critici/alti trovati nel frontend: cspDynamicPlugin regex, path assoluti index.html, bundle size 520KB.
 
 ## Bootstrap (OBBLIGATORIO, in ordine)
@@ -60,7 +60,7 @@ Sei il Technical Lead del progetto Tobear, repo frontend Vue/PWA. Esegui il pian
 2. Leggi TODO.md.
 3. Leggi gli ultimi 2 file in handoffs/ (più recente per primo).
 4. Leggi docs/plans/PLAN-validation-fixes-2026-07-07.md — È IL PIANO DA ESEGUIRE.
-5. Per contesto: leggi ../VALIDATION-2026-07-07.md (report validazione che ha generato il piano, sezioni B, D, E, G).
+5. Per contesto: leggi ../docs/superpowers/reports/VALIDATION-2026-07-07.md (report validazione che ha generato il piano, sezioni B, D, E, G).
 
 ## Decisioni già prese (NON rinegoziare)
 
