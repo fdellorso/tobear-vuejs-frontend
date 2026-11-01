@@ -3,13 +3,13 @@ Sei il Technical Lead del progetto Tobear, repo frontend Vue/PWA. Esegui il pian
 
 ## Prerequisito
 
-Il backend è già stato hardenato e committato (piano backend eseguito). Verifica leggendo l'handoff backend più recente in ../backend/handoffs/ se vuoi contesto cross-repo.
+Il backend è già stato hardenato e committato (piano backend eseguito). Verifica leggendo l'handoff backend più recente in ../backend/docs/superpowers/handoffs/ se vuoi contesto cross-repo.
 
 ## Bootstrap (OBBLIGATORIO, in ordine)
 
 1. Leggi AGENTS.md per intero.
 2. Leggi TODO.md.
-3. Leggi gli ultimi 2 file in handoffs/ (più recente per primo).
+3. Leggi gli ultimi 2 file in docs/superpowers/handoffs/ (più recente per primo).
 4. Leggi docs/superpowers/plans/2026-07-06-hardening.md — È IL PIANO DA ESEGUIRE.
 5. Per contesto: leggi ../docs/superpowers/reports/AUDIT-2026-07-06.md (audit completo).
 
@@ -34,7 +34,7 @@ Esegui le 8 sezioni del piano in ordine. Per ogni sezione:
 
 Alla fine:
 
-1. Scrivi handoff in handoffs/2026-07-06-hardening-build-pre-deploy.md (formato /handoff).
+1. Scrivi handoff in docs/superpowers/handoffs/2026-07-06-hardening-build-pre-deploy.md (formato /handoff).
 2. Esegui npm run format.
 3. Mostrami git status + git diff --stat per revisione.
 4. Commit con messaggio Conventional Commits EN: "fix: harden build and security for pre-production deploy" + body.
@@ -58,7 +58,7 @@ Sei il Technical Lead del progetto Tobear, repo frontend Vue/PWA. Esegui il pian
 
 1. Leggi AGENTS.md per intero.
 2. Leggi TODO.md.
-3. Leggi gli ultimi 2 file in handoffs/ (più recente per primo).
+3. Leggi gli ultimi 2 file in docs/superpowers/handoffs/ (più recente per primo).
 4. Leggi docs/superpowers/plans/2026-07-07-validation-fixes.md — È IL PIANO DA ESEGUIRE.
 5. Per contesto: leggi ../docs/superpowers/reports/VALIDATION-2026-07-07.md (report validazione che ha generato il piano, sezioni B, D, E, G).
 
@@ -80,7 +80,7 @@ Esegui le 4 sezioni del piano in ordine. Per ogni sezione:
 
 Alla fine:
 
-1. Scrivi handoff in handoffs/2026-07-07-fix-post-validazione.md (formato /handoff: Cosa è stato fatto / Stato attuale / Decisioni prese / Prossimi passi / Note per il backend / File rilevanti).
+1. Scrivi handoff in docs/superpowers/handoffs/2026-07-07-fix-post-validazione.md (formato /handoff: Cosa è stato fatto / Stato attuale / Decisioni prese / Prossimi passi / Note per il backend / File rilevanti).
 2. Esegui npm run format.
 3. Mostrami git status + git diff --stat per revisione.
 4. Commit con messaggio Conventional Commits EN: "fix: resolve post-deploy validation issues" + body con bullet dei fix.
@@ -97,7 +97,7 @@ Sei il Technical Lead del frontend Vue 3 di toBear (repo: `tobear-vuejs-frontend
 ## Bootstrap (OBBLIGATORIO)
 1. Leggi `AGENTS.md` (convenzioni + regole no-push, no-amend).
 2. Leggi il piano: `frontend/docs/superpowers/plans/2026-07-08-mvp-plus-nested-lists.md`.
-3. Leggi gli ultimi 2 handoff in `frontend/handoffs/`.
+3. Leggi gli ultimi 2 handoff in `frontend/docs/superpowers/handoffs/`.
 4. Solo dopo, inizia.
 
 ## ⚠️ Assunzione critica — PRIMA DI INIZIARE

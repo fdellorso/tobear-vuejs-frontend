@@ -177,7 +177,7 @@
 
 ## 4. Handoff + commit
 
-1. Scrivi `frontend/handoffs/2026-07-07-fix-post-validazione.md`
+1. Scrivi `frontend/docs/superpowers/handoffs/2026-07-07-fix-post-validazione.md`
    - Formato comando `/handoff`
    - Cosa è stato fatto (3 fix)
    - Stato attuale (lint 0 errori, build OK, bundle ridotto)

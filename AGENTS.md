@@ -9,7 +9,7 @@ All'inizio di OGNI sessione, in quest'ordine:
 
 1. Leggi questo AGENTS.md per intero.
 2. Leggi `TODO.md` nella root del progetto — è la roadmap manuale mantenuta dall'utente, sempre aggiornata.
-3. Leggi gli ultimi 2 file in `handoffs/` (più recente per primo).
+3. Leggi gli ultimi 2 file in `docs/superpowers/handoffs/` (più recente per primo).
 4. Solo dopo, chiedi cosa si vuole fare oggi.
 
 Se l'utente dice "leggi gli handoff" o "riprendi da dove eravamo", esegui i punti 1-3 senza chiedere conferma.
@@ -102,7 +102,7 @@ npm run test:e2e  # playwright test (E2E)
 
 ## Fine sessione
 
-Prima di chiudere una sessione di lavoro significativa, esegui `/handoff` per scrivere il file di handoff in `handoffs/`.
+Prima di chiudere una sessione di lavoro significativa, esegui `/handoff` per scrivere il file di handoff in `docs/superpowers/handoffs/`.
 
 ## Stack tecnologico (versioni al 2026-07-05)
 
