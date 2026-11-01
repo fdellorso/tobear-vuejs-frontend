@@ -605,4 +605,4 @@ La homepage `/` (se esiste) o `/todo` → prima impressione conta:
 
 ## Appendice — Prompt per avvio sessione
 
-Il prompt seguente è già stato appeso a `frontend/PROMPT.md`. Se stai iniziando una nuova sessione, leggi quel file.
+Il flusso seguente è comando `/mvp-plus` (ex PROMPT 9, testo integrale in `docs/superpowers/reports/PROMPT-fe-archivio.md`).
