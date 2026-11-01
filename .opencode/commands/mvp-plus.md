@@ -81,3 +81,6 @@ Phase 0 (tech spike + wireframe) puoi farlo in parallelo — non dipende da API.
 
 ## Stop point (cautela)
 Alla fine di ogni phase, fermati e fammi un riepilogo di cosa hai fatto prima di proseguire alla successiva. **Non accelerare** — ogni phase ha impatto sulle successive e voglio revisionare i commit intermedi.
+
+## TODO
+Spunta in `TODO.md` le voci completate in questa sessione; se trovi voci stale o contraddittorie col piano, segnalale in chat invece di cancellarle.
