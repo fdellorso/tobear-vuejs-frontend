@@ -98,7 +98,13 @@ npm run test:e2e  # playwright test (E2E)
 - `playwright.config.js` → `testDir: './e2e'`, `baseURL: 'https://laravel.fritz.box:3000'`, `ignoreHTTPSErrors: true`.
 - I test E2E sono **stabili e permanenti**, non script ad-hoc.
 - Eseguire con `npm run test:e2e` (dev server già running su `:3000`).
+- Output MCP Playwright (screenshot/log sessioni ad-hoc) in /tmp/tobear-playwright-fe (config --output-dir in opencode.json), mai in repo.
 - Primo test: `e2e/spa-navigation.spec.js` — verifica che non ci siano full-page reload durante navigazione interna (sentinella `window.__appLoaded`). Se un `<a href>` invece di `RouterLink` si intrufolasse in futuro, questo test lo rileva.
+
+## Documenti
+
+- Nuovi documenti: docs/superpowers/{plans,specs,reports,handoffs}/ con nomi YYYY-MM-DD-*, tutto committato
+  (i report trasversali be+fe vanno nella root; plans/specs seguono le skill superpowers).
 
 ## Fine sessione
 

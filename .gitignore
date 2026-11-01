@@ -33,3 +33,5 @@ coverage
 
 # Playwright test output
 test-results/
+# Playwright MCP session output (mai in repo: va in /tmp via --output-dir)
+.playwright-mcp/
