@@ -10,7 +10,7 @@ Il backend è già stato hardenato e committato (piano backend eseguito). Verifi
 1. Leggi AGENTS.md per intero.
 2. Leggi TODO.md.
 3. Leggi gli ultimi 2 file in handoffs/ (più recente per primo).
-4. Leggi docs/plans/PLAN-hardening-2026-07-06.md — È IL PIANO DA ESEGUIRE.
+4. Leggi docs/superpowers/plans/2026-07-06-hardening.md — È IL PIANO DA ESEGUIRE.
 5. Per contesto: leggi ../docs/superpowers/reports/AUDIT-2026-07-06.md (audit completo).
 
 ## Decisioni già prese (NON rinegoziare)
@@ -59,7 +59,7 @@ Sei il Technical Lead del progetto Tobear, repo frontend Vue/PWA. Esegui il pian
 1. Leggi AGENTS.md per intero.
 2. Leggi TODO.md.
 3. Leggi gli ultimi 2 file in handoffs/ (più recente per primo).
-4. Leggi docs/plans/PLAN-validation-fixes-2026-07-07.md — È IL PIANO DA ESEGUIRE.
+4. Leggi docs/superpowers/plans/2026-07-07-validation-fixes.md — È IL PIANO DA ESEGUIRE.
 5. Per contesto: leggi ../docs/superpowers/reports/VALIDATION-2026-07-07.md (report validazione che ha generato il piano, sezioni B, D, E, G).
 
 ## Decisioni già prese (NON rinegoziare)
@@ -96,7 +96,7 @@ Sei il Technical Lead del frontend Vue 3 di toBear (repo: `tobear-vuejs-frontend
 
 ## Bootstrap (OBBLIGATORIO)
 1. Leggi `AGENTS.md` (convenzioni + regole no-push, no-amend).
-2. Leggi il piano: `frontend/docs/plans/PLAN-2026-07-08-mvp-plus-nested-lists.md`.
+2. Leggi il piano: `frontend/docs/superpowers/plans/2026-07-08-mvp-plus-nested-lists.md`.
 3. Leggi gli ultimi 2 handoff in `frontend/handoffs/`.
 4. Solo dopo, inizia.
 
@@ -162,7 +162,7 @@ Phase 0 (tech spike + wireframe) puoi farlo in parallelo — non dipende da API.
 ### Phase 8 — Pre-promo Reddit prep (3-5 giorni, post-stabilita)
 1. Crea GIF demo 30s (PWA install → nested list → offline → cascade complete).
 2. Screenshots (3). Logo 128x128.
-3. Post template per r/PWA (incluso nel piano — copia da docs/plans/).
+3. Post template per r/PWA (incluso nel piano — copia da docs/superpowers/plans/).
 4. Aggiungi Matomo event tracking per referrer Reddit.
 
 ## Coordinate

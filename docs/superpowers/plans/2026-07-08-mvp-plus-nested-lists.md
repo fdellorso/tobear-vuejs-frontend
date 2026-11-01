@@ -7,7 +7,7 @@
 - **Phase 6**: polish assets + setup Namecheap (dominio/hosting) + .env production.
 - **Phase 7**: deploy su tobear.in + smoke test finali.
 - **Phase 8**: preparazione asset per promozione Reddit.
-**Dipende da**: **Phase 1 (backend)** deve essere completata e pushata prima di iniziare Phase 2 (stato Pinia) e Phase 3 (test API). **Leggi il backend plan** in `backend/docs/plans/PLAN-2026-07-08-mvp-plus-nested-lists.md`.
+**Dipende da**: **Phase 1 (backend)** deve essere completata e pushata prima di iniziare Phase 2 (stato Pinia) e Phase 3 (test API). **Leggi il backend plan** in `backend/docs/superpowers/plans/2026-07-08-mvp-plus-nested-lists.md`.
 
 ---
 
@@ -596,7 +596,7 @@ La homepage `/` (se esiste) o `/todo` → prima impressione conta:
 
 ## Riferimenti
 
-- Backend plan: `backend/docs/plans/PLAN-2026-07-08-mvp-plus-nested-lists.md`
+- Backend plan: `backend/docs/superpowers/plans/2026-07-08-mvp-plus-nested-lists.md`
 - Frontend AGENTS.md: `AGENTS.md`
 - Current components: `src/pages/TodoPage.vue`, `src/views/AppLayout.vue`, `src/components/MobileNavFab.vue`, `src/components/TaskItem.vue`
 - Current store: `src/stores/tasks.js` (se esiste) — altrimenti state in TodoPage.vue

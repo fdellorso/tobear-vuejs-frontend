@@ -183,4 +183,4 @@ Dopo il commit del frontend, attivita rimanenti:
 
 ---
 
-**Fine piano frontend.** Il piano backend è in `backend/docs/plans/PLAN-hardening-2026-07-06.md`.
+**Fine piano frontend.** Il piano backend è in `backend/docs/superpowers/plans/2026-07-06-hardening.md`.
