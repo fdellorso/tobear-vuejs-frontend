@@ -109,6 +109,7 @@ npm run test:e2e  # playwright test (E2E)
 ## Fine sessione
 
 Prima di chiudere una sessione di lavoro significativa, esegui `/handoff` per scrivere il file di handoff in `docs/superpowers/handoffs/`.
+Dopo ogni `git push`, aggiorna il pin del submodule nella root `~/tobear` (procedura in root `AGENTS.md` → Regole submodule).
 
 ## Stack tecnologico (versioni al 2026-07-05)
 
